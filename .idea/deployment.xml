@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="ntoporcov.com">
+    <serverData>
+      <paths name="ntoporcov.com">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bitnami/htdocs" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/home/bitnami/htdocs/vendor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

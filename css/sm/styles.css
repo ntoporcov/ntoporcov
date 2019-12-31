@@ -1,0 +1,257 @@
+body{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+h2{
+    margin-top: 0;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+h3{
+    margin-top: 0;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+p{
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.large-thin{
+    font-weight: 300;
+    font-size: 50px;
+}
+
+button{
+    border: 2px solid #000 !important;
+    background-color: #000;
+    color: white;
+    font-size: 18px !important;
+    margin: 5px;
+    border-radius: 0 !important;
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    height: 60px;
+}
+
+button:hover {
+    background-color: transparent;
+    color: #000;
+}
+
+button.w-auto{
+    width: auto;
+    padding: 10px 20px;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    color: black;
+    text-decoration: underline black;
+}
+
+.btn-row > *{
+    padding: 3px;
+}
+
+.p-0{
+   padding: 0 !important;
+}
+
+.p-30{
+   padding: 30px;
+}
+
+.pt-30{
+   padding-top: 30px;
+}
+
+.mb-0{
+    margin-bottom: 0;
+}
+
+.mt-50{
+    margin-top:50px;
+}
+
+.bg-beige{
+    background-color: #ede1cb;
+}
+
+.bg-gray{
+    background-color: #f0f0f0;
+}
+
+.bg-pink{
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 15%, #ECD1C8 15%, #ECD1C8 85%, #ffffff 85%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #ffffff 15%,#ECD1C8 15%,#ECD1C8 85%,#ffffff 85%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #ffffff 15%,#ECD1C8 15%,#ECD1C8 85%,#ffffff 85%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.hero-image{
+    background-image: url(/img/sm/Hero_poolside.jpg);
+    background-size: cover;
+    height: 650px;
+    background-position: center center;
+}
+
+.hero-copy {
+    height: 650px;
+    text-align: center;
+    padding: 0 60px 0 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.carousel-copy{
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.img-carousel div:nth-child(1){
+    margin-top: 20px;
+}
+
+.img-carousel div:nth-child(2){
+    margin-top: 80px;
+}
+.img-carousel div:nth-child(4){
+    margin-top: 40px;
+}
+
+.img-carousel .col-xs-3 {
+    min-width: 160px;
+}
+
+.free-gift-image{
+    height: 500px;
+    background-image: url('/img/sm/FreeGift_model.png');
+    background-size: contain;
+    background-position: left center;
+    background-repeat: no-repeat
+}
+
+.free-gift-copy{
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.free-gift-bags img{
+    height: 317px;
+    width: auto;
+    margin-top: 36%;
+}
+
+.beach-section-copy{
+    text-align: center;
+    padding: 100px 40px;
+    margin: 80px 0;
+}
+
+.beach-section-copy p{
+    margin: 0;
+}
+
+.beach-section-copy p:nth-child(1){
+    font-weight: 600;
+}
+
+.beach-section-copy p:nth-child(2){
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.beach-section-copy p:nth-child(3){
+    font-size: 30px;
+}
+
+.beach-section-image{
+    background: url(/img/sm/swim.jpg);
+    height: 600px;
+    background-size: 74%;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.bottom-images div{
+    margin-top: 20px;
+    padding: 30px;
+}
+
+.bottom-images p{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.bottom-images div:nth-child(1){
+    background: url(/img/sm/handbags.jpg);
+    height: 400px;
+    background-size: cover;
+    border-right: 5px solid white;
+}
+
+.bottom-images div:nth-child(2){
+    background: url(/img/sm/jewelry.jpg);
+    height: 400px;
+    background-size: cover;
+    border-left: 5px solid white;
+}
+
+@media (max-width: 992px) {
+    .hero-image{
+        height: 650px;
+    }
+
+    .hero-copy{
+        padding: 20px;
+        height: auto;
+    }
+
+    .carousel-copy{
+        height: auto;
+    }
+
+    .img-carousel{
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .img-carousel .row{
+        width: 200%;
+    }
+
+    .free-gift-bags{
+        display: none;
+    }
+
+    .bg-pink{
+        background: rgb(255,255,255); /* Old browsers */
+        background: -moz-linear-gradient(top,  #ffffff 5%, #ECD1C8 5%, #ECD1C8 100%, #ffffff 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #ffffff 5%,#ECD1C8 5%,#ECD1C8 100%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #ffffff 5%,#ECD1C8 5%,#ECD1C8 100%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+    .beach-section-image{
+        background: none
+    }
+
+
+    .beach-section-copy{
+        text-align: center;
+        padding: 10px 20px 30px;
+        margin: 0;
+    }
+
+}
