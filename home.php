@@ -327,18 +327,6 @@
                 </section>
 
                 <section class="row section-box-2x">
-                    <div class="col-7 col-md-4 col-lg-3">
-                        <img class="img-fluid" src="img/GV_Logo_Blue.svg" alt="GleanView Logo">
-                    </div><div class="w-100 d-md-none"></div>
-                    <div class="col-12 col-md-8 col-lg-9">
-                        <h3 class="d-none d-md-block">GleanView</h3>
-                        <p>August 2017 – October 2019</p>
-                        <i>Front End Designer and Marketing Designer/Developer</i>
-                        <p class="section-box">GleanView is where I started learning about web development and product design from scratch. I’ve been responsible for the entire website and landing pages design and development, all google display ads design, company blog design and setup in wordpress and more recently product design for the software itself.</p>
-                    </div>
-                </section>
-
-                <section class="row section-box-2x">
                     <div class="col-7 col-md-4 col-lg-3 section-box">
                         <img class="img-fluid" src="img/LunicBlack.svg" alt="GleanView Logo">
                     </div><div class="w-100 d-md-none"></div>
@@ -347,6 +335,18 @@
                         <p>January 2017 – Now</p>
                         <i>Co-Owner</i>
                         <p class="section-box">Lunic is a company I started with my wife to offer Photography and Videography. We’ve been doing mostly engagement photoshoots and wedding photography and videography. I also designed and developed our website in wordpress.</p>
+                    </div>
+                </section>
+
+                <section class="row section-box-2x">
+                    <div class="col-7 col-md-4 col-lg-3">
+                        <img class="img-fluid" src="img/GV_Logo_Blue.svg" alt="GleanView Logo">
+                    </div><div class="w-100 d-md-none"></div>
+                    <div class="col-12 col-md-8 col-lg-9">
+                        <h3 class="d-none d-md-block">GleanView</h3>
+                        <p>August 2017 – October 2019</p>
+                        <i>Front End Designer and Marketing Designer/Developer</i>
+                        <p class="section-box">GleanView is where I started learning about web development and product design from scratch. I’ve been responsible for the entire website and landing pages design and development, all google display ads design, company blog design and setup in wordpress and more recently product design for the software itself.</p>
                     </div>
                 </section>
 
