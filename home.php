@@ -39,7 +39,7 @@
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,700|Montserrat:300,400,700" rel="stylesheet">
 </head>
 
-<body>
+<body style="padding-bottom: 25vh">
 <ul class="nav align-items-end">
     <li class="nav-item ml-3 d-none d-md-inline">
         <a class="nav-link scrollDown" href="#about" target="_blank">About</a>
@@ -806,44 +806,6 @@
                     </div>
                 </section>
 
-            </div>
-        </div>
-
-        <div id="form" class="row" style="padding-bottom: 250px;">
-            <div class="col-12">
-                <h2>Pass Me a Note</h2>
-                <div class="borderBottom-2px-teal"></div>
-
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <form class="contactForm section-box">
-                            <div class="row section-box align-content-center">
-                                <div class="col-12 col-md-6">
-                                    <span>Full Name</span>
-                                    <input type="text" id="name" placeholder="Full Name" autocomplete="false" required="required">
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <span>E-Mail</span>
-                                    <input type="email" id="email" placeholder="E-Mail" required="required">
-                                </div>
-                                <div class="col-12">
-                                    <span>Message</span>
-                                    <textarea id="message" placeholder="Message" style="height:200px" required="required"></textarea>
-                                </div>
-                                <div class="col-12 col-md-3">
-                                    <input id="submit" type="submit" value="Send Message">
-                                </div>
-                                <div class="col-12 align-items-center successMsg d-none">
-                                    <p class="d-flex align-items-center"><i class="fal fa-check-circle fa-2x teal"></i>&nbsp;&nbsp;&nbsp;Alright! So this form sent an AJAX POST to my form.php file which sent me your message. I'll reply to it ASAP :D</p>
-                                </div>
-                                <div class="col-12 align-items-center errorMsg d-none">
-                                    <p class="d-flex align-items-center"><i class="fas fa-exclamation-triangle fa-2x red"></i>&nbsp;&nbsp;&nbsp;Something went wrong.&nbsp;<a href="mailto:ntoporcov@me.com">Click here</a>&nbsp;to do it the old fashioned way. </p>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
 
