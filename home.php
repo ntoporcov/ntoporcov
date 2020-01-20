@@ -39,7 +39,7 @@
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,700|Montserrat:300,400,700" rel="stylesheet">
 </head>
 
-<body style="padding-bottom: 25vh">
+<body>
 <ul class="nav align-items-end">
     <li class="nav-item ml-3 d-none d-md-inline">
         <a class="nav-link scrollDown" href="#about" target="_blank">About</a>

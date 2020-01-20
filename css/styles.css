@@ -193,11 +193,11 @@ p{
 }
 
 .row.lg{
-    margin-bottom: 100px;
+    padding-bottom: 100px;
 }
 
 .row.xl{
-    margin-bottom: 200px;
+    padding-bottom: 200px;
 }
 
 
