@@ -1,6 +1,6 @@
 <?php
 
-$allowedDomains = ['localhost:3000','streamutt.com'];
+$allowedDomains = ['localhost:3000','streamutt.com','marcosbuss.com'];
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'],$allowedDomains)) {
