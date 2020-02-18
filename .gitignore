@@ -1,3 +1,4 @@
 /vendor/
 /json/latestNetflix.json
 .env
+/video

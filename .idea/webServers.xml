@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="89ab9b95-3eaa-4573-90cd-8e24bd88e805" name="ntoporcov" url="http://ntoporcov.com">
+        <fileTransfer host="ntoporcov.com" port="22" privateKey="$USER_HOME$/Documents/certs/LightsailDefaultKey-us-east-1.pem" rootFolder="/home/bitnami/htdocs" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
