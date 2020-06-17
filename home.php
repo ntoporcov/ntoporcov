@@ -604,48 +604,6 @@
                     </div>
                 </section>
 
-                <!-- shutterdock.com -->
-                <section>
-                    <div class="row section-box align-items-center projectExpand">
-                        <div class="col-2 col-md-auto cursor-pointer">
-                            <button data-toggle="collapse" data-target="#project5" role="button"><i class="fas fa-chevron-circle-up fa-2x d-inline-block"></i></button>
-                        </div>
-                        <div class="col-10 col-md-auto section-box cursor-pointer projectTitle">
-                            <h3>ShutterDock</h3>
-                        </div>
-                        <div class="col-12 col-md-auto cursor-pointer projectTitle">
-                            <span class="col-auto skillBox">
-                                    JQuery
-                                </span>
-                            <span class="col-auto skillBox">
-                                    HTML + CSS
-                                </span>
-                            <span class="col-auto skillBox">
-                                    Google API
-                                </span>
-                        </div>
-                        <div class="col-12 section-box projectContent section-box collapse show" id="project5">
-                            <div class="row">
-                                <div class="col-12 col-sm-5 section-box">
-                                    <img class="img-fluid shadow-down-light" src="img/shutterdock-1.jpg" alt="shutterdock cover">
-                                </div>
-                                <div class="col-12 col-sm-7 section-box">
-                                    <p>ShutterDock is a project I created for other fellow photographers. I know a lot of photographers who still use Google
-                                        Drive or Dropbox to deliver photos to clients and while that is completely fine for some clients, some times you may want a nicer-looking page
-                                        to deliver your photos.
-                                        <br><br>
-                                        That's where ShutterDock comes in. ShutterDock creates a page and a link with photos from your Google Drive, and soon Dropbox, to send to clients.
-                                        All photos are still stored in the service the user selects to use (Google Drive or Dropbox). All the website does is use the list of photos you selected
-                                        to populate the client page based on a JSON file created server-side for each link.
-                                        <br><br>
-                                        <a href="https://shutterdock.com" target="_blank">Click Here</a> to try it.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Lunic Photo Delivery System -->
                 <section>
                     <div class="row section-box align-items-center projectExpand">
@@ -725,41 +683,6 @@
 
                                 <div class="col-12 text-left">
                                     <button class="bottomCollapse cursor-pointer" data-toggle="collapse" data-target="#project1" role="button"><i class="fas fa-chevron-circle-up" ></i>&nbsp;Close Project</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- GleanView Branding-->
-                <section>
-                    <div class="row section-box align-items-center projectExpand">
-                        <div class="col-2 col-md-auto cursor-pointer">
-                            <button data-toggle="collapse" data-target="#project3" role="button"><i class="fas fa-chevron-circle-up fa-2x d-inline-block"></i></button>
-                        </div>
-                        <div class="col-10 col-md-auto section-box cursor-pointer projectTitle">
-                            <h3>GleanView Branding</h3>
-                        </div>
-                        <div class="col-12 col-md-auto cursor-pointer projectTitle">
-                            <span class="col-auto skillBox">
-                                Branding
-                                </span>
-                            <span class="col-auto skillBox">
-                                Illustrator
-                            </span>
-                        </div>
-
-                        <div class="col-12 projectContent section-box collapse show" id="project3">
-                            <div class="row">
-                                <div class="col-12 col-sm-4 section-box">
-                                    <img class="img-fluid" src="img/gleanbot-waving.gif" alt="GleanView's Mascot Waving">
-                                </div>
-                                <div class="col-12 col-sm-8 section-box">
-                                    <p>When I started working at GleanView, the only branding asset they really had in place was the logo, and even then there were two versions of logos being used. So one of the first things I took upon myself to do at GleanView was to get a more stable branding guideline established.<br><br>So the first phase of the project was to get the basics done. I chose the specific green <span class="colorExample green"></span> and specific blue <span class="colorExample blue"></span> that would compose our primary colors. I also went ahead an established the company's primary action button color, an orange <span class="colorExample orange"></span> which I borrowed from inside the app.<br><br>For phase two I decided to create a mascot for GleanView, which turned out as what was dubbed GleanBot. It's the little guy on the left here, and it's now widely used across <a href="https://gleanview.com" target="_blank">GleanView's Website</a></p>
-                                </div>
-
-                                <div class="col-12 text-left">
-                                    <button class="bottomCollapse cursor-pointer" data-toggle="collapse" data-target="#project3" role="button"><i class="fas fa-chevron-circle-up" ></i>&nbsp;Close Project</button>
                                 </div>
                             </div>
                         </div>
