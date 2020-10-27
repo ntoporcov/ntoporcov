@@ -3,6 +3,16 @@
     <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Mansalva|Nothing+You+Could+Do&display=swap" rel="stylesheet">
 </head>
 
+<style>
+    body{
+        background: #383838;
+    }
+
+    *{
+        color: white;
+    }
+</style>
+
 <body>
 
 <div class="container p-3">
