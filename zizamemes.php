@@ -12,7 +12,7 @@
             <h5 class="text-center" style="opacity: .3">I love you, Ziza</h5>
         </div>
         <?php
-            $memes = glob('./zizamemes/*.{png,jpeg,jpg,gif}',GLOB_BRACE|SORT_STRING);
+            $memes = glob('./zizadir/*.{png,jpeg,jpg,gif}',GLOB_BRACE|SORT_STRING);
             foreach (array_reverse($memes) as $meme){
                 echo '
                 <div class="col-10 col-md-7 mb-4">
