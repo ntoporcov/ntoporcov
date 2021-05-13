@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="ntoporcov.com" id="e0b5cac3-5033-4842-b414-bcc6c7441a3c" keyPath="$USER_HOME$/Documents/certs/LightsailDefaultKey-us-east-1.pem" port="22" customName="ntoporcov" nameFormat="CUSTOM">
+        <option name="customName" value="ntoporcov" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
