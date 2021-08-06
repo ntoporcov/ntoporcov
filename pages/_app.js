@@ -1,9 +1,10 @@
 import "../styles/globals.css";
-import { Box, ChakraProvider, Heading } from "@chakra-ui/react";
+import { Box, ChakraProvider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import NTButton from "../components/buttons/NTButton";
 import Link from "next/link";
+import GithubButton from "../components/buttons/GithubButton";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -44,6 +45,8 @@ function MyApp({ Component, pageProps }) {
       <main className={styles.main}>
         <Component {...pageProps} />
       </main>
+
+      <GithubButton />
     </ChakraProvider>
   );
 }
