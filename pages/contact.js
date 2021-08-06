@@ -4,5 +4,5 @@ import styles from "../styles/Home.module.css";
 import NTButton from "../components/buttons/NTButton";
 
 export default function Home() {
-  return <NTButton>Home</NTButton>;
+  return <NTButton>Contact</NTButton>;
 }
