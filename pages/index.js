@@ -116,7 +116,7 @@ export default function Home() {
           website and probably some other thoughts about development. So, if
           you&apos;re interested, I&apos;m hoping to have more about this
           website&apos;s development, previous projects and work experience in
-          here very soon. 😄
+          here very soon.😄
         </Text>
       </Box>
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>
