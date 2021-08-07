@@ -120,7 +120,7 @@ export default function Home() {
           <br />I decided I'm going to blog the process of building this website
           and probably some other thoughts about development. So, if you're
           interested, I'm hoping to have more about this website's development,
-          previous projects and work experience in here very soon :)
+          previous projects and work experience in here very soon. 😄
         </Text>
       </Box>
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>
