@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import { Box, ChakraProvider, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import NTButton from "../components/buttons/NTButton";
 import Link from "next/link";
 import GithubButton from "../components/buttons/GithubButton";
@@ -22,7 +21,6 @@ function MyApp({ Component, pageProps }) {
         justifyContent={{ base: "center", md: "space-between" }}
         alignItems={"center"}
         padding={5}
-        pb={5}
         flexDirection={{ base: "column", md: "row" }}
         position={"sticky"}
         top={0}
@@ -31,8 +29,8 @@ function MyApp({ Component, pageProps }) {
         bgColor={"rgba(255,255,255,0.76)"}
         borderBottom={"solid 1px #e8e8e8"}
       >
-        <Heading pb={{ base: 4, md: 0 }}>Nic Toporcov</Heading>
-        <Box display={"none"}>
+        <Heading>Nic Toporcov</Heading>
+        <Box display={{ base: "none", md: "unset" }}>
           <Link href={"/"} passHref>
             <a>
               <NTButton>Home</NTButton>
@@ -43,15 +41,15 @@ function MyApp({ Component, pageProps }) {
               <NTButton>Blog</NTButton>
             </a>
           </Link>
-          <Link href={"/contact"} passHref>
-            <a>
-              <NTButton>Contact</NTButton>
-            </a>
-          </Link>
+          {/*<Link href={"/contact"} passHref>*/}
+          {/*  <a>*/}
+          {/*    <NTButton>Contact</NTButton>*/}
+          {/*  </a>*/}
+          {/*</Link>*/}
         </Box>
       </Box>
 
-      <main className={styles.main}>
+      <main style={{ paddingTop: "3rem" }}>
         <Component {...pageProps} />
       </main>
 

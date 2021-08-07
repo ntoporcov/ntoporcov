@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Box, Container, Heading, Text } from "@chakra-ui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAndroid,
   faAppStoreIos,
@@ -18,51 +17,8 @@ import {
 import ChakgraLogo from "../components/svgs/ChakgraLogo";
 import StoryBlokLogo from "../components/svgs/StoryblokLogo";
 import NextJSLogo from "../components/svgs/NextJSLogo";
-
-function ToolsIcons(props) {
-  return (
-    <Box
-      display={"flex"}
-      justifyContent={"space-between"}
-      flexDirection={"column"}
-      alignItems={"center"}
-      textAlign={"center"}
-      width={props.width || 20}
-      marginX={8}
-      marginBottom={10}
-    >
-      {props.children ? (
-        props.children
-      ) : (
-        <FontAwesomeIcon icon={props.icon} color={props.color} />
-      )}
-
-      <Text color={props.color}>{props.name}</Text>
-    </Box>
-  );
-}
-
-function SmallToolsIcons(props) {
-  return <ToolsIcons width={14} {...props} />;
-}
-
-function ToolsRow(props) {
-  const { children } = props;
-  return (
-    <Box
-      display={"flex"}
-      flexWrap={"wrap"}
-      justifyContent={"center"}
-      fontSize={16}
-      width={"100%"}
-      textAlign={"center"}
-      color={"#6f6f6f"}
-      {...props}
-    >
-      {children}
-    </Box>
-  );
-}
+import ToolsIcons, { SmallToolsIcons } from "../components/home/ToolsIcons";
+import ToolsRow from "../components/home/ToolsRow";
 
 export default function Home() {
   return (
@@ -89,9 +45,7 @@ export default function Home() {
           pl={{ base: 0, md: 20 }}
           textAlign={{ base: "center", md: "left" }}
         >
-          <Heading as={"h1"} pb={5}>
-            Hi, I&apos;m Nic
-          </Heading>
+          <Heading as={"h1"}>Hi, I&apos;m Nic</Heading>
           <Text>
             I am a Front-End Designer and Developer. I&apos;ve been working as a
             UI/UX Designer since 2014 and as a Front-End Developer since 2015.
