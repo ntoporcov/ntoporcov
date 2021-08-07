@@ -161,29 +161,3 @@ export default function Home() {
     </Container>
   );
 }
-
-// export async function getStaticProps(context) {
-//   let slug = "index";
-//   let params = {
-//     version: process.env.NODE_ENV === "development" ? "draft" : "published",
-//   };
-//
-//   // checks if Next.js is in preview mode
-//   if (context.preview) {
-//     // loads the draft version
-//     params.version = "draft";
-//     // appends the cache version to get the latest content
-//     params.cv = Date.now();
-//   }
-//
-//   // loads the story from the Storyblok API
-//   let { data } = await Storyblok.get(`cdn/stories/${slug}`, params);
-//
-//   // return the story from Storyblok and whether preview mode is active
-//   return {
-//     props: {
-//       story: data ? data.story : false,
-//       preview: context.preview || false,
-//     },
-//   };
-// }
