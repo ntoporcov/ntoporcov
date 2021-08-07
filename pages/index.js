@@ -1,14 +1,10 @@
 import Image from "next/image";
-import { Box, Container, Heading, Img, Text } from "@chakra-ui/react";
+import { Box, Container, Heading, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAndroid,
   faAppStoreIos,
-  faAws,
-  faCss3Alt,
   faDocker,
-  faFontAwesomeAlt,
-  faFontAwesomeFlag,
   faFortAwesomeAlt,
   faGit,
   faGithub,
@@ -22,7 +18,6 @@ import {
 import ChakgraLogo from "../components/svgs/ChakgraLogo";
 import StoryBlokLogo from "../components/svgs/StoryblokLogo";
 import NextJSLogo from "../components/svgs/NextJSLogo";
-import { Head } from "next/document";
 
 function ToolsIcons(props) {
   return (
