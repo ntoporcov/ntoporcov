@@ -19,11 +19,20 @@ function MyApp({ Component, pageProps }) {
         as={"nav"}
         display={"flex"}
         flexWrap={"nowrap"}
-        justifyContent={"space-between"}
+        justifyContent={{ base: "center", md: "space-between" }}
+        alignItems={"center"}
         padding={5}
+        pb={5}
+        flexDirection={{ base: "column", md: "row" }}
+        position={"sticky"}
+        top={0}
+        zIndex={100}
+        backdropFilter={"blur(10px)saturate(130%)"}
+        bgColor={"rgba(255,255,255,0.76)"}
+        borderBottom={"solid 1px #e8e8e8"}
       >
-        <Heading>Nic Toporcov</Heading>
-        <Box>
+        <Heading pb={{ base: 4, md: 0 }}>Nic Toporcov</Heading>
+        <Box display={"none"}>
           <Link href={"/"} passHref>
             <a>
               <NTButton>Home</NTButton>
