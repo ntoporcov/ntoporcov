@@ -90,10 +90,10 @@ export default function Home() {
           textAlign={{ base: "center", md: "left" }}
         >
           <Heading as={"h1"} pb={5}>
-            Hi, I'm Nic
+            Hi, I&apos;m Nic
           </Heading>
           <Text>
-            I am a Front-End Designer and Developer. I've been working as a
+            I am a Front-End Designer and Developer. I&apos;ve been working as a
             UI/UX Designer since 2014 and as a Front-End Developer since 2015.
             <br />
             <br />I am currently working in the transportation industry where my
@@ -108,18 +108,19 @@ export default function Home() {
           About this website
         </Heading>
         <Text textAlign={"center"}>
-          Yeah, I know... There's not a lot here. This website is admittedly
-          under construction, but I thought I could make this process more
-          interesting.
+          Yeah, I know... There&apos;s not a lot here. This website is
+          admittedly under construction, but I thought I could make this process
+          more interesting.
           <br />
-          <br />I decided I'm going to blog the process of building this website
-          and probably some other thoughts about development. So, if you're
-          interested, I'm hoping to have more about this website's development,
-          previous projects and work experience in here very soon. 😄
+          <br />I decided I&apos;m going to blog the process of building this
+          website and probably some other thoughts about development. So, if
+          you&apos;re interested, I&apos;m hoping to have more about this
+          website&apos;s development, previous projects and work experience in
+          here very soon. 😄
         </Text>
       </Box>
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>
-        Some of the stuff I'm using or planning to use on this website:
+        Some of the stuff I&apos;m using or planning to use on this website:
       </Text>
       <ToolsRow>
         <ToolsIcons icon={faReact} name={"React"} color={"#61dafb"} />
