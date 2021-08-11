@@ -52,10 +52,10 @@ export const BlogPost = ({ story }) => {
 export default function Blog({ allEntries }) {
   return (
     <>
-      <Heading as={"h1"} mb={10} fontSize={"3rem"}>
+      <Heading as={"h1"} mb={10} fontSize={"3rem"} mt={50}>
         So, about this blog...
       </Heading>
-      <Text>
+      <Text textAlign={"center"}>
         This is where I write about design, development and anything in between
         that may interest me. I&apos;m planning to write more about the process
         of creating this website, learning new things in development, or UI
