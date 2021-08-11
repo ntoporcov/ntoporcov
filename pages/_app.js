@@ -2,8 +2,8 @@ import "../styles/globals.css";
 import {
   Box,
   Button,
-  Center,
   ChakraProvider,
+  Container,
   Heading,
   Icon,
   Modal,
@@ -24,14 +24,11 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      console.log(`App is changing to ${url}`);
       setNavModal(false);
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
@@ -48,6 +45,11 @@ function MyApp({ Component, pageProps }) {
         <Link href={"/blog"} passHref>
           <a>
             <NTButton>Blog</NTButton>
+          </a>
+        </Link>
+        <Link href={"/resume.pdf"} passHref>
+          <a target={"_blank"}>
+            <NTButton>Resume</NTButton>
           </a>
         </Link>
         {/*<Link href={"/contact"} passHref>*/}
@@ -100,9 +102,9 @@ function MyApp({ Component, pageProps }) {
         </Button>
       </Box>
 
-      <main style={{ paddingTop: "3rem" }}>
+      <Container as={"main"} maxW={"4xl"} centerContent pb={"30vh"}>
         <Component {...pageProps} />
-      </main>
+      </Container>
 
       <Modal isOpen={NavModal} onClose={() => setNavModal(false)}>
         <ModalOverlay
@@ -118,6 +120,7 @@ function MyApp({ Component, pageProps }) {
               position={"fixed"}
               bottom={10}
               onClick={() => setNavModal(false)}
+              borderColor={"black"}
             >
               Close
             </Button>

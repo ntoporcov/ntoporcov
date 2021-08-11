@@ -4,10 +4,6 @@ import BlogText from "./BlogText";
 import SbEditable from "storyblok-react";
 
 const BlogBoxes = ({ blok }) => {
-  useEffect(() => {
-    console.log(blok);
-  }, []);
-
   return (
     <Flex
       direction={{ base: "column", md: "row" }}

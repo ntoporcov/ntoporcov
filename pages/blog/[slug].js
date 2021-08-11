@@ -6,26 +6,30 @@ import Storyblok, { useStoryblok } from "../../lib/storyblok";
 import { Box, Container, Divider, Heading, Text } from "@chakra-ui/react";
 import DynamicComponent from "../../components/Blog Parts/DynamicComponent";
 import SbEditable from "storyblok-react";
+import SocialLinks from "../../components/social/SocialLinks";
+import { getSpotifyData } from "../../lib/spotify";
 
-export default function Page({ story, preview }) {
+export default function Page({ story, preview, spotifyData }) {
   const enableBridge = true;
   story = useStoryblok(story, enableBridge);
-
-  useEffect(() => {
-    console.log(story);
-  }, []);
 
   const { content } = story;
 
   return (
-    <Container maxW={"4xl"} pb={"30vh"}>
+    <>
       <Head>
         <title>{content.title + " – Nic Toporcov"}</title>
       </Head>
 
       <SbEditable content={content}>
         <Box>
-          <Heading as={"h1"} fontSize={"4rem"} className={"serif"} mb={2}>
+          <Heading
+            as={"h1"}
+            fontSize={"4rem"}
+            className={"serif"}
+            mb={2}
+            mt={20}
+          >
             {content.title}
           </Heading>
 
@@ -46,7 +50,9 @@ export default function Page({ story, preview }) {
       {content.body.map((component, index) => (
         <DynamicComponent blok={component} key={index} />
       ))}
-    </Container>
+      <Divider mt={20} />
+      <SocialLinks spotifyData={spotifyData} />
+    </>
   );
 }
 
@@ -70,6 +76,7 @@ export async function getServerSideProps(context) {
     props: {
       story: data ? data.story : null,
       preview: preview || false,
+      spotifyData: await getSpotifyData(),
     },
   };
 }

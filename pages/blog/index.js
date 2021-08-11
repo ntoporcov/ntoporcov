@@ -1,24 +1,16 @@
 import { Box, Container, Flex, Heading, Tag, Text } from "@chakra-ui/react";
 import Storyblok from "../../lib/storyblok";
-import { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
+import HoverCard from "../cards/HoverCard";
 
 export const BlogPost = ({ story }) => {
   const { slug, content, tag_list } = story;
 
-  console.log(content);
-
   return (
     <Link href={`/blog/${slug}`} passHref>
       <a>
-        <Box
-          mt={10}
-          shadow={"0 0 1px 1px rgba(0,0,0,.1)"}
-          padding={5}
-          _hover={{ shadow: "0 3px 5px 2px rgba(0,0,0,.05)" }}
-          transition={"box-shadow ease-out .15s"}
-          role={"group"}
-        >
+        <HoverCard>
           <Heading
             className={"serif"}
             as={"h2"}
@@ -51,7 +43,7 @@ export const BlogPost = ({ story }) => {
               Read More
             </Text>
           </Flex>
-        </Box>
+        </HoverCard>
       </a>
     </Link>
   );
@@ -59,8 +51,8 @@ export const BlogPost = ({ story }) => {
 
 export default function Blog({ allEntries }) {
   return (
-    <Container maxW={"4xl"}>
-      <Heading as={"h1"} mb={2} fontSize={"3rem"}>
+    <>
+      <Heading as={"h1"} mb={10} fontSize={"3rem"}>
         So, about this blog...
       </Heading>
       <Text>
@@ -72,7 +64,7 @@ export default function Blog({ allEntries }) {
       {allEntries.stories.map((story, index) => (
         <BlogPost key={index} story={story} />
       ))}
-    </Container>
+    </>
   );
 }
 
