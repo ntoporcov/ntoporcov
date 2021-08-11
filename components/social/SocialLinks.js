@@ -29,25 +29,35 @@ function SocialLink({ link, icon, color }) {
 }
 
 function SocialLinks({ spotifyData }) {
-  const lastImageIndex = spotifyData.track.album.images.length - 1;
+  const lastImageIndex = spotifyData.success
+    ? spotifyData.track.album.images.length - 1
+    : -1;
 
   return (
     <>
       <Flex fontSize={3} py={3} justifyContent={"space-between"} width={"100%"}>
         <Flex alignItems={"center"}>
-          <Box width={5}>
-            <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
-          </Box>
-          <Text fontSize={"sm"} ml={2}>
-            Last played:{" "}
-            <Link
-              href={spotifyData.track.artists[0].external_urls.spotify}
-              target={"_blank"}
-              color={"#1db954"}
-            >
-              {spotifyData.track.artists[0].name}
-            </Link>
-          </Text>
+          {() => {
+            if (spotifyData.success) {
+              return (
+                <>
+                  <Box width={5}>
+                    <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
+                  </Box>
+                  <Text fontSize={"sm"} ml={2}>
+                    Last played:{" "}
+                    <Link
+                      href={spotifyData.track.artists[0].external_urls.spotify}
+                      target={"_blank"}
+                      color={"#1db954"}
+                    >
+                      {spotifyData.track.artists[0].name}
+                    </Link>
+                  </Text>
+                </>
+              );
+            }
+          }}
         </Flex>
         <HStack>
           <SocialLink
