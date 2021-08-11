@@ -55,8 +55,6 @@ export async function getStaticProps(context) {
 
   let slug = params.slug;
 
-  console.log(context);
-
   let sbParams = {
     version: process.env.NODE_ENV === "development" ? "draft" : "published",
   };
