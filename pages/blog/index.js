@@ -78,6 +78,6 @@ export async function getStaticProps(context) {
       allEntries: data,
       preview: false,
     },
-    revalidate: 5,
+    revalidate: 1,
   };
 }

@@ -78,7 +78,7 @@ export async function getStaticProps(context) {
       preview: preview || false,
       spotifyData: await getSpotifyData(),
     },
-    revalidate: 5, // revalidate every hour
+    revalidate: 1,
   };
 }
 
