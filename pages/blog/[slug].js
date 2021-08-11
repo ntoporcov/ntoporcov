@@ -50,7 +50,7 @@ export default function Page({ story, preview }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params, preview } = context;
 
   let slug = params.slug;
@@ -71,7 +71,6 @@ export async function getStaticProps(context) {
       story: data ? data.story : null,
       preview: preview || false,
     },
-    revalidate: 5,
   };
 }
 

@@ -76,7 +76,7 @@ export default function Blog({ allEntries }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   let { data } = await Storyblok.get("cdn/stories", {
     starts_with: "blog/",
   });
@@ -86,6 +86,5 @@ export async function getStaticProps(context) {
       allEntries: data,
       preview: false,
     },
-    revalidate: 5,
   };
 }
