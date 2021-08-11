@@ -1,14 +1,13 @@
-import { Container, Divider, Text } from "@chakra-ui/react";
+import { Divider, Text } from "@chakra-ui/react";
 import { SkillsSection } from "../components/home/SkillsSection";
 import { HeroSection } from "../components/home/HeroSection";
 import { ExperienceSection } from "../components/home/ExperienceSection";
-import { getSpotifyData } from "../lib/spotify";
 import SocialLinks from "../components/social/SocialLinks";
 
-export default function Home({ spotifyData }) {
+export default function Home() {
   return (
     <>
-      <SocialLinks spotifyData={spotifyData} />
+      <SocialLinks />
       <HeroSection />
       <Divider my={55} />
       <SkillsSection />
@@ -20,12 +19,4 @@ export default function Home({ spotifyData }) {
       </Text>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      spotifyData: await getSpotifyData(),
-    },
-  };
 }

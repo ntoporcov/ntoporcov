@@ -3,8 +3,9 @@ import {
   Divider,
   Flex,
   HStack,
-  Img,
+  Icon,
   Link,
+  Skeleton,
   Tag,
   Text,
 } from "@chakra-ui/react";
@@ -15,8 +16,9 @@ import {
   faLinkedin,
   faSpotify,
 } from "@fortawesome/free-brands-svg-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as PropTypes from "prop-types";
+import axios from "axios";
 
 function SocialLink({ link, icon, color }) {
   return (
@@ -30,36 +32,67 @@ function SocialLink({ link, icon, color }) {
   );
 }
 
-function SpotifyWidget({ data, show = false }) {
-  if (!show) {
-    return null;
-  } else {
-    return (
-      <>
-        <Box width={5}>
-          <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
-        </Box>
-        <Text fontSize={"sm"} ml={2}>
-          Last played:{" "}
-          <Link
-            href={data.track.artists[0].external_urls.spotify}
-            target={"_blank"}
-            color={"#1db954"}
-          >
-            {data.track.artists[0].name}
-          </Link>
-        </Text>
-      </>
-    );
-  }
+function SpotifyWidget() {
+  const [finished, setFinished] = useState(false);
+  const [spotifyData, setSpotifyData] = useState({
+    track: {
+      artists: [
+        {
+          external_urls:
+            "https://open.spotify.com/artist/6l3HvQ5sa6mXTsMTB19rO5",
+          name: "J. Cole",
+        },
+      ],
+    },
+  });
+
+  useEffect(() => {
+    axios
+      .get("/api/spotify/lastPlayed")
+      .then(({ data }) => {
+        console.log(data);
+        setSpotifyData(data);
+        setFinished(true);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (
+    <>
+      <Box width={5}>
+        <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
+      </Box>
+      <Skeleton
+        isLoaded={finished}
+        startColor={"#63d28b"}
+        endColor={"#80bd96"}
+        ml={2}
+      >
+        <HStack>
+          <Text fontSize={"sm"}>
+            {spotifyData.playing ? "Now Listening:" : "Last played:"}
+          </Text>
+          <Text fontSize={"sm"}>
+            <Link
+              href={spotifyData.track.artists[0].external_urls.spotify}
+              target={"_blank"}
+              color={"#1db954"}
+            >
+              {spotifyData.track.artists[0].name}
+            </Link>
+          </Text>
+        </HStack>
+      </Skeleton>
+    </>
+  );
 }
 
-function SocialLinks({ spotifyData }) {
+function SocialLinks() {
   return (
     <>
       <Flex fontSize={3} py={3} justifyContent={"space-between"} width={"100%"}>
         <Flex alignItems={"center"}>
-          <SpotifyWidget data={spotifyData.data} show={spotifyData.success} />
+          <SpotifyWidget />
         </Flex>
         <HStack>
           <SocialLink
