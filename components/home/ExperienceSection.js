@@ -9,33 +9,25 @@ export function ExperienceSection() {
       <Flex direction={"column"} width={"100%"}>
         <ExperienceCompany
           company={"Transcor Data Services"}
-          position={"Senior Front End Engineer/Designer"}
+          position={"Front-End Designer & Developer"}
           period={"2019 – Now"}
           paragraph={`
-          As a Front-End Developer and Designer my duties switch between designing and developing front-end 
-          experiences for applications ranging from Kiosks, Mobile Applications, E-Ticketing Platforms
-          and Admin applications. I also assist with more DevOps related tasks like testing and integrating SDKs for 
-          new hardware, debugging build issues, investigating new development tools and setting up projects from scratch.  
+          Designing and developing front-end experiences for applications ranging from Kiosks, Mobile Applications, E-Ticketing Platforms, and Admin applications, assist with more DevOps-related tasks like testing and integrating SDKs for new hardware, debugging build issues, investigating new development tools, and setting up projects from scratch.
           `}
         />
         <ExperienceCompany
           company={"Gleanview"}
-          position={"Front End Designer & Developer"}
+          position={"Front-End Designer & Developer"}
           period={"2016 – 2019"}
           paragraph={`
-          GleanView is a CRM tool for small and medium businesses. I was in charge of designing new features for the 
-          application, managing, designing and improving on the company's branding while also being 
-          in charge of development for the marketing website. 
+          Designed and developed screens and interaction for new features in the CRM app, designed and developed marketing website and landing pages, designed several branding guidelines for child apps.
           `}
         />
         <ExperienceCompany
           company={"Jacksonville Business Journal"}
           position={"Graphic Designer"}
           period={"2015 – 2016"}
-          paragraph={`
-          JBJ was one of my first jobs after college. I was in charge of the print design for the newspaper, design and
-          development for landing pages for events, and design for digital and print advertisements.
-          `}
+          paragraph={`Designed digital ads, designed and developed landing pages for clients.`}
         />
       </Flex>
     </>
