@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import * as PropTypes from "prop-types";
 import axios from "axios";
+import { faPlay } from "@fortawesome/pro-duotone-svg-icons";
 
 function SocialLink({ link, icon, color }) {
   return (
@@ -70,8 +71,13 @@ function SpotifyWidget() {
       >
         <HStack>
           <Text fontSize={"sm"}>
-            {spotifyData.playing ? "Now Listening:" : "Last played:"}
+            {spotifyData.playing ? "Now Listening" : "Last played:"}
           </Text>
+          {spotifyData.playing && (
+            <Box w={2} pt={1}>
+              <FontAwesomeIcon icon={faPlay} color={"#1db954"} />
+            </Box>
+          )}
           <Text fontSize={"sm"}>
             <Link
               href={spotifyData.track.artists[0].external_urls.spotify}
