@@ -18,16 +18,10 @@ import GithubButton from "../components/buttons/GithubButton";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import * as ga from "../lib/ga";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-
-  // log the pageview with their URL
-  export const pageview = (url) => {
-    window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
-      page_path: url,
-    });
-  };
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -45,7 +39,7 @@ function MyApp({ Component, pageProps }) {
       router.events.off("routeChangeStart", handleRouteChange);
       router.events.off("routeChangeComplete", handlePageView);
     };
-  }, []);
+  }, [router.events]);
 
   const NavLinks = () => {
     return (
