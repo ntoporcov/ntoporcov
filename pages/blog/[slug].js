@@ -50,11 +50,15 @@ export default function Page({ story, preview }) {
   );
 }
 
-export async function getStaticProps({ params, preview = false }) {
+export async function getStaticProps(context) {
+  const { params, preview } = context;
+
   let slug = params.slug;
 
+  console.log(context);
+
   let sbParams = {
-    version: process.env.NETLIFY ? "published" : "draft",
+    version: process.env.NODE_ENV === "development" ? "draft" : "published",
   };
 
   if (preview) {
@@ -67,9 +71,9 @@ export async function getStaticProps({ params, preview = false }) {
   return {
     props: {
       story: data ? data.story : null,
-      preview,
+      preview: preview || false,
     },
-    revalidate: 5, // revalidate every hour
+    revalidate: 5,
   };
 }
 
