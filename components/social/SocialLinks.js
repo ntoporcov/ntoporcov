@@ -15,6 +15,8 @@ import {
   faLinkedin,
   faSpotify,
 } from "@fortawesome/free-brands-svg-icons";
+import { useEffect } from "react";
+import * as PropTypes from "prop-types";
 
 function SocialLink({ link, icon, color }) {
   return (
@@ -28,36 +30,36 @@ function SocialLink({ link, icon, color }) {
   );
 }
 
-function SocialLinks({ spotifyData }) {
-  const lastImageIndex = spotifyData.success
-    ? spotifyData.track.album.images.length - 1
-    : -1;
+function SpotifyWidget({ data, show = false }) {
+  if (!show) {
+    return null;
+  } else {
+    return (
+      <>
+        <Box width={5}>
+          <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
+        </Box>
+        <Text fontSize={"sm"} ml={2}>
+          Last played:{" "}
+          <Link
+            href={data.track.artists[0].external_urls.spotify}
+            target={"_blank"}
+            color={"#1db954"}
+          >
+            {data.track.artists[0].name}
+          </Link>
+        </Text>
+      </>
+    );
+  }
+}
 
+function SocialLinks({ spotifyData }) {
   return (
     <>
       <Flex fontSize={3} py={3} justifyContent={"space-between"} width={"100%"}>
         <Flex alignItems={"center"}>
-          {() => {
-            if (spotifyData.success) {
-              return (
-                <>
-                  <Box width={5}>
-                    <FontAwesomeIcon icon={faSpotify} color={"#1db954"} />
-                  </Box>
-                  <Text fontSize={"sm"} ml={2}>
-                    Last played:{" "}
-                    <Link
-                      href={spotifyData.track.artists[0].external_urls.spotify}
-                      target={"_blank"}
-                      color={"#1db954"}
-                    >
-                      {spotifyData.track.artists[0].name}
-                    </Link>
-                  </Text>
-                </>
-              );
-            }
-          }}
+          <SpotifyWidget data={spotifyData.data} show={spotifyData.success} />
         </Flex>
         <HStack>
           <SocialLink
