@@ -1,12 +1,68 @@
 import "../styles/globals.css";
-import { Box, ChakraProvider, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ChakraProvider,
+  Container,
+  Heading,
+  Icon,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  VStack,
+} from "@chakra-ui/react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import NTButton from "../components/buttons/NTButton";
 import Link from "next/link";
 import GithubButton from "../components/buttons/GithubButton";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      setNavModal(false);
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
+
+  const NavLinks = () => {
+    return (
+      <>
+        <Link href={"/"} passHref>
+          <a>
+            <NTButton>Home</NTButton>
+          </a>
+        </Link>
+        <Link href={"/blog"} passHref>
+          <a>
+            <NTButton>Blog</NTButton>
+          </a>
+        </Link>
+        <Link href={"/resume.pdf"} passHref>
+          <a target={"_blank"}>
+            <NTButton>Resume</NTButton>
+          </a>
+        </Link>
+        {/*<Link href={"/contact"} passHref>*/}
+        {/*  <a>*/}
+        {/*    <NTButton>Contact</NTButton>*/}
+        {/*  </a>*/}
+        {/*</Link>*/}
+      </>
+    );
+  };
+
+  const [NavModal, setNavModal] = useState(false);
+
   return (
     <ChakraProvider>
       <Head>
@@ -19,11 +75,9 @@ function MyApp({ Component, pageProps }) {
         as={"nav"}
         display={"flex"}
         flexWrap={"nowrap"}
-        justifyContent={{ base: "center", md: "space-between" }}
+        justifyContent={"space-between"}
         alignItems={"center"}
         padding={5}
-        pb={5}
-        flexDirection={{ base: "column", md: "row" }}
         position={"sticky"}
         top={0}
         zIndex={100}
@@ -31,29 +85,48 @@ function MyApp({ Component, pageProps }) {
         bgColor={"rgba(255,255,255,0.76)"}
         borderBottom={"solid 1px #e8e8e8"}
       >
-        <Heading pb={{ base: 4, md: 0 }}>Nic Toporcov</Heading>
-        <Box display={"none"}>
-          <Link href={"/"} passHref>
-            <a>
-              <NTButton>Home</NTButton>
-            </a>
-          </Link>
-          <Link href={"/blog"} passHref>
-            <a>
-              <NTButton>Blog</NTButton>
-            </a>
-          </Link>
-          <Link href={"/contact"} passHref>
-            <a>
-              <NTButton>Contact</NTButton>
-            </a>
-          </Link>
+        <Link href={"/"} passHref>
+          <a>
+            <Heading>Nic Toporcov</Heading>
+          </a>
+        </Link>
+        <Box display={{ base: "none", md: "unset" }}>
+          <NavLinks />
         </Box>
+        <Button
+          display={{ base: "unset", md: "none" }}
+          variant={"ghost"}
+          onClick={() => setNavModal(true)}
+        >
+          <Icon h={8} w={8} as={HamburgerIcon} />
+        </Button>
       </Box>
 
-      <main className={styles.main}>
+      <Container as={"main"} maxW={"4xl"} centerContent pb={"30vh"}>
         <Component {...pageProps} />
-      </main>
+      </Container>
+
+      <Modal isOpen={NavModal} onClose={() => setNavModal(false)}>
+        <ModalOverlay
+          backdropFilter={"blur(10px)saturate(130%)"}
+          bgColor={"rgba(210,210,210,0.76)"}
+        />
+        <ModalContent bg={"none"} shadow={"none"}>
+          <VStack spacing={10} padding={10}>
+            <NavLinks />
+            <Button
+              variant={"outline"}
+              width={"80%"}
+              position={"fixed"}
+              bottom={10}
+              onClick={() => setNavModal(false)}
+              borderColor={"black"}
+            >
+              Close
+            </Button>
+          </VStack>
+        </ModalContent>
+      </Modal>
 
       <GithubButton />
     </ChakraProvider>
