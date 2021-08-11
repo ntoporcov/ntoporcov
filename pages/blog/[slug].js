@@ -54,7 +54,7 @@ export async function getStaticProps({ params, preview = false }) {
   let slug = params.slug;
 
   let sbParams = {
-    version: "draft", // or published
+    version: process.env.NETLIFY ? "published" : "draft",
   };
 
   if (preview) {
