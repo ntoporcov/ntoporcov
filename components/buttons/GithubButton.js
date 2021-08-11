@@ -6,17 +6,20 @@ import { useRouter } from "next/router";
 const GithubButton = () => {
   const { route } = useRouter();
   const githubAddress = () => {
-    if (route === "/") {
-      return "/index.js";
-    } else {
-      return route + ".js";
+    switch (route) {
+      case "/":
+        return "/index.js";
+      case "/blog":
+        return "/blog/index.js";
+      default:
+        return route + ".js";
     }
   };
 
   return (
     <a
       href={
-        "https://github.com/ntoporcov/ntoporcov/tree/nextjs/pages" +
+        "https://github.com/ntoporcov/ntoporcov/tree/master/pages" +
         githubAddress()
       }
       target={"_blank"}
