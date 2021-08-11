@@ -73,16 +73,3 @@ export async function getServerSideProps(context) {
     },
   };
 }
-
-export async function getStaticPaths() {
-  let { data } = await Storyblok.get("cdn/stories", {
-    starts_with: "blog/",
-  });
-
-  const paths = data.stories.map((story) => ({ params: { slug: story.slug } }));
-
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
