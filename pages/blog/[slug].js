@@ -56,7 +56,7 @@ export default function Page({ story, preview, spotifyData }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { params, preview } = context;
 
   let slug = params.slug;
@@ -78,5 +78,19 @@ export async function getServerSideProps(context) {
       preview: preview || false,
       spotifyData: await getSpotifyData(),
     },
+    revalidate: 5, // revalidate every hour
+  };
+}
+
+export async function getStaticPaths() {
+  let { data } = await Storyblok.get("cdn/stories", {
+    starts_with: "blog/",
+  });
+
+  const paths = data.stories.map((story) => ({ params: { slug: story.slug } }));
+
+  return {
+    paths: paths,
+    fallback: false,
   };
 }
