@@ -19,6 +19,7 @@ import {
 import NextJSLogo from "../svgs/NextJSLogo";
 import ChakgraLogo from "../svgs/ChakgraLogo";
 import StoryBlokLogo from "../svgs/StoryblokLogo";
+import FireBaseLogo from "../svgs/FireBaseLogo";
 
 export function SkillsSection() {
   return (
@@ -38,12 +39,15 @@ export function SkillsSection() {
         </Text>
       </Box>
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>
-        Some of the stuff I&apos;m using or planning to use on this website:
+        Some of the stuff I&apos;m using on this website:
       </Text>
-      <ToolsRow>
+      <ToolsRow maxW={"70%"}>
         <ToolsIcons icon={faReact} name={"React"} color={"#61dafb"} />
         <ToolsIcons name={"NextJS"} color={"#535353"}>
           <NextJSLogo />
+        </ToolsIcons>
+        <ToolsIcons name={"FireBase"} color={"#fbbc05"}>
+          <FireBaseLogo />
         </ToolsIcons>
         <ToolsIcons name={"ChakraUI"} color={"#7BCBD4"}>
           <ChakgraLogo />

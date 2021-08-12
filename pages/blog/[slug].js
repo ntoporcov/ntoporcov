@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import DynamicComponent from "../components/DynamicComponent";
 import Head from "next/head";
 
@@ -8,12 +8,23 @@ import DynamicComponent from "../../components/Blog Parts/DynamicComponent";
 import SbEditable from "storyblok-react";
 import SocialLinks from "../../components/social/SocialLinks";
 import { getSpotifyData } from "../../lib/spotify";
+import axios from "axios";
 
-export default function Page({ story, preview, spotifyData }) {
+export default function Page({ story, preview, slug }) {
   const enableBridge = true;
   story = useStoryblok(story, enableBridge);
 
   const { content } = story;
+
+  const [postStats, setPostStats] = useState({});
+
+  useEffect(() => {
+    // if (process.env.VERCEL_ENV === "production") {
+    axios
+      .post("/api/blog/increaseStat", { slug, stat: "views" })
+      .then(({ data }) => setPostStats(data));
+    // }
+  }, []);
 
   return (
     <>
@@ -51,7 +62,7 @@ export default function Page({ story, preview, spotifyData }) {
         <DynamicComponent blok={component} key={index} />
       ))}
       <Divider mt={20} />
-      <SocialLinks spotifyData={spotifyData} />
+      <SocialLinks />
     </>
   );
 }
@@ -62,7 +73,7 @@ export async function getStaticProps(context) {
   let slug = params.slug;
 
   let sbParams = {
-    version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    version: process.env.VERCEL_ENV === "production" ? "published" : "draft",
   };
 
   if (preview) {
@@ -74,9 +85,9 @@ export async function getStaticProps(context) {
 
   return {
     props: {
+      slug,
       story: data ? data.story : null,
       preview: preview || false,
-      spotifyData: await getSpotifyData(),
     },
     revalidate: 1,
   };
