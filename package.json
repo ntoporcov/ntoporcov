@@ -23,6 +23,7 @@
     "@netlify/plugin-nextjs": "^3.8.0",
     "axios": "^0.21.1",
     "btoa": "^1.2.1",
+    "firebase-admin": "^9.11.0",
     "framer-motion": "^4",
     "next": "11.0.1",
     "prettier": "^2.3.2",
