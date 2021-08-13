@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // import DynamicComponent from "../components/DynamicComponent";
 import Head from "next/head";
 
@@ -96,6 +96,7 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   let { data } = await Storyblok.get("cdn/stories", {
     starts_with: "blog/",
+    version: process.env.VERCEL_ENV === "production" ? "published" : "draft",
   });
 
   const paths = data.stories.map((story) => ({ params: { slug: story.slug } }));
