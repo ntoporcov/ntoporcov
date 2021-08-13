@@ -71,6 +71,7 @@ export default function Blog({ allEntries }) {
 export async function getStaticProps(context) {
   let { data } = await Storyblok.get("cdn/stories", {
     starts_with: "blog/",
+    version: process.env.VERCEL_ENV === "production" ? "published" : "draft",
   });
 
   return {
