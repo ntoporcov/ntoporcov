@@ -9,7 +9,7 @@ import SbEditable from "storyblok-react";
 import SocialLinks from "../../components/social/SocialLinks";
 import { getSpotifyData } from "../../lib/spotify";
 
-export default function Page({ story, preview, spotifyData }) {
+export default function Page({ story, preview }) {
   const enableBridge = true;
   story = useStoryblok(story, enableBridge);
 
@@ -51,7 +51,7 @@ export default function Page({ story, preview, spotifyData }) {
         <DynamicComponent blok={component} key={index} />
       ))}
       <Divider mt={20} />
-      <SocialLinks spotifyData={spotifyData} />
+      <SocialLinks />
     </>
   );
 }
@@ -62,7 +62,7 @@ export async function getStaticProps(context) {
   let slug = params.slug;
 
   let sbParams = {
-    version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    version: process.env.VERCEL_ENV === "production" ? "published" : "draft",
   };
 
   if (preview) {
@@ -76,7 +76,6 @@ export async function getStaticProps(context) {
     props: {
       story: data ? data.story : null,
       preview: preview || false,
-      spotifyData: await getSpotifyData(),
     },
     revalidate: 1,
   };
