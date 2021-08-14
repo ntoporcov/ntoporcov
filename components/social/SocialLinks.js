@@ -98,7 +98,13 @@ function SpotifyWidget() {
 function SocialLinks() {
   return (
     <>
-      <Flex fontSize={3} py={3} justifyContent={"space-between"} width={"100%"}>
+      <Flex
+        fontSize={3}
+        py={3}
+        justifyContent={"space-between"}
+        width={"100%"}
+        wrap={"wrap"}
+      >
         <Flex alignItems={"center"}>
           <SpotifyWidget />
         </Flex>

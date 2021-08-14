@@ -45,7 +45,7 @@ export function SkillsSection() {
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>
         Some of the stuff I&apos;m using on this website:
       </Text>
-      <ToolsRow maxW={"70%"}>
+      <ToolsRow maxW={{ base: "100%", md: "70%" }}>
         <ToolsIcons icon={faReact} name={"React"} color={"#61dafb"} />
         <ToolsIcons name={"NextJS"} color={NextJSColor}>
           <NextJSLogo />
@@ -69,7 +69,7 @@ export function SkillsSection() {
       <Text fontSize={18} fontWeight={500} my={10} textAlign={"center"}>
         Some other stuff that I have worked with:
       </Text>
-      <ToolsRow maxW={"80%"}>
+      <ToolsRow maxW={{ base: "100%", md: "80%" }}>
         <SmallToolsIcons icon={faVuejs} name={"VueJS"} color={"#4fc08d"} />
         <SmallToolsIcons icon={faNodeJs} name={"Node"} color={NodeJSColor} />
         <SmallToolsIcons icon={faSass} name={"Sass"} color={"#cc6699"} />
