@@ -2,13 +2,13 @@ import { Heading, Text } from "@chakra-ui/react";
 import Storyblok from "../../lib/storyblok";
 import React, { useEffect, useState } from "react";
 import { BlogPost } from "../../components/feed/BlogPost";
-import axios from "axios";
+import { getAllStats } from "../../utils/axios";
 
 export default function Blog({ allEntries }) {
   const [allStats, setAllStats] = useState({});
 
   useEffect(() => {
-    axios.get("/api/blog").then(({ data }) => {
+    getAllStats().then(({ data }) => {
       setAllStats(data);
     });
   }, []);

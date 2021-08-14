@@ -24,27 +24,26 @@ function StatBadge({
   ready,
 }) {
   return (
-    <Skeleton isLoaded={ready}>
-      <HStack
-        spacing={3}
-        shadow={"0 0 1px 1px rgba(0,0,0,.1)"}
-        pt={1}
-        pb={6}
-        px={3}
-        color={startColor}
-        _groupHover={{
-          color: hoverColor + ".500",
-          transform: "translateY(-3px)",
-        }}
-        transition={"all ease-out .2s"}
-        transitionDelay={(index + 1) * 0.1 + 0.1 + "s"}
-      >
-        <Box w={4} color={hoverColor + ".300"}>
-          <FontAwesomeIcon icon={icon} color={"currentColor"} />
-        </Box>
-        <Text color={"currentColor"}>{value}</Text>
-      </HStack>
-    </Skeleton>
+    <HStack
+      spacing={3}
+      shadow={"0 0 1px 1px rgba(0,0,0,.1)"}
+      pt={1}
+      pb={6}
+      px={3}
+      color={startColor}
+      _groupHover={{
+        color: hoverColor + ".500",
+        transform: "translateY(-3px)",
+      }}
+      transition={"all ease-out .2s"}
+      transitionDelay={(index + 1) * 0.1 + 0.1 + "s"}
+      transform={ready ? "translateY(0)" : "translateY(50px)"}
+    >
+      <Box w={4} color={hoverColor + ".300"}>
+        <FontAwesomeIcon icon={icon} color={"currentColor"} />
+      </Box>
+      <Text color={"currentColor"}>{value}</Text>
+    </HStack>
   );
 }
 

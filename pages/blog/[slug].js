@@ -1,14 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import DynamicComponent from "../components/DynamicComponent";
 import Head from "next/head";
 
 import Storyblok, { useStoryblok } from "../../lib/storyblok";
-import { Box, Container, Divider, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Heading,
+  HStack,
+  Skeleton,
+  Text,
+} from "@chakra-ui/react";
 import DynamicComponent from "../../components/Blog Parts/DynamicComponent";
 import SbEditable from "storyblok-react";
 import SocialLinks from "../../components/social/SocialLinks";
 import { getSpotifyData } from "../../lib/spotify";
 import axios from "axios";
+import { faEye } from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/pro-solid-svg-icons";
+import { getPostStats, increaseStat } from "../../utils/axios";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+
+function StatItem({ icon, color, stat, label, clickable, onClick, ready }) {
+  const StatLabel = () => {
+    return (
+      <HStack color={color + ".300"}>
+        <Box w={5}>
+          <FontAwesomeIcon icon={icon} color={"currentColor"} />
+        </Box>
+        <HStack>
+          <Skeleton isLoaded={ready}>{stat}</Skeleton>
+          <Text>{" " + label}</Text>
+        </HStack>
+      </HStack>
+    );
+  };
+
+  if (!clickable) {
+    return <StatLabel />;
+  } else {
+    return (
+      <Button
+        variant={clickable ? "outline" : "ghost"}
+        colorScheme={color}
+        onClick={onClick}
+      >
+        <StatLabel />
+      </Button>
+    );
+  }
+}
 
 export default function Page({ story, preview, slug }) {
   const enableBridge = true;
@@ -17,14 +62,40 @@ export default function Page({ story, preview, slug }) {
   const { content } = story;
 
   const [postStats, setPostStats] = useState({});
+  const [statsReady, setStatsReady] = useState(false);
+
+  const [liked, setLiked] = useLocalStorage(`${slug}-liked`, false);
+  const [viewed, setViewed] = useLocalStorage(`${slug}-viewed`, false);
 
   useEffect(() => {
-    // if (process.env.VERCEL_ENV === "production") {
-    axios
-      .post("/api/blog/increaseStat", { slug, stat: "views" })
-      .then(({ data }) => setPostStats(data));
-    // }
+    if (!viewed) {
+      addToStat("views");
+      setViewed(true);
+    } else {
+      getStats(slug);
+    }
   }, []);
+
+  const addToStat = (stat) => {
+    increaseStat({ slug, stat }).then(({ data }) => {
+      setPostStats(data);
+      setStatsReady(true);
+    });
+  };
+
+  const getStats = (slug) => {
+    getPostStats(slug).then(({ data }) => {
+      setPostStats(data);
+      setStatsReady(true);
+    });
+  };
+
+  const likePost = () => {
+    if (!liked) {
+      addToStat("likes");
+      setLiked(true);
+    }
+  };
 
   return (
     <>
@@ -56,7 +127,30 @@ export default function Page({ story, preview, slug }) {
         </Box>
       </SbEditable>
 
-      <Divider my={10} />
+      <Divider mt={10} />
+
+      <Flex w={"100%"} py={2} justifyContent={"flex-end"}>
+        <HStack spacing={5}>
+          <StatItem
+            color={"blue"}
+            icon={faEye}
+            stat={postStats.views}
+            label={"Views"}
+            ready={statsReady}
+          />
+          <StatItem
+            color={"red"}
+            icon={faHeart}
+            stat={postStats.likes}
+            label={"Likes" + (liked ? " (You included ✌🏼 )" : "")}
+            clickable={!liked}
+            onClick={likePost}
+            ready={statsReady}
+          />
+        </HStack>
+      </Flex>
+
+      <Divider mb={10} />
 
       {content.body.map((component, index) => (
         <DynamicComponent blok={component} key={index} />

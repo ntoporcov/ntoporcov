@@ -7,26 +7,25 @@ export default async function handler(req, res) {
 
     try {
       const refObject = firebaseDB.ref().child("blogPosts");
-      let snapshot = await refObject.once("value");
 
+      let snapshot = await refObject.once("value");
       const JSONshot = snapshot.toJSON();
-      console.log(JSONshot);
 
       if (JSONshot[slug] === undefined) {
-        await refObject.set({ ...JSONshot, [slug]: { likes: 0, views: 0 } });
+        await refObject.update({ [slug]: { likes: 0, views: 0 } });
         snapshot = await refObject.once("value");
       }
 
       const currentStat = snapshot.toJSON()[slug][stat];
       const newStat = currentStat + 1;
 
-      await refObject.child(slug).child(stat).set(newStat);
+      await refObject.child(slug).update({ [stat]: newStat });
 
-      const updateSnapshot = await refObject.once("value");
+      const updatedSnapshot = await refObject.child(slug).once("value");
 
-      res.status(200).json(updateSnapshot);
+      res.status(200).json(updatedSnapshot.toJSON());
     } catch (e) {
-      console.log(e);
+      res.status(500).json(e);
     }
   } else {
     res.status(405).send("Method not allowed, dumbass...");

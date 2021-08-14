@@ -51,7 +51,6 @@ function SpotifyWidget() {
     axios
       .get("/api/spotify/lastPlayed")
       .then(({ data }) => {
-        console.log(data);
         setSpotifyData(data);
         setFinished(true);
       })
