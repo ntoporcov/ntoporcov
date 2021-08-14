@@ -3,9 +3,6 @@ import { firebaseDB } from "../../../lib/firebase";
 export default async function handler(req, res) {
   console.log(req);
   if (req.method === "POST") {
-    if (!req.rawHeaders.includes("same-origin"))
-      res.status(403).send("Forbidden");
-
     const stat = req.body.stat;
     const slug = req.body.slug;
 
