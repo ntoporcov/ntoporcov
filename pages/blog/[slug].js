@@ -105,13 +105,7 @@ export default function Page({ story, preview, slug }) {
 
       <SbEditable content={content}>
         <Box>
-          <Heading
-            as={"h1"}
-            fontSize={"4rem"}
-            className={"serif"}
-            mb={2}
-            mt={20}
-          >
+          <Heading as={"h1"} fontSize={"4rem"} mb={2} mt={20}>
             {content.title}
           </Heading>
 

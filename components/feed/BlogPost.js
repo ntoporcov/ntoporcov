@@ -8,6 +8,7 @@ import {
   Skeleton,
   Tag,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/pro-duotone-svg-icons";
@@ -23,10 +24,15 @@ function StatBadge({
   index,
   ready,
 }) {
+  const borderBG = useColorModeValue(
+    " rgba(0,0,0,.1)",
+    " rgba(255,255,255,.5)"
+  );
+
   return (
     <HStack
       spacing={3}
-      shadow={"0 0 1px 1px rgba(0,0,0,.1)"}
+      shadow={"0 0 1px 1px " + borderBG}
       pt={1}
       pb={6}
       px={3}
@@ -65,13 +71,7 @@ export const BlogPost = ({ story, stat = { likes: 0, views: 0 }, ready }) => {
           >
             {content.title}
           </Heading>
-          <Box
-            position={"absolute"}
-            top={-8}
-            zIndex={-1}
-            right={5}
-            bg={"white"}
-          >
+          <Box position={"absolute"} top={-8} zIndex={-1} right={5}>
             <HStack>
               <StatBadge
                 icon={faEye}

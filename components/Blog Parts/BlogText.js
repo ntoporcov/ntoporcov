@@ -9,6 +9,7 @@ import {
   OrderedList,
   Text,
   UnorderedList,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   NODE_PARAGRAPH,
@@ -24,6 +25,9 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function BlogText({ blok }) {
+  const linkBackgroundColor = useColorModeValue("black", "white");
+  const linkFontColor = useColorModeValue("white", "black");
+
   return (
     <Box>
       {render(blok.text, {
@@ -52,14 +56,16 @@ function BlogText({ blok }) {
             const { href, target, linktype } = props;
             if (linktype === "email") {
               // Email links: add `mailto:` scheme and map to <a>
-              return <a href={`mailto:${href}`}>{children}</a>;
+              return (
+                <ChakraLink href={`mailto:${href}`}>{children}</ChakraLink>
+              );
             }
             if (href.match(/^(https?:)?\/\//)) {
               // External links: map to <a>
               return (
                 <ChakraLink
-                  bgColor={"black"}
-                  color={"white"}
+                  bgColor={linkBackgroundColor}
+                  color={linkFontColor}
                   href={href}
                   target={target}
                 >

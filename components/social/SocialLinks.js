@@ -8,6 +8,7 @@ import {
   Skeleton,
   Tag,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,9 +23,11 @@ import axios from "axios";
 import { faPlay } from "@fortawesome/pro-duotone-svg-icons";
 
 function SocialLink({ link, icon, color }) {
+  const bg = useColorModeValue("gray.100", "gray.800");
+
   return (
     <Link href={link} target={"_blank"}>
-      <Tag>
+      <Tag bg={bg}>
         <Box width={4}>
           <FontAwesomeIcon icon={icon} color={color} />
         </Box>
@@ -73,7 +76,7 @@ function SpotifyWidget() {
             {spotifyData.playing ? "Now Listening" : "Last played:"}
           </Text>
           {spotifyData.playing && (
-            <Box w={2} pt={1}>
+            <Box w={2} pt={0.5}>
               <FontAwesomeIcon icon={faPlay} color={"#1db954"} />
             </Box>
           )}

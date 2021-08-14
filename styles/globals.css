@@ -18,3 +18,21 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.chakra-ui-dark{
+  background-color: #181818;
+}
+
+#laser-dark,#laser-light{
+  transform-origin: center bottom;
+  transition: all ease-out .5s;
+  transition-delay: .5s;
+}
+
+.lightsaber.dark #laser-dark{
+  transform: scaleY(1);
+}
+
+.lightsaber #laser-dark{
+  transform: scaleY(0);
+}
