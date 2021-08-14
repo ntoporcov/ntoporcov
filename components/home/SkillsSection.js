@@ -1,4 +1,4 @@
-import { Box, Divider, Text } from "@chakra-ui/react";
+import { Box, Divider, Text, useColorModeValue } from "@chakra-ui/react";
 import Heading2 from "../Headings/Heading2";
 import ToolsRow from "./ToolsRow";
 import ToolsIcons, { SmallToolsIcons } from "./ToolsIcons";
@@ -22,6 +22,10 @@ import StoryBlokLogo from "../svgs/StoryblokLogo";
 import FireBaseLogo from "../svgs/FireBaseLogo";
 
 export function SkillsSection() {
+  const NextJSColor = useColorModeValue("#000", "#cbcbcb");
+  const GitHubColor = useColorModeValue("#000", "#cbcbcb");
+  const NodeJSColor = useColorModeValue("#215732", "#40744d");
+
   return (
     <>
       <Box textAlign={"center"} maxW={{ base: "100%", md: "60%" }}>
@@ -43,7 +47,7 @@ export function SkillsSection() {
       </Text>
       <ToolsRow maxW={"70%"}>
         <ToolsIcons icon={faReact} name={"React"} color={"#61dafb"} />
-        <ToolsIcons name={"NextJS"} color={"#535353"}>
+        <ToolsIcons name={"NextJS"} color={NextJSColor}>
           <NextJSLogo />
         </ToolsIcons>
         <ToolsIcons name={"FireBase"} color={"#fbbc05"}>
@@ -60,14 +64,14 @@ export function SkillsSection() {
           name={"FontAwesome"}
           color={"orange"}
         />
-        <ToolsIcons icon={faGithub} name={"GitHub"} color={"#2b2b2b"} />
+        <ToolsIcons icon={faGithub} name={"GitHub"} color={GitHubColor} />
       </ToolsRow>
       <Text fontSize={18} fontWeight={500} my={10} textAlign={"center"}>
         Some other stuff that I have worked with:
       </Text>
       <ToolsRow maxW={"80%"}>
         <SmallToolsIcons icon={faVuejs} name={"VueJS"} color={"#4fc08d"} />
-        <SmallToolsIcons icon={faNodeJs} name={"Node"} color={"#215732"} />
+        <SmallToolsIcons icon={faNodeJs} name={"Node"} color={NodeJSColor} />
         <SmallToolsIcons icon={faSass} name={"Sass"} color={"#cc6699"} />
         <SmallToolsIcons icon={faAndroid} name={"Android"} color={"#3ddc84"} />
         <SmallToolsIcons icon={faAppStoreIos} name={"iOS"} color={"#5fc9f8"} />
