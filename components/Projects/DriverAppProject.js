@@ -47,11 +47,14 @@ const DriverAppProject = ({ blok }) => {
           <Box flexGrow={2}>
             <Heading fontSize={26}>{content.title}</Heading>
             <Text pb={3}>{content.preview}</Text>
-            <HStack>
+            <Flex wrap={"wrap"}>
               {story.tag_list.reverse().map((tag, index) => (
-                <Tag key={index}> {tag}</Tag>
+                <Tag key={index} ml={2} mb={2}>
+                  {" "}
+                  {tag}
+                </Tag>
               ))}
-            </HStack>
+            </Flex>
           </Box>
           <Flex justify={"flex-end"}>
             <Link href={`/blog/${story.slug}`} passHref>
