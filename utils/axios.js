@@ -14,3 +14,7 @@ export const increaseStat = ({ slug, stat }) => {
     stat,
   });
 };
+
+export const sendGif = (gif, name, message) => {
+  return axios.post("/api/gif/send", { gif, name, message });
+};
