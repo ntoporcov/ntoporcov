@@ -29,14 +29,14 @@ function BlogText({ blok }) {
   const linkFontColor = useColorModeValue("white", "black");
 
   return (
-    <Box>
+    <Box width={"100%"}>
       {render(blok.text, {
         nodeResolvers: {
           [NODE_OL]: (children) => <OrderedList>{children}</OrderedList>,
           [NODE_UL]: (children) => <UnorderedList>{children}</UnorderedList>,
           [NODE_LI]: (children) => <ListItem>{children}</ListItem>,
           [NODE_PARAGRAPH]: (children) => (
-            <Text pb={3} lineHeight={1.75}>
+            <Text pb={3} lineHeight={1.75} textAlign={"left"} width={"100%"}>
               {children}
             </Text>
           ),

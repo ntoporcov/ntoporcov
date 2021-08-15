@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useRouter } from "next/router";
@@ -17,13 +17,14 @@ const GithubButton = () => {
   };
 
   return (
-    <a
+    <Link
       href={
         "https://github.com/ntoporcov/ntoporcov/tree/master/pages" +
         githubAddress()
       }
       target={"_blank"}
       rel="noreferrer"
+      display={{ base: "none", md: "block" }}
     >
       <Box
         position={"fixed"}
@@ -72,7 +73,7 @@ const GithubButton = () => {
           </Text>
         </Box>
       </Box>
-    </a>
+    </Link>
   );
 };
 

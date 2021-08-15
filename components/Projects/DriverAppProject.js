@@ -12,32 +12,53 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
-const DriverAppProject = () => {
+const DriverAppProject = ({ blok }) => {
+  const story = blok.story;
+  const content = story.content;
+
+  console.log(blok);
+
   return (
     <ProjectBox p={0}>
-      <Flex>
-        <Image src={"/scanningAppCoverCropped.png"} height={500} width={500} />
-        <Flex direction={"column"} justify={"flex-end"} pt={10} pb={5} pr={5}>
+      <Flex direction={{ base: "column", md: "row" }}>
+        <Flex
+          maxW={{ base: "100%", md: "unset" }}
+          bg={{ base: "whiteAlpha.900", md: "none" }}
+          justify={"center"}
+        >
+          <Flex alignItems={"flex-end"} maxW={{ base: "50%", md: "unset" }}>
+            <Image
+              src={"/scanningAppCoverCropped.png"}
+              height={500}
+              width={500}
+            />
+          </Flex>
+        </Flex>
+        <Flex
+          direction={"column"}
+          justify={"flex-end"}
+          pt={10}
+          pb={5}
+          pr={5}
+          pl={{ base: 5, md: 0 }}
+        >
           <Box flexGrow={2}>
-            <Heading fontSize={26}>TDS Scanning App</Heading>
-            <Text pb={3}>
-              The TDS Scanning App was a project that I took from basic
-              requirements and wireframe, through research, design and all that
-              way to development.
-            </Text>
+            <Heading fontSize={26}>{content.title}</Heading>
+            <Text pb={3}>{content.preview}</Text>
             <HStack>
-              <Tag>React Native</Tag>
-              <Tag>MobX</Tag>
-              <Tag>iOS</Tag>
-              <Tag>Android</Tag>
-              <Tag>Honeywell SDKs</Tag>
+              {story.tag_list.reverse().map((tag, index) => (
+                <Tag key={index}> {tag}</Tag>
+              ))}
             </HStack>
           </Box>
           <Flex justify={"flex-end"}>
-            <Button colorScheme={"orange"} variant={"ghost"}>
-              Learn More
-            </Button>
+            <Link href={`/blog/${story.slug}`} passHref>
+              <Button colorScheme={"orange"} variant={"ghost"} mt={10}>
+                Learn More
+              </Button>
+            </Link>
           </Flex>
         </Flex>
       </Flex>

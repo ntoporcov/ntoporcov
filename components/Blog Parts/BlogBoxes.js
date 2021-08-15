@@ -4,23 +4,30 @@ import BlogText from "./BlogText";
 import SbEditable from "storyblok-react";
 
 const BlogBoxes = ({ blok }) => {
-  const bgColor = useColorModeValue("gray.50", "blackAlpha.400");
+  const bgColor = useColorModeValue("gray.50", "gray.700");
 
   return (
     <Flex
-      direction={{ base: "column", md: "row" }}
+      direction={{ base: "column", md: blok.Direction }}
       justify={"space-between"}
       my={5}
+      width={"100%"}
     >
       {blok.Boxes.map((box) => (
         <SbEditable content={box} key={box._uid}>
           <Box
-            p={5}
+            px={5}
             borderRadius={10}
             bg={bgColor}
             boxSizing={"border-box"}
-            width={{ base: "100%", md: 100 / blok.Boxes.length - 3 + "%" }}
-            mb={{ base: 4, md: 0 }}
+            width={{
+              base: "100%",
+              md:
+                blok.Direction === "column"
+                  ? "100%"
+                  : 100 / blok.Boxes.length - 3 + "%",
+            }}
+            mb={4}
           >
             <BlogText blok={box} />
           </Box>
