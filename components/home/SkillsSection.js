@@ -28,18 +28,18 @@ export function SkillsSection() {
 
   return (
     <>
-      <Box textAlign={"center"} maxW={{ base: "100%", md: "60%" }}>
+      <Box textAlign={"center"} maxW={{ base: "100%", md: "80%" }}>
         <Heading2>About this website</Heading2>
         <Text textAlign={"center"}>
           Yeah, I know... There&apos;s not a lot here. This website is
           admittedly under construction, but I thought I could make this process
           more interesting.
           <br />
-          <br />I decided I&apos;m going to blog the process of building this
-          website and probably some other thoughts about development. So, if
-          you&apos;re interested, I&apos;m hoping to have more about this
-          website&apos;s development, previous projects and work experience in
-          here very soon.
+          <br />
+          I&apos;m going to blog the process of building this website and
+          probably some other thoughts about development. So, if you&apos;re
+          interested, I&apos;m hoping to have more about this website&apos;s
+          development, previous projects and work experience in here very soon.
         </Text>
       </Box>
       <Text fontSize={20} fontWeight={500} my={10} textAlign={"center"}>

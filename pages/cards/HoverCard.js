@@ -12,7 +12,7 @@ const HoverCard = (props) => {
 
   const backgroundColor = useColorModeValue(
     "rgba(255,255,255)",
-    "rgba(52,52,52)"
+    "rgb(35,35,35)"
   );
 
   return (

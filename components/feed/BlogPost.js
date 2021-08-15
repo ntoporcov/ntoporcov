@@ -54,12 +54,15 @@ function StatBadge({
 }
 
 export const BlogPost = ({ story, stat = { likes: 0, views: 0 }, ready }) => {
-  const { slug, content, tag_list } = story;
+  const { slug, content, tag_list, published_at } = story;
+
+  const pubDate = new Date(published_at).toLocaleDateString();
 
   return (
     <Link href={`/blog/${slug}`} passHref>
       <a style={{ width: "100%" }}>
         <HoverCard position={"relative"} mt={20} w={"100%"}>
+          <Text>{pubDate}</Text>
           <Heading
             className={"serif"}
             as={"h2"}
