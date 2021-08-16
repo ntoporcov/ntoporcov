@@ -1,6 +1,11 @@
+import { cors, runMiddleware } from "../../../utils/middleware";
+import NextCors from "nextjs-cors";
+
 const SpotifyWebApi = require("spotify-web-api-node");
 
 export default async function handler(req, res) {
+  await NextCors(req, res, cors);
+
   const accessToken = process.env.SPOTIFY_ACCESS;
   const refreshToken = process.env.SPOTIFY_REFRESH;
   const clientId = process.env.SPOTIFY_ID;

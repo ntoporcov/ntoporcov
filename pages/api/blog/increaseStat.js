@@ -1,7 +1,10 @@
 import { firebaseDB } from "../../../lib/firebase";
+import { cors } from "../../../utils/middleware";
+import NextCors from "nextjs-cors";
 
 export default async function handler(req, res) {
-  console.log(req);
+  await NextCors(req, res, cors);
+
   if (req.method === "POST") {
     const stat = req.body.stat;
     const slug = req.body.slug;

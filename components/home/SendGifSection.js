@@ -74,7 +74,7 @@ function SearchExperience() {
     } else if (sendSuccess) {
       return <Text>Your GIF is on its way 😄</Text>;
     } else if (sendSuccess === false) {
-      return <Text>Something went wrong 😔, I&apos;ll look at it soon.</Text>;
+      return <Text>Something went wrong 😔 I&apos;ll look at it soon.</Text>;
     } else {
       return (
         <ButtonGroup width={"100%"}>

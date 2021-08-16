@@ -57,7 +57,10 @@ function SpotifyWidget() {
         setSpotifyData(data);
         setFinished(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setFinished(true);
+      });
   }, []);
 
   return (

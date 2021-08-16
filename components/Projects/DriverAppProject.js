@@ -18,8 +18,6 @@ const DriverAppProject = ({ blok }) => {
   const story = blok.story;
   const content = story.content;
 
-  console.log(blok);
-
   return (
     <ProjectBox p={0}>
       <Flex direction={{ base: "column", md: "row" }}>

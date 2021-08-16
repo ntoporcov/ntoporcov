@@ -1,6 +1,10 @@
 import axios from "axios";
+import { cors, runMiddleware } from "../../../utils/middleware";
+import NextCors from "nextjs-cors";
 
 export default async function handler(req, res) {
+  await NextCors(req, res, cors);
+
   if (req.method === "POST") {
     const name = req.body.name;
     const message = req.body.message;
@@ -8,6 +12,9 @@ export default async function handler(req, res) {
 
     if (name.length === 0) {
       res.status(403).send("Name is Required");
+      return;
+    } else if (gif.length === 0) {
+      res.status(403).send("GIF is Required");
       return;
     }
 
