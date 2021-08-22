@@ -25,6 +25,7 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import Image from "next/image";
 
 function SearchExperience() {
   const { fetchGifs, searchKey } = useContext(SearchContext);
@@ -187,6 +188,9 @@ function SearchExperience() {
           <Box w={{ base: "85%", md: "50%" }}>
             <SearchBar />
           </Box>
+        </Flex>
+        <Flex justifyContent={"flex-end"} mb={3}>
+          <Image src={"/giphyAttribution.png"} width={200} height={22} />
         </Flex>
         <Carousel
           fetchGifs={fetchGifs}
