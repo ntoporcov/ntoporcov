@@ -17,7 +17,7 @@ const HoverCard = (props) => {
 
   return (
     <Box
-      mt={10}
+      _notFirst={{mt:10}}
       bg={backgroundColor}
       shadow={"0 0 1px 1px " + borderShadow}
       padding={5}
