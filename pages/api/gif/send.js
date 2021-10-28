@@ -24,9 +24,6 @@ export default async function handler(req, res) {
           {
             tag: ["ntoporcov"],
           },
-          {
-            ios_channel: "eabad846-8be4-45de-8058-f7c4aa70293b",
-          },
         ],
       },
       message: {
