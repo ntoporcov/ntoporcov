@@ -12,7 +12,7 @@ export function ExperienceSection() {
         <ExperienceCompany
               company={"RF-SMART"}
               position={"React Developer II"}
-              period={"2019 – Now"}
+              period={"2021 – Now"}
               paragraph={`
             Designing and developing a new brand new React application for the warehouse and shipping industry. I can't disclose much else right now, but I'll update this once I'm able to :)
             `}
