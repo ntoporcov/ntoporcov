@@ -27,10 +27,9 @@ export function HeroSection() {
           I am a Front-End Designer and Developer. I&apos;ve been working as a
           UI/UX Designer since 2014 and as a Front-End Developer since 2015.
           <br />
-          <br />I am currently working in the transportation industry where my
-          main focus are design and development for Kiosks, Mobile Applications,
-          E-Ticketing Platforms and Admin applications. I also provide
-          assistance in some DevOps functions.
+          <br />I am currently working in the warehouse and shipping industry.
+            I am in charge of leading the UI/UX and Front-End Development for a
+            brand new product built in React.
         </Text>
       </Box>
     </Box>
