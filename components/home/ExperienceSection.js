@@ -22,7 +22,7 @@ export function ExperienceSection() {
           <Box w={"100%"} h={"auto"} position={"relative"}>
             <Image
               width={"100%"}
-              height={50}
+              height={37}
               src={"/coinbase-cover.jpg"}
               layout={"responsive"}
             />
