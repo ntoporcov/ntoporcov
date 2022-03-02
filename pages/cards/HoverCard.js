@@ -7,7 +7,7 @@ const HoverCard = (props) => {
   const borderShadow = useColorModeValue("rgba(0,0,0,0.1)", "rgba(255,0,0,00)");
   const borderShadowHover = useColorModeValue(
     "rgba(0,0,0,0.05)",
-    "rgba(255,0,0,0.3)"
+    "rgba(255,0,0,0.14)"
   );
 
   const backgroundColor = useColorModeValue(
@@ -17,7 +17,7 @@ const HoverCard = (props) => {
 
   return (
     <Box
-      _notFirst={{mt:10}}
+      _notFirst={{ mt: 10 }}
       bg={backgroundColor}
       shadow={"0 0 1px 1px " + borderShadow}
       padding={5}

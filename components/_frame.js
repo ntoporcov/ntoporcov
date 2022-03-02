@@ -47,11 +47,11 @@ function AppFrame({ Component, pageProps }) {
             <NTButton>Blog</NTButton>
           </a>
         </Link>
-        <Link href={"/resume.pdf"} passHref>
-          <a target={"_blank"}>
-            <NTButton>Resume</NTButton>
-          </a>
-        </Link>
+        {/*<Link href={"/resume.pdf"} passHref>*/}
+        {/*  <a target={"_blank"}>*/}
+        {/*    <NTButton>Resume</NTButton>*/}
+        {/*  </a>*/}
+        {/*</Link>*/}
         <LightSaber />
       </>
     );

@@ -1,7 +1,9 @@
 import Heading2 from "../Headings/Heading2";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import ExperienceCompany from "./ExperienceCompany";
 import Heading3 from "../Headings/Heading3";
+import Image from "next/image";
+import React from "react";
 
 export function ExperienceSection() {
   return (
@@ -9,23 +11,40 @@ export function ExperienceSection() {
       <Heading2>Work Experience</Heading2>
       <Flex direction={"column"} width={"100%"}>
         <Heading3>Currently at...</Heading3>
-        <ExperienceCompany
-              company={"RF-SMART"}
-              position={"React Developer II"}
-              period={"2021 – Now"}
-              paragraph={`
-            Designing and developing a new brand new React application for the warehouse and shipping industry. I can't disclose much else right now, but I'll update this once I'm able to :)
-            `}
+        <VStack flexDir={"column-reverse"}>
+          <ExperienceCompany
+            cover={"/coinbase-cover.jpg"}
+            company={"Coinbase"}
+            position={"Software Engineer"}
+            period={"2022 – Now"}
+            paragraph={`Developing Coinbase's brand new NFT Marketplace experience.`}
           />
+          <Box w={"100%"} h={"auto"} position={"relative"}>
+            <Image
+              width={"100%"}
+              height={50}
+              src={"/coinbase-cover.jpg"}
+              layout={"responsive"}
+            />
+          </Box>
+        </VStack>
       </Flex>
       <Flex direction={"column"} width={"100%"}>
         <Heading3>Previous Experience</Heading3>
+        <ExperienceCompany
+          company={"RF-SMART"}
+          position={"React Developer II"}
+          period={"2021 – 2022"}
+          paragraph={`
+            Designed and developed a brand new React application for the warehouse and shipping industry. The application was used by warehouse workers and guided them through the process of shipping items to customers.
+            `}
+        />
         <ExperienceCompany
           company={"Transcor Data Services"}
           position={"Front-End Designer & Developer"}
           period={"2019 – 2021"}
           paragraph={`
-          Designing and developing front-end experiences for applications ranging from Kiosks, Mobile Applications, E-Ticketing Platforms, and Admin applications, assist with more DevOps-related tasks like testing and integrating SDKs for new hardware, debugging build issues, investigating new development tools, and setting up projects from scratch.
+          Designed and developed front-end experiences for applications ranging from Kiosks, Mobile Applications, E-Ticketing Platforms, and Admin applications, also assisted with more DevOps-related tasks like testing and integrating SDKs for new hardware, debugging build issues, investigating new development tools, and set up new projects from scratch.
           `}
         />
         <ExperienceCompany
