@@ -6,9 +6,8 @@ import React from "react";
 export function HeroSection() {
   return (
     <Box display={"flex"} flexDirection={{ base: "column", md: "row" }}>
-      <Box position={"relative"}>
+      <Box position={"relative"} width={250} height={250} marginX={"auto"}>
         <Circle
-          marginX={"auto"}
           rounded={1000}
           overflow={"hidden"}
           position={"relative"}
@@ -35,7 +34,7 @@ export function HeroSection() {
         pl={{ base: 0, md: 20 }}
         textAlign={{ base: "center", md: "left" }}
       >
-        <Heading as={"h1"} mb={4}>
+        <Heading as={"h1"} mb={4} mt={{ base: 10, md: 0 }}>
           Hi, I&apos;m Nic
         </Heading>
         <Text>
