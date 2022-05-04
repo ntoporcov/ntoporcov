@@ -1,5 +1,5 @@
 import React from "react";
-import HoverCard from "../../pages/cards/HoverCard";
+import HoverCard from "../cards/HoverCard";
 
 const ProjectBox = (props) => {
   const { children } = props;

@@ -47,6 +47,11 @@ function AppFrame({ Component, pageProps }) {
             <NTButton>Blog</NTButton>
           </a>
         </Link>
+        <Link href={"/scripts"} passHref>
+          <a>
+            <NTButton>Scripts</NTButton>
+          </a>
+        </Link>
         {/*<Link href={"/resume.pdf"} passHref>*/}
         {/*  <a target={"_blank"}>*/}
         {/*    <NTButton>Resume</NTButton>*/}
@@ -147,7 +152,7 @@ function AppFrame({ Component, pageProps }) {
         </Button>
       </Box>
 
-      <Container as={"main"} maxW={"4xl"} centerContent pb={"30vh"}>
+      <Container as={"main"} maxW={"1024px"} centerContent pb={"30vh"}>
         <Component {...pageProps} />
       </Container>
 

@@ -3,6 +3,7 @@ import Storyblok from "../../lib/storyblok";
 import React, { useEffect, useState } from "react";
 import { BlogPost } from "../../components/feed/BlogPost";
 import { getAllStats } from "../../utils/axios";
+import { Heading1 } from "../../components/Headings/Heading1";
 
 export default function Blog({ allEntries }) {
   const [allStats, setAllStats] = useState({});
@@ -15,9 +16,7 @@ export default function Blog({ allEntries }) {
 
   return (
     <>
-      <Heading as={"h1"} mb={10} fontSize={"3rem"} mt={50}>
-        So, about this blog...
-      </Heading>
+      <Heading1>So, about this blog...</Heading1>
       <Text textAlign={"center"}>
         This is where I write about design, development and anything in between
         that may interest me. I&apos;m planning to write more about the process

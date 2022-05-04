@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex, Heading, Img, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import HoverCard from "../../pages/cards/HoverCard";
+import HoverCard from "../cards/HoverCard";
 
 const ExperienceCompany = ({
   company,

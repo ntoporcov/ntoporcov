@@ -1,5 +1,5 @@
 import Link from "next/link";
-import HoverCard from "../../pages/cards/HoverCard";
+import HoverCard from "../cards/HoverCard";
 import {
   Box,
   Flex,
