@@ -87,7 +87,7 @@ const Mountains = ({ index }: { index: number }) => {
       justifyContent={"center"}
       alignItems={"flex-end"}
       width={"100%"}
-      height={"50vh"}
+      height={{ base: "40vh", lg: "50vh" }}
     >
       <Mountain color={"#ea9980"} index={index} zIndex={2} />
       <Mountain color={"#b67777"} index={index} zIndex={1} />
@@ -215,6 +215,7 @@ const Luna = (props: LunaProps) => {
           mt={6}
           hidden={!!data.group.label || !!allGuests.guests.length}
           isInvalid={!!error}
+          zIndex={100}
         >
           <form
             method={"post"}
@@ -569,10 +570,11 @@ const BottomLuna = ({ index }: { index: number }) => {
         position={"fixed"}
         bottom={0}
         style={{
-          transform: `translateX(${xPos}vw)`,
+          transform: `translateX(${xPos}vw)translateY(500px)`,
         }}
       >
         <motion.div
+          style={{ marginTop: -830 }}
           animate={controls}
           transition={{
             times: [0.3, 1, 1, 0.3, 1],
