@@ -19,6 +19,34 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LightSaber from "./svgs/LightSaber";
 
+const NavLinks = () => {
+  return (
+    <>
+      <Link href={"/"} passHref>
+        <a>
+          <NTButton>Home</NTButton>
+        </a>
+      </Link>
+      <Link href={"/blog"} passHref>
+        <a>
+          <NTButton>Blog</NTButton>
+        </a>
+      </Link>
+      <Link href={"/scripts"} passHref>
+        <a>
+          <NTButton>Scripts</NTButton>
+        </a>
+      </Link>
+      {/*<Link href={"/resume.pdf"} passHref>*/}
+      {/*  <a target={"_blank"}>*/}
+      {/*    <NTButton>Resume</NTButton>*/}
+      {/*  </a>*/}
+      {/*</Link>*/}
+      <LightSaber />
+    </>
+  );
+};
+
 function AppFrame({ Component, pageProps }) {
   const router = useRouter();
 
@@ -34,34 +62,6 @@ function AppFrame({ Component, pageProps }) {
     };
   }, [router.events]);
 
-  const NavLinks = () => {
-    return (
-      <>
-        <Link href={"/"} passHref>
-          <a>
-            <NTButton>Home</NTButton>
-          </a>
-        </Link>
-        <Link href={"/blog"} passHref>
-          <a>
-            <NTButton>Blog</NTButton>
-          </a>
-        </Link>
-        <Link href={"/scripts"} passHref>
-          <a>
-            <NTButton>Scripts</NTButton>
-          </a>
-        </Link>
-        {/*<Link href={"/resume.pdf"} passHref>*/}
-        {/*  <a target={"_blank"}>*/}
-        {/*    <NTButton>Resume</NTButton>*/}
-        {/*  </a>*/}
-        {/*</Link>*/}
-        <LightSaber />
-      </>
-    );
-  };
-
   const [NavModal, setNavModal] = useState(false);
   const modalBgColor = useColorModeValue(
     "rgba(210,210,210,0.89)",
@@ -74,6 +74,12 @@ function AppFrame({ Component, pageProps }) {
   );
 
   const navBorderBottom = useColorModeValue("#e8e8e8", "#2b2b2b");
+
+  const routesWithNoNav = ["/luna"];
+
+  if (routesWithNoNav.includes(router.route)) {
+    return <Component {...pageProps} />;
+  }
 
   return (
     <>

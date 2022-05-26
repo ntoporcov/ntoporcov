@@ -18,3 +18,15 @@ export const increaseStat = ({ slug, stat }) => {
 export const sendGif = (gif, name, message) => {
   return axios.post("/api/gif/send", { gif, name, message });
 };
+
+export const getGuestsByName = (name) => {
+  return axios.get("/api/luna/guests", { params: { name } });
+};
+
+export const updateGuest = (name, going, group) => {
+  return axios.post("/api/luna/update", { name, going, group });
+};
+
+export const getAllGuests = () => {
+  return axios.get("/api/luna/getAll");
+};

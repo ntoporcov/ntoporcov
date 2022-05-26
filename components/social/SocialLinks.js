@@ -4,7 +4,7 @@ import {
   Flex,
   HStack,
   Icon,
-  Link,
+  Link as ChakraLink,
   Skeleton,
   Tag,
   Text,
@@ -21,18 +21,20 @@ import { useEffect, useState } from "react";
 import * as PropTypes from "prop-types";
 import axios from "axios";
 import { faPlay } from "@fortawesome/pro-duotone-svg-icons";
+import { faEnvelope } from "@fortawesome/pro-solid-svg-icons";
+import Link from "next/link";
 
-function SocialLink({ link, icon, color }) {
+function SocialLink({ link, icon, color, label }) {
   const bg = useColorModeValue("gray.100", "gray.800");
 
   return (
-    <Link href={link} target={"_blank"}>
+    <ChakraLink href={link} target={"_blank"}>
       <Tag bg={bg}>
         <Box width={4}>
           <FontAwesomeIcon icon={icon} color={color} />
         </Box>
       </Tag>
-    </Link>
+    </ChakraLink>
   );
 }
 
@@ -84,13 +86,13 @@ function SpotifyWidget() {
             </Box>
           )}
           <Text fontSize={"sm"}>
-            <Link
-              href={spotifyData.track.artists[0].external_urls.spotify}
+            <ChakraLink
+              href={spotifyData.track.artists[0].external_urls.spotify || ""}
               target={"_blank"}
               color={"#1db954"}
             >
               {spotifyData.track.artists[0].name}
-            </Link>
+            </ChakraLink>
           </Text>
         </HStack>
       </Skeleton>
@@ -126,6 +128,11 @@ function SocialLinks() {
             link={"https://www.linkedin.com/in/ntoporcov/"}
             icon={faLinkedin}
             color={"#0077b5"}
+          />
+          <SocialLink
+            link={"mailto:ntoporcov@me.com"}
+            icon={faEnvelope}
+            color={"#e0542c"}
           />
         </HStack>
       </Flex>
