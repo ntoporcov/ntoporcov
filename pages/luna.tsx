@@ -508,8 +508,8 @@ const LunaImages = [
     path: "/luna1.png",
     width: 340,
     height: 350,
-    glance: 200,
-    looking: 110,
+    glance: 180,
+    looking: 80,
     hidden: 500,
   },
   {
