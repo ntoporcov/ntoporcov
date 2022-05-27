@@ -13,9 +13,10 @@ export default async function handler(req, res) {
     const data = snapshot.val();
 
     const results = data.guests.filter((guestGroup) =>
-      guestGroup.invited
-        .map((name) => name.toLowerCase())
-        .includes(name.toLowerCase())
+      [
+        ...guestGroup.invited.map((name) => name.toLowerCase()),
+        ...[...(guestGroup?.aliases || [])].map((name) => name.toLowerCase()),
+      ].includes(name.toLowerCase())
     );
 
     const accepted = data.accepted;

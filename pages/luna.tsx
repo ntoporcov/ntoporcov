@@ -224,11 +224,13 @@ const Luna = (props: LunaProps) => {
               handleSubmit();
             }}
           >
-            <FormLabel fontFamily={LabelFont}>Enter First Name</FormLabel>
+            <FormLabel fontFamily={LabelFont}>
+              Your First Name or Nickname
+            </FormLabel>
             <Input
               bgColor={"white"}
               shadow={"xl"}
-              placeholder={"First name only"}
+              placeholder={"i.e. Nicolas or Nic"}
               _placeholder={{ color: "gray.400" }}
               value={inputVal}
               onChange={(ev) => setInputVal(ev.target.value)}
