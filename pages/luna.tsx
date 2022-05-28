@@ -224,11 +224,13 @@ const Luna = (props: LunaProps) => {
               handleSubmit();
             }}
           >
-            <FormLabel fontFamily={LabelFont}>Enter First Name</FormLabel>
+            <FormLabel fontFamily={LabelFont}>
+              Your First Name or Nickname
+            </FormLabel>
             <Input
               bgColor={"white"}
               shadow={"xl"}
-              placeholder={"First name only"}
+              placeholder={"i.e. Nicolas or Nic"}
               _placeholder={{ color: "gray.400" }}
               value={inputVal}
               onChange={(ev) => setInputVal(ev.target.value)}
@@ -362,14 +364,15 @@ const Luna = (props: LunaProps) => {
               transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
             >
               <Heading fontSize={20} fontFamily={LabelFont}>
-                June 25, 2022 – 1 PM
+                June 25, 2022 – 2 PM
               </Heading>
               <Text>Open Bar 2 PM - 6 PM</Text>
               <Flex justifyContent={"center"} flexWrap={"wrap"}>
                 <Link
                   mx={2}
+                  download="Luna's Birthday"
                   href={
-                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0AURL:https%3A%2F%2Fcalendar.agney.dev%2F%0ADTSTART:20220526T033517Z%0ADTEND:20220526T033517Z%0ASUMMARY:Luna's%20Birthday%20%F0%9F%8E%89%20%F0%9F%8E%89%0ALOCATION:100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259%0AEND:VEVENT%0AEND:VCALENDAR%0A"
+                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0AURL:https%3A%2F%2Fcalendar.agney.dev%2F%0ADTSTART:20220526T181408Z%0ADTEND:20220526T181408Z%0ASUMMARY:Luna's%201st%20Birthday%20%F0%9F%8E%89%0ALOCATION:100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259%0AEND:VEVENT%0AEND:VCALENDAR%0A"
                   }
                 >
                   <Button mt={3} width={"100%"}>
@@ -379,7 +382,7 @@ const Luna = (props: LunaProps) => {
                 <Link
                   mx={2}
                   href={
-                    "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220526T033517Z%2F20220526T033517Z&details=&location=100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259&text=Luna%27s%20Birthday%20%F0%9F%8E%89%20%F0%9F%8E%89&trp=false"
+                    "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220526T181408Z%2F20220526T181408Z&details=&location=100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259&text=Luna%27s%201st%20Birthday%20%F0%9F%8E%89&trp=false"
                   }
                 >
                   <Button mt={3} width={"100%"}>
@@ -505,8 +508,8 @@ const LunaImages = [
     path: "/luna1.png",
     width: 340,
     height: 350,
-    glance: 200,
-    looking: 110,
+    glance: 180,
+    looking: 80,
     hidden: 500,
   },
   {
