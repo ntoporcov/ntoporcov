@@ -213,8 +213,9 @@ const Luna = (props: LunaProps) => {
         <Heading
           fontFamily={LabelFont}
           color={"#b67777"}
-          fontSize={"6xl"}
+          fontSize={"1xl"}
           textAlign={"center"}
+          mt={3}
         >
           This is broken, I&apos;ll let you know when I fix it :( –– Nic
         </Heading>
