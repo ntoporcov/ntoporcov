@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const name = req.body.name;
   const going = req.body.going;
 
-  // console.log(name, going, group);
+  console.log(name, going);
 
   const arrayToRemove = going ? "denied" : "accepted";
   const arrayToAdd = !going ? "denied" : "accepted";
@@ -19,7 +19,12 @@ export default async function handler(req, res) {
     .child(arrayToRemove)
     .transaction((curr) => {
       console.log("removing " + name, curr);
-      return [...curr].filter((nameInArr) => nameInArr !== name);
+
+      if (Array.isArray(curr)) {
+        return curr.filter((nameInArr) => nameInArr !== name);
+      } else {
+        return Object.values(curr).filter((nameInArr) => nameInArr !== name);
+      }
     });
 
   await firebaseDB
@@ -28,7 +33,12 @@ export default async function handler(req, res) {
     .child(arrayToAdd)
     .transaction((curr) => {
       console.log("confirming  " + name, curr);
-      return [...curr, name];
+
+      if (Array.isArray(curr)) {
+        return [...curr, name];
+      } else {
+        return [...Object.values(curr), name];
+      }
     });
 
   const refObject = firebaseDB.ref().child("luna");
