@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     .child("luna")
     .child(arrayToRemove)
     .transaction((curr) => {
-      console.log("removing  " + name, Object.values(curr));
+      console.log("removing  " + name, curr);
 
       // if (Array.isArray(curr)) {
       //   return curr.filter((nameInArr) => nameInArr !== name);
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     .child("luna")
     .child(arrayToAdd)
     .transaction((curr) => {
-      console.log("adding  " + name, Object.values(curr));
+      console.log("adding  " + name, curr);
 
       // if (Array.isArray(curr)) {
       //   return [...curr, name];
