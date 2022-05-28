@@ -210,6 +210,14 @@ const Luna = (props: LunaProps) => {
         >
           {"Luna's 1st Rager"}
         </Heading>
+        <Heading
+          fontFamily={LabelFont}
+          color={"#b67777"}
+          fontSize={"6xl"}
+          textAlign={"center"}
+        >
+          This is broken, I'll let you know when I fix it :( –– Nic
+        </Heading>
         <FormControl
           maxW={300}
           mt={6}
@@ -228,6 +236,7 @@ const Luna = (props: LunaProps) => {
               Your First Name or Nickname
             </FormLabel>
             <Input
+              disabled
               bgColor={"white"}
               shadow={"xl"}
               placeholder={"i.e. Nicolas or Nic"}
