@@ -19,8 +19,8 @@ export default async function handler(req, res) {
       ].includes(name.toLowerCase())
     );
 
-    const accepted = data.accepted;
-    const denied = data.denied;
+    const accepted = Object.values(data.accepted);
+    const denied = Object.values(data.denied);
 
     if (results[0]) {
       res
