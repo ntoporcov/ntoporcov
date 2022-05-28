@@ -20,11 +20,11 @@ export default async function handler(req, res) {
     .transaction((curr) => {
       console.log("removing " + name, curr);
 
-      if (Array.isArray(curr)) {
-        return curr.filter((nameInArr) => nameInArr !== name);
-      } else {
-        return Object.values(curr).filter((nameInArr) => nameInArr !== name);
-      }
+      // if (Array.isArray(curr)) {
+      //   return curr.filter((nameInArr) => nameInArr !== name);
+      // } else {
+      //   return Object.values(curr).filter((nameInArr) => nameInArr !== name);
+      // }
     });
 
   await firebaseDB
@@ -34,11 +34,11 @@ export default async function handler(req, res) {
     .transaction((curr) => {
       console.log("confirming  " + name, curr);
 
-      if (Array.isArray(curr)) {
-        return [...curr, name];
-      } else {
-        return [...Object.values(curr), name];
-      }
+      // if (Array.isArray(curr)) {
+      //   return [...curr, name];
+      // } else {
+      //   return [...Object.values(curr), name];
+      // }
     });
 
   const refObject = firebaseDB.ref().child("luna");
