@@ -216,7 +216,7 @@ const Luna = (props: LunaProps) => {
           fontSize={"6xl"}
           textAlign={"center"}
         >
-          This is broken, I'll let you know when I fix it :( –– Nic
+          This is broken, I&apos;ll let you know when I fix it :( –– Nic
         </Heading>
         <FormControl
           maxW={300}
