@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -215,15 +215,6 @@ const Luna = (props: LunaProps) => {
         >
           {"Luna's 1st Rager"}
         </Heading>
-        <Heading
-          fontFamily={LabelFont}
-          color={"#b67777"}
-          fontSize={"1xl"}
-          textAlign={"center"}
-          mt={3}
-        >
-          I fixed it :) – Nic
-        </Heading>
         <FormControl
           maxW={300}
           mt={6}
@@ -261,6 +252,15 @@ const Luna = (props: LunaProps) => {
             >
               Find Me
             </Button>
+            <Heading
+              fontFamily={LabelFont}
+              color={"#b67777"}
+              fontSize={"1xl"}
+              textAlign={"center"}
+              mt={5}
+            >
+              It's working now :)
+            </Heading>
           </form>
         </FormControl>
         <Flex
@@ -465,34 +465,44 @@ const Luna = (props: LunaProps) => {
               <Td>Choice</Td>
             </Thead>
             <Tbody>
-              {allGuests.guests.map(({ name, accepted, denied }) => {
-                return (
-                  <Tr key={name}>
-                    <Td>{name}</Td>
-                    <Td width={8}>
-                      {accepted ? (
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          size={"xs"}
-                          color={"green"}
-                        />
-                      ) : denied ? (
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          size={"xs"}
-                          color={"red"}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faQuestionCircle}
-                          size={"xs"}
-                          color={"rgba(0,0,0,.2)"}
-                        />
+              {allGuests.guests.map(
+                ({ name, accepted, denied, group }, index) => {
+                  return (
+                    <Fragment key={name}>
+                      {group !== allGuests.guests?.[index - 1]?.group && (
+                        <Tr bg={"gray.100"}>
+                          <Td>{group}</Td>
+                          <Td />
+                        </Tr>
                       )}
-                    </Td>
-                  </Tr>
-                );
-              })}
+                      <Tr>
+                        <Td>{name}</Td>
+                        <Td width={8}>
+                          {accepted ? (
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              size={"xs"}
+                              color={"green"}
+                            />
+                          ) : denied ? (
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              size={"xs"}
+                              color={"red"}
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faQuestionCircle}
+                              size={"xs"}
+                              color={"rgba(0,0,0,.2)"}
+                            />
+                          )}
+                        </Td>
+                      </Tr>
+                    </Fragment>
+                  );
+                }
+              )}
             </Tbody>
           </Table>
         </Flex>
