@@ -22,13 +22,13 @@ export default async function handler(req, res) {
 
     const personWasFound = matches.length > 0;
 
-    if (personWasFound) {
-      const personId = matches[0][0];
-      const person = people[personId];
-      const group = person.group;
+    console.log(matches);
 
-      const groupData = Object.values(people).filter(
-        (item) => item.group === group
+    if (personWasFound) {
+      const groups = matches.map(([, match]) => match.group);
+
+      const groupData = Object.values(people).filter((item) =>
+        groups.includes(item.group)
       );
 
       res.status(200).json({ groupData, success: true });

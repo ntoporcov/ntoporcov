@@ -207,14 +207,32 @@ const Luna = (props: LunaProps) => {
         color={"#252525"}
         fontFamily={TextFont}
       >
-        <Heading
-          fontFamily={TitleFont}
-          color={"#b67777"}
-          fontSize={"6xl"}
-          textAlign={"center"}
-        >
-          {"Luna's 1st Rager"}
-        </Heading>
+        <Flex alignItems={"center"}>
+          {(data.groupData.length > 0 || allGuests.guests.length > 0) && (
+            <Box
+              h={10}
+              w={10}
+              role={"button"}
+              _active={{ opacity: 0.3 }}
+              mr={3}
+              onClick={() => setData(emptyData)}
+            >
+              <FontAwesomeIcon
+                icon={faArrowAltCircleLeft}
+                size={"1x"}
+                color={"#b67777"}
+              />
+            </Box>
+          )}
+          <Heading
+            fontFamily={TitleFont}
+            color={"#b67777"}
+            fontSize={"6xl"}
+            textAlign={"center"}
+          >
+            {"Luna's 1st Rager"}
+          </Heading>
+        </Flex>
         <FormControl
           maxW={300}
           mt={6}
@@ -272,83 +290,90 @@ const Luna = (props: LunaProps) => {
           mb={{ base: "50vh", lg: "30vh" }}
         >
           <Flex flexDirection={"column"} alignItems="center">
-            <Flex alignItems={"center"} mb={3} justifyContent={"center"}>
-              <Box
-                h={10}
-                w={10}
-                role={"button"}
-                _active={{ opacity: 0.3 }}
-                mr={3}
-                onClick={() => setData(emptyData)}
-              >
-                <FontAwesomeIcon icon={faArrowAltCircleLeft} size={"1x"} />
-              </Box>
-              <Heading fontFamily={LabelFont} textAlign={"center"}>
-                {data.groupLabel}
-              </Heading>
-            </Flex>
             <Flex
               gridGap={3}
               flexWrap={"wrap"}
               justifyContent={"center"}
               mt={5}
             >
-              {data.groupData.map((person) => {
+              {data.groupData.map((person, index) => {
                 return (
-                  <Box
-                    key={person.name}
-                    bg={"white"}
-                    p={4}
-                    fontSize={"lg"}
-                    display={"flex"}
-                    alignItems={"center"}
-                    flexDirection={"column"}
-                    transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
-                    shadow={"md"}
-                    _hover={{ shadow: "lg" }}
-                    width={{ base: "100%", sm: "auto" }}
-                    flexGrow={2}
-                  >
-                    <Text fontSize={24} mb={4} fontFamily={LabelFont}>
-                      {person.name}
-                    </Text>
-                    <Flex flexWrap={"wrap"}>
-                      <Button
-                        colorScheme={"green"}
-                        mx={1}
-                        variant={person.accepted ? undefined : "outline"}
-                        disabled={person.accepted}
-                        onClick={() => {
-                          setIllIndex((curr) => curr + 1);
-                          updateGuest(person.name, true).then((res) =>
-                            setData((curr) => ({
-                              ...curr,
-                              groupData: res.data.groupData,
-                            }))
-                          );
-                        }}
+                  <Fragment key={index}>
+                    {person.group !== data.groupData?.[index - 1]?.group && (
+                      <Box
+                        bg={"white"}
+                        p={4}
+                        fontSize={"lg"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        flexDirection={"column"}
+                        transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
+                        shadow={"md"}
+                        _hover={{ shadow: "lg" }}
+                        flexGrow={2}
+                        minWidth={"100%"}
+                        mt={10}
+                        _first={{ mt: 0 }}
                       >
-                        Going
-                      </Button>
-                      <Button
-                        colorScheme={"red"}
-                        mx={1}
-                        variant={person.denied ? undefined : "outline"}
-                        disabled={person.denied}
-                        onClick={() => {
-                          setIllIndex((curr) => curr + 1);
-                          updateGuest(person.name, false).then((res) =>
-                            setData((curr) => ({
-                              ...curr,
-                              groupData: res.data.groupData,
-                            }))
-                          );
-                        }}
-                      >
-                        Not going
-                      </Button>
-                    </Flex>
-                  </Box>
+                        <Heading fontFamily={LabelFont} textAlign={"center"}>
+                          {person.group}
+                        </Heading>
+                      </Box>
+                    )}
+                    <Box
+                      bg={"white"}
+                      p={4}
+                      fontSize={"lg"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      flexDirection={"column"}
+                      transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
+                      shadow={"md"}
+                      _hover={{ shadow: "lg" }}
+                      width={{ base: "100%", sm: "auto" }}
+                      flexGrow={2}
+                    >
+                      <Text fontSize={24} mb={4} fontFamily={LabelFont}>
+                        {person.name}
+                      </Text>
+                      <Flex flexWrap={"wrap"}>
+                        <Button
+                          colorScheme={"green"}
+                          mx={1}
+                          variant={person.accepted ? undefined : "outline"}
+                          disabled={person.accepted}
+                          onClick={() => {
+                            setIllIndex((curr) => curr + 1);
+                            updateGuest(person.name, true).then((res) =>
+                              setData((curr) => ({
+                                ...curr,
+                                groupData: res.data.groupData,
+                              }))
+                            );
+                          }}
+                        >
+                          Going
+                        </Button>
+                        <Button
+                          colorScheme={"red"}
+                          mx={1}
+                          variant={person.denied ? undefined : "outline"}
+                          disabled={person.denied}
+                          onClick={() => {
+                            setIllIndex((curr) => curr + 1);
+                            updateGuest(person.name, false).then((res) =>
+                              setData((curr) => ({
+                                ...curr,
+                                groupData: res.data.groupData,
+                              }))
+                            );
+                          }}
+                        >
+                          Not going
+                        </Button>
+                      </Flex>
+                    </Box>
+                  </Fragment>
                 );
               })}
             </Flex>
