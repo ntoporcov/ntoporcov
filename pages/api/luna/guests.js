@@ -8,24 +8,30 @@ export default async function handler(req, res) {
   const name = req.query.name;
 
   try {
-    const refObject = firebaseDB.ref().child("luna");
+    const refObject = firebaseDB.ref().child("luna").child("guestList");
     const snapshot = await refObject.once("value");
-    const data = snapshot.val();
+    const people = snapshot.val();
 
-    const results = data.guests.filter((guestGroup) =>
-      [
-        ...guestGroup.invited.map((name) => name.toLowerCase()),
-        ...[...(guestGroup?.aliases || [])].map((name) => name.toLowerCase()),
-      ].includes(name.toLowerCase())
+    const matches = Object.entries(people).filter(
+      ([key, val]) =>
+        val.name.toLowerCase() === name.toLowerCase() ||
+        val?.aliases?.filter(
+          (alias) => alias.toLowerCase() === name.toLowerCase()
+        ).length
     );
 
-    const accepted = Object.values(data.accepted);
-    const denied = Object.values(data.denied);
+    const personWasFound = matches.length > 0;
 
-    if (results[0]) {
-      res
-        .status(200)
-        .json({ group: results[0], accepted, denied, success: true });
+    if (personWasFound) {
+      const personId = matches[0][0];
+      const person = people[personId];
+      const group = person.group;
+
+      const groupData = Object.values(people).filter(
+        (item) => item.group === group
+      );
+
+      res.status(200).json({ groupData, success: true });
     } else {
       res.status(200).json({ success: false });
     }

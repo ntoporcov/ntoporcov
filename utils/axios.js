@@ -30,3 +30,11 @@ export const updateGuest = (name, going, group) => {
 export const getAllGuests = () => {
   return axios.get("/api/luna/getAll");
 };
+
+export const invitePerson = (name, group, aliases) => {
+  return axios.post("/api/luna/invite", {
+    name,
+    group,
+    aliases: aliases || [],
+  });
+};

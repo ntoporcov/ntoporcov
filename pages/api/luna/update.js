@@ -8,50 +8,36 @@ export default async function handler(req, res) {
   const name = req.body.name;
   const going = req.body.going;
 
-  console.log(name, going);
+  const ref = await firebaseDB
+    .ref()
+    .child("luna")
+    .child("guestList")
+    .orderByChild("name")
+    .startAt(name)
+    .limitToFirst(1);
 
-  const arrayToRemove = going ? "denied" : "accepted";
-  const arrayToAdd = !going ? "denied" : "accepted";
+  const snapshot = await ref.once("value");
+  const person = snapshot.val();
+
+  const personId = Object.keys(person)[0];
 
   await firebaseDB
     .ref()
     .child("luna")
-    .child(arrayToRemove)
-    .transaction((curr) => {
-      console.log("removing  " + name, curr);
-
-      // if (Array.isArray(curr)) {
-      //   return curr.filter((nameInArr) => nameInArr !== name);
-      // } else {
-      //   return Object.values(curr).filter((nameInArr) => nameInArr !== name);
-      // }
+    .child("guestList")
+    .child(personId)
+    .update({
+      accepted: going,
+      denied: !going,
     });
 
-  await firebaseDB
-    .ref()
-    .child("luna")
-    .child(arrayToAdd)
-    .transaction((curr) => {
-      console.log("adding  " + name, curr);
+  const groupRef = await firebaseDB.ref().child("luna").child("guestList");
+  const allPeopleSnap = await groupRef.once("value");
+  const allPeople = allPeopleSnap.val();
 
-      // if (Array.isArray(curr)) {
-      //   return [...curr, name];
-      // } else {
-      //   return [...Object.values(curr), name];
-      // }
-    });
+  const groupData = Object.values(allPeople).filter(
+    (allPeoplePerson) => allPeoplePerson.group === person[personId].group
+  );
 
-  const refObject = firebaseDB.ref().child("luna");
-  const snapshot = await refObject.once("value");
-  const data = snapshot.val();
-
-  const results = data.guests.filter((guestGroup) =>
-    guestGroup.invited
-      .map((name) => name.toLowerCase())
-      .includes(name.toLowerCase())
-  )[0];
-
-  res
-    .status(200)
-    .json({ group: results, denied: data.denied, accepted: data.accepted });
+  res.status(200).json({ groupData });
 }

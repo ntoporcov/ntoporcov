@@ -25,7 +25,12 @@ import {
   Tr,
   useInterval,
 } from "@chakra-ui/react";
-import { getAllGuests, getGuestsByName, updateGuest } from "../utils/axios";
+import {
+  getAllGuests,
+  getGuestsByName,
+  invitePerson,
+  updateGuest,
+} from "../utils/axios";
 import Head from "next/head";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
@@ -36,6 +41,7 @@ import {
   faTimes,
 } from "@fortawesome/pro-light-svg-icons";
 import { faCheck } from "@fortawesome/pro-regular-svg-icons";
+import axios from "axios";
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -99,55 +105,50 @@ const Mountains = ({ index }: { index: number }) => {
   );
 };
 
-type guestGroup = {
-  label: string;
-  invited: string[];
-  accepted: string[];
-  denied: string[];
+const emptyData = {
+  groupData: [],
+  groupLabel: "",
 };
 
-const emptyData = {
-  accepted: [],
-  denied: [],
-  group: {
-    label: "",
-    invited: [],
-    accepted: [],
-    denied: [],
-  },
+type person = {
+  accepted: boolean;
+  name: string;
+  group: string;
+  denied: boolean;
+  aliases: string[];
 };
 
 const Luna = (props: LunaProps) => {
   const [inputVal, setInputVal] = useState("");
   const [error, setError] = useState("");
+
   const [data, setData] = useState<{
-    accepted: string[];
-    denied: string[];
-    group: guestGroup;
+    groupData: person[];
+    groupLabel: string;
   }>(emptyData);
+
   const [allGuests, setAllGuests] = useState<{
-    guests: guestGroup[];
-    accepted: string[];
-    denied: string[];
+    guests: person[];
+    accepted: number;
+    denied: number;
   }>({
     guests: [],
-    accepted: [],
-    denied: [],
+    accepted: 0,
+    denied: 0,
   });
 
   const [illIndex, setIllIndex] = useState(0);
 
-  const totalInvited = allGuests.guests.reduce(
-    (prev, curr) => prev + curr.invited.length,
-    0
-  );
-
   const findGroup = async () => {
+    setError("");
     try {
       const res = await getGuestsByName(inputVal);
 
       if (res.data.success) {
-        setData(res.data);
+        setData({
+          groupData: res.data.groupData,
+          groupLabel: res.data.groupData[0].group,
+        });
       } else {
         setError("Could not find you 😢");
       }
@@ -160,7 +161,11 @@ const Luna = (props: LunaProps) => {
     try {
       const res = await getAllGuests();
 
-      setAllGuests(res.data);
+      setAllGuests({
+        guests: res.data.groupData,
+        accepted: res.data.groupData.filter((guest) => guest.accepted).length,
+        denied: res.data.groupData.filter((guest) => guest.denied).length,
+      });
     } catch (e) {
       setError("shit");
     }
@@ -217,12 +222,12 @@ const Luna = (props: LunaProps) => {
           textAlign={"center"}
           mt={3}
         >
-          This is broken, I&apos;ll let you know when I fix it :( –– Nic
+          I fixed it :) – Nic
         </Heading>
         <FormControl
           maxW={300}
           mt={6}
-          hidden={!!data.group.label || !!allGuests.guests.length}
+          hidden={!!data.groupData.length || !!allGuests.guests.length}
           isInvalid={!!error}
           zIndex={100}
         >
@@ -237,7 +242,6 @@ const Luna = (props: LunaProps) => {
               Your First Name or Nickname
             </FormLabel>
             <Input
-              disabled
               bgColor={"white"}
               shadow={"xl"}
               placeholder={"i.e. Nicolas or Nic"}
@@ -261,7 +265,7 @@ const Luna = (props: LunaProps) => {
         </FormControl>
         <Flex
           zIndex={100}
-          hidden={!data.group.label}
+          hidden={!data.groupData.length}
           mt={5}
           mx={1}
           flexDirection={{ base: "column", lg: "row" }}
@@ -280,7 +284,7 @@ const Luna = (props: LunaProps) => {
                 <FontAwesomeIcon icon={faArrowAltCircleLeft} size={"1x"} />
               </Box>
               <Heading fontFamily={LabelFont} textAlign={"center"}>
-                {data.group.label}
+                {data.groupLabel}
               </Heading>
             </Flex>
             <Flex
@@ -289,13 +293,10 @@ const Luna = (props: LunaProps) => {
               justifyContent={"center"}
               mt={5}
             >
-              {data.group.invited.map((name) => {
-                const going = data.accepted?.includes(name);
-                const notGoing = data.denied?.includes(name);
-
+              {data.groupData.map((person) => {
                 return (
                   <Box
-                    key={name}
+                    key={person.name}
                     bg={"white"}
                     p={4}
                     fontSize={"lg"}
@@ -309,25 +310,21 @@ const Luna = (props: LunaProps) => {
                     flexGrow={2}
                   >
                     <Text fontSize={24} mb={4} fontFamily={LabelFont}>
-                      {name}
+                      {person.name}
                     </Text>
                     <Flex flexWrap={"wrap"}>
                       <Button
                         colorScheme={"green"}
                         mx={1}
-                        variant={going ? undefined : "outline"}
-                        disabled={going}
+                        variant={person.accepted ? undefined : "outline"}
+                        disabled={person.accepted}
                         onClick={() => {
-                          setData((curr) => ({
-                            ...curr,
-                            accepted: [...curr.accepted, name],
-                            denied: curr.accepted.filter(
-                              (item) => item !== name
-                            ),
-                          }));
                           setIllIndex((curr) => curr + 1);
-                          updateGuest(name, true, data.group.label).then(
-                            (res) => setData(res.data)
+                          updateGuest(person.name, true).then((res) =>
+                            setData((curr) => ({
+                              ...curr,
+                              groupData: res.data.groupData,
+                            }))
                           );
                         }}
                       >
@@ -336,19 +333,15 @@ const Luna = (props: LunaProps) => {
                       <Button
                         colorScheme={"red"}
                         mx={1}
-                        variant={notGoing ? undefined : "outline"}
-                        disabled={notGoing}
+                        variant={person.denied ? undefined : "outline"}
+                        disabled={person.denied}
                         onClick={() => {
-                          setData((curr) => ({
-                            ...curr,
-                            denied: [...curr.denied, name],
-                            accepted: curr.accepted.filter(
-                              (item) => item !== name
-                            ),
-                          }));
                           setIllIndex((curr) => curr + 1);
-                          updateGuest(name, false, data.group.label).then(
-                            (res) => setData(res.data)
+                          updateGuest(person.name, false).then((res) =>
+                            setData((curr) => ({
+                              ...curr,
+                              groupData: res.data.groupData,
+                            }))
                           );
                         }}
                       >
@@ -444,25 +437,27 @@ const Luna = (props: LunaProps) => {
           mb={"30vh"}
         >
           <Flex>
-            <Flex flexDirection={"column"} flexGrow={1}>
-              <Heading>{allGuests.accepted.length}</Heading>
-              <Text>Accepted</Text>
-            </Flex>
-            <Flex flexDirection={"column"} flexGrow={1}>
-              <Heading>{allGuests.denied.length - 1}</Heading>
-              <Text>Denied</Text>
-            </Flex>
-            <Flex flexDirection={"column"} flexGrow={1}>
-              <Heading>{totalInvited}</Heading>
-              <Text>Total Invited</Text>
-            </Flex>
             <Button
+              mr={5}
               onClick={() =>
-                setAllGuests({ guests: [], accepted: [], denied: [] })
+                setAllGuests({ guests: [], accepted: 0, denied: 0 })
               }
             >
               Go Back
             </Button>
+            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
+              <Heading>{allGuests.accepted + 2}</Heading>
+              <Text>Accepted</Text>
+            </Flex>
+            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
+              <Heading>{allGuests.denied}</Heading>
+              <Text>Denied</Text>
+            </Flex>
+            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
+              <Heading>{allGuests.guests.length + 2}</Heading>
+              <Text>Total Invited</Text>
+            </Flex>
+            <Button onClick={getGuestData}>Refresh</Button>
           </Flex>
           <Table mt={10}>
             <Thead fontFamily={LabelFont}>
@@ -470,39 +465,34 @@ const Luna = (props: LunaProps) => {
               <Td>Choice</Td>
             </Thead>
             <Tbody>
-              {allGuests.guests.map((group) =>
-                group.invited.map((name) => {
-                  const going = allGuests.accepted.includes(name);
-                  const notGoing = allGuests.denied.includes(name);
-
-                  return (
-                    <Tr key={name}>
-                      <Td>{name}</Td>
-                      <Td width={8}>
-                        {going ? (
-                          <FontAwesomeIcon
-                            icon={faCheck}
-                            size={"xs"}
-                            color={"green"}
-                          />
-                        ) : notGoing ? (
-                          <FontAwesomeIcon
-                            icon={faTimes}
-                            size={"xs"}
-                            color={"red"}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faQuestionCircle}
-                            size={"xs"}
-                            color={"rgba(0,0,0,.2)"}
-                          />
-                        )}
-                      </Td>
-                    </Tr>
-                  );
-                })
-              )}
+              {allGuests.guests.map(({ name, accepted, denied }) => {
+                return (
+                  <Tr key={name}>
+                    <Td>{name}</Td>
+                    <Td width={8}>
+                      {accepted ? (
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          size={"xs"}
+                          color={"green"}
+                        />
+                      ) : denied ? (
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          size={"xs"}
+                          color={"red"}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faQuestionCircle}
+                          size={"xs"}
+                          color={"rgba(0,0,0,.2)"}
+                        />
+                      )}
+                    </Td>
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </Flex>
