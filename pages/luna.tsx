@@ -344,11 +344,12 @@ const Luna = (props: LunaProps) => {
                           disabled={person.accepted}
                           onClick={() => {
                             setIllIndex((curr) => curr + 1);
-                            updateGuest(person.name, true).then((res) =>
-                              setData((curr) => ({
-                                ...curr,
-                                groupData: res.data.groupData,
-                              }))
+                            updateGuest(person.name, true, person.group).then(
+                              (res) =>
+                                setData((curr) => ({
+                                  ...curr,
+                                  groupData: res.data.groupData,
+                                }))
                             );
                           }}
                         >
@@ -361,11 +362,12 @@ const Luna = (props: LunaProps) => {
                           disabled={person.denied}
                           onClick={() => {
                             setIllIndex((curr) => curr + 1);
-                            updateGuest(person.name, false).then((res) =>
-                              setData((curr) => ({
-                                ...curr,
-                                groupData: res.data.groupData,
-                              }))
+                            updateGuest(person.name, false, person.group).then(
+                              (res) =>
+                                setData((curr) => ({
+                                  ...curr,
+                                  groupData: res.data.groupData,
+                                }))
                             );
                           }}
                         >

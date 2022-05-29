@@ -6,20 +6,19 @@ export default async function handler(req, res) {
   await NextCors(req, res, cors);
 
   const name = req.body.name;
+  const group = req.body.group;
   const going = req.body.going;
 
-  const ref = await firebaseDB
-    .ref()
-    .child("luna")
-    .child("guestList")
-    .orderByChild("name")
-    .startAt(name)
-    .limitToFirst(1);
+  const ref = await firebaseDB.ref().child("luna").child("guestList");
 
   const snapshot = await ref.once("value");
-  const person = snapshot.val();
+  const people = snapshot.val();
 
-  const personId = Object.keys(person)[0];
+  const person = Object.entries(people).filter(
+    ([key, val]) => val.name === name && val.group === group
+  );
+
+  const personId = person[0][0];
 
   await firebaseDB
     .ref()
@@ -31,12 +30,11 @@ export default async function handler(req, res) {
       denied: !going,
     });
 
-  const groupRef = await firebaseDB.ref().child("luna").child("guestList");
-  const allPeopleSnap = await groupRef.once("value");
+  const allPeopleSnap = await ref.once("value");
   const allPeople = allPeopleSnap.val();
 
   const groupData = Object.values(allPeople).filter(
-    (allPeoplePerson) => allPeoplePerson.group === person[personId].group
+    (allPeoplePerson) => allPeoplePerson.group === allPeople[personId].group
   );
 
   res.status(200).json({ groupData });
