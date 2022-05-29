@@ -259,7 +259,7 @@ const Luna = (props: LunaProps) => {
               textAlign={"center"}
               mt={5}
             >
-              It's working now :)
+              {"It's working now :)"}
             </Heading>
           </form>
         </FormControl>
