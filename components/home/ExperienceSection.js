@@ -11,26 +11,45 @@ export function ExperienceSection() {
       <Heading2>Work Experience</Heading2>
       <Flex direction={"column"} width={"100%"}>
         <Heading3>Currently at...</Heading3>
-        <VStack flexDir={"column-reverse"}>
-          <ExperienceCompany
-            cover={"/coinbase-cover.jpg"}
-            company={"Coinbase"}
-            position={"Software Engineer"}
-            period={"2022 – Now"}
-            paragraph={`Developing Coinbase's brand new NFT Marketplace experience.`}
-          />
-          <Box w={"100%"} h={"auto"} position={"relative"}>
-            <Image
-              width={"100%"}
-              height={37}
-              src={"/coinbase-cover.jpg"}
-              layout={"responsive"}
-            />
-          </Box>
-        </VStack>
+          <VStack flexDir={"column-reverse"}>
+              <ExperienceCompany
+                  cover={"/rfsmart.png"}
+                  company={"RF-SMART"}
+                  position={"Senior React Specialist"}
+                  period={"February – July 2022"}
+                  paragraph={`Came back to continue what I started with the shipping application 🚀🚀🚀🚀`}
+              />
+              <Box w={"100%"} h={"auto"} position={"relative"}>
+                  <Image
+                      width={"100%"}
+                      height={37}
+                      src={"/rfsmart.png"}
+                      layout={"responsive"}
+                  />
+              </Box>
+          </VStack>
       </Flex>
       <Flex direction={"column"} width={"100%"}>
         <Heading3>Previous Experience</Heading3>
+          <VStack flexDir={"column-reverse"}>
+              <ExperienceCompany
+                  cover={"/coinbase-cover.jpg"}
+                  company={"Coinbase"}
+                  position={"Software Engineer"}
+                  period={"February – July 2022"}
+                  paragraph={`Developed Coinbase's new NFT Marketplace experience. I was in the Social team, in charge of the more... well,
+                   social aspects of the platform. I was the FE developer leading the entire comments and profile pages of the app. 
+                   Unfortunately, I was part of the first wave of 2022 layoffs.`}
+              />
+              <Box w={"100%"} h={"auto"} position={"relative"}>
+                  <Image
+                      width={"100%"}
+                      height={37}
+                      src={"/coinbase-cover.jpg"}
+                      layout={"responsive"}
+                  />
+              </Box>
+          </VStack>
         <ExperienceCompany
           company={"RF-SMART"}
           position={"React Developer II"}

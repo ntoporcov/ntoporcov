@@ -17,17 +17,6 @@ export function HeroSection() {
         >
           <Image src={"/avatar.jpg"} layout={"fill"} />
         </Circle>
-        <Circle
-          background={"#1652f0"}
-          h={20}
-          w={20}
-          shadow={"xl"}
-          position={"absolute"}
-          bottom={0}
-          right={0}
-        >
-          <Image src={"/coinbase-icon2.svg"} layout={"fill"} />
-        </Circle>
       </Box>
       <Box
         maxW={{ base: "100%", md: "60%" }}
@@ -45,12 +34,12 @@ export function HeroSection() {
           <ChakraLink
             px={1}
             fontWeight={"bold"}
-            bgColor={"#1652f0"}
+            bgColor={"#d90043"}
             color={"white"}
-            href={"https://www.coinbase.com/nft/announce"}
+            href={"https://www.rfsmart.com/netsuite/solutions/netsuite-shipping"}
             target={"_blank"}
           >
-            Coinbase NFT
+            RF-SMART Shipping
           </ChakraLink>{" "}
           – and if it happens to be a Saturday or Sunday, I might be shooting a
           wedding for{" "}
