@@ -18,11 +18,9 @@ import {
   faSpotify,
 } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
-import * as PropTypes from "prop-types";
 import axios from "axios";
 import { faPlay } from "@fortawesome/pro-duotone-svg-icons";
 import { faEnvelope } from "@fortawesome/pro-solid-svg-icons";
-import Link from "next/link";
 
 function SocialLink({ link, icon, color, label }) {
   const bg = useColorModeValue("gray.100", "gray.800");
