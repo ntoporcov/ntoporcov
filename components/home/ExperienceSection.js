@@ -16,7 +16,7 @@ export function ExperienceSection() {
                   cover={"/rfsmart.png"}
                   company={"RF-SMART"}
                   position={"Senior React Specialist"}
-                  period={"February – July 2022"}
+                  period={"July 2022 - Now"}
                   paragraph={`Came back to continue what I started with the shipping application 🚀🚀🚀🚀`}
               />
               <Box w={"100%"} h={"auto"} position={"relative"}>
