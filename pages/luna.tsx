@@ -74,13 +74,13 @@ const TextFont = "Mali";
 const mainColor = "#055704";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDa1QPTUNNoXRTVZngwrgbuuq9pURE6x3A",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_JS,
   authDomain: "ntoporcov.firebaseapp.com",
   databaseURL: "https://ntoporcov-default-rtdb.firebaseio.com",
   projectId: "ntoporcov",
   storageBucket: "ntoporcov.appspot.com",
   messagingSenderId: "1066928713662",
-  appId: "1:1066928713662:web:3cfb9834e57d85ac0d53ef",
+  appId: "1:1066928713662:web:d61c0e831db6390c0d53ef",
 };
 
 // Initialize Firebase
