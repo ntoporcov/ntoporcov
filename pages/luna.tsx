@@ -239,7 +239,7 @@ const Luna = (props: LunaProps) => {
   );
 
   const handleSubmit = () => {
-    mutate(inputVal);
+    mutate(inputVal.toLowerCase());
   };
 
   return (
@@ -258,7 +258,7 @@ const Luna = (props: LunaProps) => {
           rel="stylesheet"
         />
       </Head>
-      <Box maxW={"100dvw"} overflow={"hidden"} bg={"#c5f0ff"}>
+      <Box maxW={"100vw"} overflow={"hidden"} bg={"#c5f0ff"}>
         <Box
           bottom={0}
           position={"fixed"}
@@ -270,15 +270,15 @@ const Luna = (props: LunaProps) => {
           backgroundRepeat={"repeat-x"}
         />
         <Flex
-          pt={10}
-          h={"100dvh"}
-          w={"400dvw"}
+          pt={5}
+          h={"100vh"}
+          w={"400vw"}
           color={"#252525"}
           fontFamily={TextFont}
-          transform={groupPath ? "translateX(-200dvw)" : "translateX(0)"}
+          transform={groupPath ? "translateX(-200vw)" : "translateX(0)"}
           transition={"transform ease-in-out .3s"}
         >
-          <VStack width={"100dvw"}>
+          <VStack width={"100vw"}>
             <Heading
               fontFamily={TitleFont}
               color={mainColor}
@@ -448,8 +448,8 @@ const Luna = (props: LunaProps) => {
                 })}
             </HStack>
           </VStack>
-          <Box minWidth={"100vw"} />
-          <VStack minWidth={"100vw"}>
+          <Box width={"100vw"} />
+          <VStack width={"100vw"} alignItems={"center"}>
             <HStack>
               <Box
                 h={10}
@@ -468,7 +468,7 @@ const Luna = (props: LunaProps) => {
               <Heading
                 fontFamily={TitleFont}
                 color={mainColor}
-                fontSize={"6xl"}
+                fontSize={"2xl"}
                 textAlign={"center"}
                 textTransform={"capitalize"}
               >
@@ -479,9 +479,9 @@ const Luna = (props: LunaProps) => {
               Tap the butterflies to confirm who&apos;s <br /> coming from your
               group
             </Text>
-            <HStack mb={4} flexWrap={"wrap"}>
+            <HStack mb={4} flexWrap={"wrap"} justifyContent={"center"} gap={3}>
               <Card p={3}>
-                <Heading size={"sm"}>🗓 June 1st, 2023</Heading>
+                <Heading size={"sm"}>🗓 July 1st, 2023 - 1PM </Heading>
               </Card>
               <Card p={3}>
                 <Heading size={"sm"}>
@@ -492,7 +492,7 @@ const Luna = (props: LunaProps) => {
             <Flex
               ref={containerRef}
               // backgroundColor={"red.100"}
-              h={"75%"}
+              h={"50%"}
               w={"75%"}
               position={"relative"}
               justifyContent={"center"}
@@ -588,7 +588,14 @@ const Butterfly = ({
   return (
     <motion.div
       whileHover={{ scale: 1.2 }}
-      style={{ x, y, width: 160, height: 160, cursor: "pointer" }}
+      style={{
+        x,
+        y,
+        width: 120,
+        height: 120,
+        cursor: "pointer",
+        position: "absolute",
+      }}
       onClick={() => {
         confirmMutate({
           path,
@@ -596,7 +603,7 @@ const Butterfly = ({
         });
       }}
     >
-      <VStack position={"absolute"}>
+      <VStack>
         <Image
           alt={"butterfly image"}
           style={{
