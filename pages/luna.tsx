@@ -474,7 +474,8 @@ const Luna = (props: LunaProps) => {
               </Heading>
             </HStack>
             <Text fontSize={"lg"} mb={2} textAlign={"center"}>
-              Tap the butterflies to confirm who's <br /> coming from your group
+              Tap the butterflies to confirm who&apos;s <br /> coming from your
+              group
             </Text>
             <HStack mb={4} flexWrap={"wrap"}>
               <Card p={3}>
@@ -569,6 +570,7 @@ const Butterfly = ({
   useEffect(() => {
     animate(y, 0);
     animate(x, 0);
+    //   eslint-disable-next-line
   }, []);
 
   const hueRotate = useMemo(() => getRandomArbitrary(0, 360), []);
