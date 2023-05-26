@@ -75,9 +75,11 @@ function AppFrame({ Component, pageProps }) {
 
   const navBorderBottom = useColorModeValue("#e8e8e8", "#2b2b2b");
 
-  const routesWithNoNav = ["/luna"];
+  const routesWithNoNav = ["/lunabday", "/luna"];
 
-  if (routesWithNoNav.includes(router.route)) {
+  console.log(router.route);
+
+  if (routesWithNoNav.some((x) => router.route.includes(x))) {
     return <Component {...pageProps} />;
   }
 

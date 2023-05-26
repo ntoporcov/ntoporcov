@@ -1,47 +1,65 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
+  Badge,
   Box,
   Button,
+  Card,
+  Center,
   Divider,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Grid,
-  GridItem,
   Heading,
+  HStack,
   Input,
-  InputGroup,
   LightMode,
-  Link,
-  Stat,
-  StatLabel,
-  StatNumber,
+  Spinner,
   Table,
-  Tbody,
-  Td,
   Text,
-  Thead,
   Tr,
-  useInterval,
+  useBoolean,
+  useClipboard,
+  VStack,
 } from "@chakra-ui/react";
-import {
-  getAllGuests,
-  getGuestsByName,
-  invitePerson,
-  updateGuest,
-} from "../utils/axios";
 import Head from "next/head";
 import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/pro-regular-svg-icons";
 import {
-  faArrowAltCircleLeft,
-  faQuestionCircle,
-  faTimes,
-} from "@fortawesome/pro-light-svg-icons";
-import { faCheck } from "@fortawesome/pro-regular-svg-icons";
-import axios from "axios";
+  animate,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  ValueAnimationTransition,
+} from "framer-motion";
+import { initializeApp } from "firebase/app";
+import {
+  query,
+  doc,
+  collection,
+  collectionGroup,
+  getFirestore,
+  where,
+  getDocs,
+  or,
+  getDoc,
+  addDoc,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { firestore } from "firebase-admin";
+import DocumentReference = firestore.DocumentReference;
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -53,131 +71,175 @@ const TitleFont = "Chewy";
 const LabelFont = "Finger Paint";
 const TextFont = "Mali";
 
-const MainColor = "#d98fe3";
+const mainColor = "#055704";
 
-const Mountain = ({
-  color,
-  index,
-  zIndex,
-}: {
-  color: string;
-  index: number;
-  zIndex: number;
-}) => {
-  const { width, height, offset } = useMemo(() => {
+const firebaseConfig = {
+  apiKey: "AIzaSyDa1QPTUNNoXRTVZngwrgbuuq9pURE6x3A",
+  authDomain: "ntoporcov.firebaseapp.com",
+  databaseURL: "https://ntoporcov-default-rtdb.firebaseio.com",
+  projectId: "ntoporcov",
+  storageBucket: "ntoporcov.appspot.com",
+  messagingSenderId: "1066928713662",
+  appId: "1:1066928713662:web:3cfb9834e57d85ac0d53ef",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const peopleQuery = async (value: string) => {
+  const docs = await getDocs(
+    query(
+      collectionGroup(db, "people"),
+      or(where("name", "==", value), where("aliases", "array-contains", value))
+    )
+  );
+
+  return docs.docs.map((x) => {
     return {
-      height: getRandomArbitrary(60, 100),
-      width: getRandomArbitrary(50, 80),
-      offset: getRandomArbitrary(15, 50),
+      name: x.data().name,
+      groupPath: x.ref.parent.path,
+      groupName: x.ref.parent.parent.id,
     };
-  }, [index]);
-
-  return (
-    <Box
-      bgColor={color}
-      width={width + "%"}
-      height={height + "%"}
-      zIndex={zIndex}
-      mx={-offset}
-      roundedTop={9999}
-      transition={"all ease-out .2s"}
-    />
-  );
+  });
 };
 
-const Mountains = ({ index }: { index: number }) => {
-  return (
-    <Flex
-      position={"fixed"}
-      bottom={0}
-      justifyContent={"center"}
-      alignItems={"flex-end"}
-      width={"100%"}
-      height={{ base: "40vh", lg: "50vh" }}
-    >
-      <Mountain color={"#ea9980"} index={index} zIndex={2} />
-      <Mountain color={"#b67777"} index={index} zIndex={1} />
-      <Mountain color={"#724f4f"} index={index} zIndex={3} />
-      <Mountain color={"#f5d1e7"} index={index} zIndex={2} />
-      <Mountain color={"#a6654b"} index={index} zIndex={3} />
-      <Mountain color={"#c4a480"} index={index} zIndex={2} />
-    </Flex>
-  );
-};
-
-const emptyData = {
-  groupData: [],
-  groupLabel: "",
-};
-
-type person = {
-  accepted: boolean;
+type InvitedPerson = {
   name: string;
-  group: string;
-  denied: boolean;
+  confirmed: boolean;
+  path: string;
+};
+
+const groupQuery = async (groupPath: string) => {
+  if (!groupPath) return [];
+  const docs = await getDocs(collection(db, groupPath));
+  return docs.docs.map((x) => ({
+    ...x.data(),
+    path: x.ref.path,
+  })) as InvitedPerson[];
+};
+
+const getAllGroups = async (): Promise<
+  { group: string; people: InvitedPerson[] }[]
+> => {
+  const docs = await getDocs(collection(db, "luna2"));
+
+  const result: { group: string; people: InvitedPerson[] }[] = [];
+
+  for (let i = 0; i < docs.docs.length; i++) {
+    const list = await getDocs(
+      collection(db, docs.docs[i].ref.path + "/people")
+    );
+
+    result.push({
+      group: docs.docs[i].data().displayName,
+      people: list.docs.map((x) => x.data()) as InvitedPerson[],
+    });
+  }
+
+  return result;
+};
+
+const invitePerson = async ({
+  fam,
+  name,
+  aliases,
+}: {
+  fam: string;
+  name: string;
   aliases: string[];
+}) => {
+  const famDoc = await getDoc(doc(db, `luna2/${fam.toLowerCase()}`));
+
+  if (!famDoc.exists()) {
+    await setDoc(doc(db, "luna2", fam.toLowerCase()), {
+      displayName: fam.toLowerCase(),
+    });
+  }
+
+  await addDoc(collection(db, `luna2/${fam.toLowerCase()}/people`), {
+    name: name.toLowerCase(),
+    aliases: aliases.map((x) => x.toLowerCase()),
+    confirmed: false,
+  });
+};
+
+const confirmPerson = async ({
+  path,
+  value,
+}: {
+  path: string;
+  value: boolean;
+}) => {
+  await updateDoc(doc(db, path), { confirmed: value });
 };
 
 const Luna = (props: LunaProps) => {
   const [inputVal, setInputVal] = useState("");
   const [error, setError] = useState("");
 
-  const [data, setData] = useState<{
-    groupData: person[];
-    groupLabel: string;
-  }>(emptyData);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const [allGuests, setAllGuests] = useState<{
-    guests: person[];
-    accepted: number;
-    denied: number;
-  }>({
-    guests: [],
-    accepted: 0,
-    denied: 0,
+  const [groupPath, setGroupPath] = useState("");
+  const [groupName, setGroupName] = useState("");
+  const {
+    data: results,
+    mutate,
+    isLoading: groupsLoading,
+  } = useMutation(["getGroup"], peopleQuery, {
+    onSuccess: (data) => {
+      if (data.length === 1) {
+        setGroupPath(data[0].groupPath);
+        setGroupName(data[0].groupName);
+      }
+    },
   });
 
-  const [illIndex, setIllIndex] = useState(0);
+  const { data: groupPeople, refetch: refetchGroupPeople } = useQuery(
+    ["getPeople", groupPath],
+    async () => groupQuery(groupPath)
+  );
 
-  const findGroup = async () => {
-    setError("");
-    try {
-      const res = await getGuestsByName(inputVal);
-
-      if (res.data.success) {
-        setData({
-          groupData: res.data.groupData,
-          groupLabel: res.data.groupData[0].group,
-        });
-      } else {
-        setError("Could not find you 😢");
-      }
-    } catch (e) {
-      setError("Could not find you :/");
+  const { data: allGroups, refetch: refetchAllGroups } = useQuery(
+    ["getAllGroups", inputVal],
+    getAllGroups,
+    {
+      enabled: inputVal === "invite",
     }
-  };
+  );
 
-  const getGuestData = async () => {
-    try {
-      const res = await getAllGuests();
+  const [inviteName, setInviteName] = useState("");
 
-      setAllGuests({
-        guests: res.data.groupData,
-        accepted: res.data.groupData.filter((guest) => guest.accepted).length,
-        denied: res.data.groupData.filter((guest) => guest.denied).length,
-      });
-    } catch (e) {
-      setError("shit");
+  const [inviteGroup, setInviteGroup] = useState("");
+  const [inviteAliases, setInviteAliases] = useState([]);
+
+  const { mutate: addInvite, isLoading: addLoading } = useMutation(
+    ["inviteSomeone"],
+    invitePerson,
+    {
+      onSuccess: () => {
+        setInviteName("");
+        setInviteAliases([]);
+        refetchAllGroups();
+      },
     }
-  };
+  );
 
-  const handleSubmit = async () => {
-    if (inputVal === "lunatoporcov") {
-      await getGuestData();
-    } else {
-      await findGroup();
-    }
-    setIllIndex((curr) => curr + 1);
+  const invited = (allGroups || []).reduce((previousValue, currentValue) => {
+    return previousValue + currentValue.people.length;
+  }, 0);
+
+  const confirmedAmount = (allGroups || []).reduce(
+    (previousValue, currentValue) => {
+      return (
+        previousValue + currentValue.people.filter((x) => x.confirmed).length
+      );
+    },
+    0
+  );
+
+  const handleSubmit = () => {
+    mutate(inputVal);
   };
 
   return (
@@ -196,448 +258,366 @@ const Luna = (props: LunaProps) => {
           rel="stylesheet"
         />
       </Head>
-
-      <Flex
-        pt={10}
-        px={3}
-        bg={"beige"}
-        flexDirection={"column"}
-        minH={"100vh"}
-        alignItems={"center"}
-        color={"#252525"}
-        fontFamily={TextFont}
-      >
-        <Flex alignItems={"center"}>
-          {(data.groupData.length > 0 || allGuests.guests.length > 0) && (
-            <Box
-              h={10}
-              w={10}
-              role={"button"}
-              _active={{ opacity: 0.3 }}
-              mr={3}
-              onClick={() => setData(emptyData)}
-            >
-              <FontAwesomeIcon
-                icon={faArrowAltCircleLeft}
-                size={"1x"}
-                color={"#b67777"}
-              />
-            </Box>
-          )}
-          <Heading
-            fontFamily={TitleFont}
-            color={"#b67777"}
-            fontSize={"6xl"}
-            textAlign={"center"}
-          >
-            {"Luna's 1st Rager"}
-          </Heading>
-        </Flex>
-        <FormControl
-          maxW={300}
-          mt={6}
-          hidden={!!data.groupData.length || !!allGuests.guests.length}
-          isInvalid={!!error}
-          zIndex={100}
-        >
-          <form
-            method={"post"}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
-            <FormLabel fontFamily={LabelFont}>
-              Your First Name or Nickname
-            </FormLabel>
-            <Input
-              bgColor={"white"}
-              shadow={"xl"}
-              placeholder={"i.e. Nicolas or Nic"}
-              _placeholder={{ color: "gray.400" }}
-              value={inputVal}
-              onChange={(ev) => setInputVal(ev.target.value)}
-            />
-            <FormErrorMessage textAlign={"center"}>{error}</FormErrorMessage>
-            <Button
-              fontFamily={LabelFont}
-              w={"100%"}
-              type={"submit"}
-              colorScheme={"pink"}
-              mt={5}
-              onClick={handleSubmit}
-              disabled={inputVal.length === 0}
-            >
-              Find Me
-            </Button>
-            <Heading
-              fontFamily={LabelFont}
-              color={"#b67777"}
-              fontSize={"1xl"}
-              textAlign={"center"}
-              mt={5}
-            >
-              {"It's working now :)"}
-            </Heading>
-          </form>
-        </FormControl>
+      <Box maxW={"100dvw"} overflow={"hidden"} bg={"#c5f0ff"}>
+        <Box
+          bottom={0}
+          position={"fixed"}
+          height={"30vh"}
+          width={"full"}
+          backgroundImage={"url(/trees.png)"}
+          backgroundPosition={"right bottom"}
+          backgroundSize={"auto 100%"}
+          backgroundRepeat={"repeat-x"}
+        />
         <Flex
-          zIndex={100}
-          hidden={!data.groupData.length}
-          mt={5}
-          mx={1}
-          flexDirection={{ base: "column", lg: "row" }}
-          mb={{ base: "50vh", lg: "30vh" }}
+          pt={10}
+          h={"100dvh"}
+          w={"400dvw"}
+          color={"#252525"}
+          fontFamily={TextFont}
+          transform={groupPath ? "translateX(-200dvw)" : "translateX(0)"}
+          transition={"transform ease-in-out .3s"}
         >
-          <Flex flexDirection={"column"} alignItems="center">
-            <Flex
-              gridGap={3}
-              flexWrap={"wrap"}
-              justifyContent={"center"}
-              mt={5}
-            >
-              {data.groupData.map((person, index) => {
-                return (
-                  <Fragment key={index}>
-                    {person.group !== data.groupData?.[index - 1]?.group && (
-                      <Box
-                        bg={"white"}
-                        p={4}
-                        fontSize={"lg"}
-                        display={"flex"}
-                        alignItems={"center"}
-                        flexDirection={"column"}
-                        transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
-                        shadow={"md"}
-                        _hover={{ shadow: "lg" }}
-                        flexGrow={2}
-                        minWidth={"100%"}
-                        mt={10}
-                        _first={{ mt: 0 }}
-                      >
-                        <Heading fontFamily={LabelFont} textAlign={"center"}>
-                          {person.group}
-                        </Heading>
-                      </Box>
-                    )}
-                    <Box
-                      bg={"white"}
-                      p={4}
-                      fontSize={"lg"}
-                      display={"flex"}
-                      alignItems={"center"}
-                      flexDirection={"column"}
-                      transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
-                      shadow={"md"}
-                      _hover={{ shadow: "lg" }}
-                      width={{ base: "100%", sm: "auto" }}
-                      flexGrow={2}
-                    >
-                      <Text fontSize={24} mb={4} fontFamily={LabelFont}>
-                        {person.name}
-                      </Text>
-                      <Flex flexWrap={"wrap"}>
-                        <Button
-                          colorScheme={"green"}
-                          mx={1}
-                          variant={person.accepted ? undefined : "outline"}
-                          disabled={person.accepted}
-                          onClick={() => {
-                            setIllIndex((curr) => curr + 1);
-                            updateGuest(person.name, true, person.group).then(
-                              (res) =>
-                                setData((curr) => ({
-                                  ...curr,
-                                  groupData: res.data.groupData,
-                                }))
-                            );
-                          }}
-                        >
-                          Going
-                        </Button>
-                        <Button
-                          colorScheme={"red"}
-                          mx={1}
-                          variant={person.denied ? undefined : "outline"}
-                          disabled={person.denied}
-                          onClick={() => {
-                            setIllIndex((curr) => curr + 1);
-                            updateGuest(person.name, false, person.group).then(
-                              (res) =>
-                                setData((curr) => ({
-                                  ...curr,
-                                  groupData: res.data.groupData,
-                                }))
-                            );
-                          }}
-                        >
-                          Not going
-                        </Button>
-                      </Flex>
-                    </Box>
-                  </Fragment>
-                );
-              })}
-            </Flex>
-          </Flex>
-          <Box
-            minWidth={100}
-            maxWidth={{ base: "100%", lg: 400, xl: 500 }}
-            mt={10}
-            pl={{ base: 0, lg: 10 }}
-          >
-            <Flex
-              flexDirection={"column"}
-              bgColor={"white"}
-              p={5}
-              alignItems={"center"}
-              transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
-            >
-              <Heading fontSize={20} fontFamily={LabelFont}>
-                June 25, 2022 – 2 PM
-              </Heading>
-              <Text>Open Bar 2 PM - 6 PM</Text>
-              <Flex justifyContent={"center"} flexWrap={"wrap"}>
-                <Link
-                  mx={2}
-                  download="Luna's Birthday"
-                  href={
-                    "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0AURL:https%3A%2F%2Fcalendar.agney.dev%2F%0ADTSTART:20220526T181408Z%0ADTEND:20220526T181408Z%0ASUMMARY:Luna's%201st%20Birthday%20%F0%9F%8E%89%0ALOCATION:100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259%0AEND:VEVENT%0AEND:VCALENDAR%0A"
-                  }
-                >
-                  <Button mt={3} width={"100%"}>
-                    Add to iCal
-                  </Button>
-                </Link>
-                <Link
-                  mx={2}
-                  href={
-                    "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220526T181408Z%2F20220526T181408Z&details=&location=100%20Beachwalk%20Club%20Dr%2C%20St%20Johns%2C%20FL%2032259&text=Luna%27s%201st%20Birthday%20%F0%9F%8E%89&trp=false"
-                  }
-                >
-                  <Button mt={3} width={"100%"}>
-                    Add to Google Calendar
-                  </Button>
-                </Link>
-              </Flex>
-            </Flex>
-            <Flex
-              flexDirection={"column"}
-              bgColor={"white"}
-              shadow={"lg"}
-              p={5}
-              mt={5}
+          <VStack width={"100dvw"}>
+            <Heading
+              fontFamily={TitleFont}
+              color={mainColor}
+              fontSize={"6xl"}
               textAlign={"center"}
-              transform={`rotate(${getRandomArbitrary(-2, 2)}deg)`}
             >
-              <Box rounded={10} overflow={"hidden"} mb={5}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt={"blue lagoon with building"}
-                  src={
-                    "https://cdn-fjohc.nitrocdn.com/LLRzinFjacLmmsdeFxHWcRmOaXZwMWRV/assets/static/optimized/rev-cc38d79/wp-content/uploads/2020/05/private-event-club.jpg"
-                  }
+              {"Luna's 2nd"}
+            </Heading>
+            <FormControl
+              maxW={300}
+              mt={6}
+              // hidden={!!data.groupData.length || !!allGuests.guests.length}
+              isInvalid={!!error}
+              zIndex={100}
+            >
+              <form
+                method={"post"}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+              >
+                <FormLabel fontFamily={LabelFont}>
+                  Your First Name or Nickname
+                </FormLabel>
+                <Input
+                  bgColor={"white"}
+                  shadow={"xl"}
+                  placeholder={"i.e. Nicolas or Nic"}
+                  _placeholder={{ color: "gray.400" }}
+                  value={inputVal}
+                  onChange={(ev) => setInputVal(ev.target.value)}
+                />
+                <FormErrorMessage textAlign={"center"}>
+                  {error}
+                </FormErrorMessage>
+                <Button
+                  fontFamily={LabelFont}
+                  w={"100%"}
+                  type={"submit"}
+                  colorScheme={"green"}
+                  mt={5}
+                  isLoading={groupsLoading}
+                >
+                  Find Me
+                </Button>
+              </form>
+            </FormControl>
+            {inputVal === "invite" && (
+              <VStack gap={10} pt={5}>
+                <Card p={5}>
+                  <HStack gap={5} flexWrap={"wrap"}>
+                    <VStack>
+                      <Text>Name</Text>
+                      <Input
+                        bgColor={"white"}
+                        shadow={"xl"}
+                        value={inviteName}
+                        onChange={(ev) => setInviteName(ev.target.value)}
+                      />
+                    </VStack>
+                    <VStack>
+                      <Text>Group</Text>{" "}
+                      <Input
+                        bgColor={"white"}
+                        shadow={"xl"}
+                        value={inviteGroup}
+                        onChange={(ev) => setInviteGroup(ev.target.value)}
+                      />
+                    </VStack>
+                    <VStack>
+                      <Text>Comma-Sep Aliases</Text>
+                      <Input
+                        bgColor={"white"}
+                        shadow={"xl"}
+                        value={inviteAliases.join(",")}
+                        onChange={(ev) =>
+                          setInviteAliases(
+                            ev.target.value.split(",").map((x) => x.trim())
+                          )
+                        }
+                      />
+                    </VStack>
+                    <Button
+                      isLoading={addLoading}
+                      onClick={() => {
+                        addInvite({
+                          name: inviteName,
+                          fam: inviteGroup,
+                          aliases: inviteAliases,
+                        });
+                      }}
+                    >
+                      Invite
+                    </Button>
+                  </HStack>
+                </Card>
+                <Card w={"full"} p={4}>
+                  <HStack mb={5}>
+                    <VStack alignItems={"flex-start"} gap={0}>
+                      <Heading size={"sm"} mb={0}>
+                        Invited
+                      </Heading>
+                      <Text mt={1} fontSize={"xl"}>
+                        {invited}
+                      </Text>
+                    </VStack>
+                    <VStack alignItems={"flex-start"} gap={0}>
+                      <Heading size={"sm"} mb={0}>
+                        Confirmed
+                      </Heading>
+                      <Text mt={1} fontSize={"xl"}>
+                        {confirmedAmount}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                  <VStack alignItems={"flex-start"} gap={4}>
+                    {(allGroups || [])
+                      .filter((x) =>
+                        inviteGroup.length > 0
+                          ? x.group.startsWith(inviteGroup)
+                          : true
+                      )
+                      .map((grp) => {
+                        return (
+                          <VStack
+                            alignItems={"flex-start"}
+                            key={grp.group}
+                            w={"full"}
+                          >
+                            <Heading size={"md"} textTransform={"capitalize"}>
+                              {grp.group}
+                            </Heading>
+                            <HStack flexWrap={"wrap"}>
+                              {grp.people.map((x) => (
+                                <Badge
+                                  key={x.name}
+                                  px={3}
+                                  py={2}
+                                  colorScheme={x.confirmed ? "green" : "gray"}
+                                >
+                                  {x.confirmed && "✅"} {x.name}
+                                </Badge>
+                              ))}
+                            </HStack>
+                            <Divider />
+                          </VStack>
+                        );
+                      })}
+                  </VStack>
+                </Card>
+              </VStack>
+            )}
+            <HStack flexWrap={"wrap"} pt={8}>
+              {(results || [])?.length > 1 &&
+                results.map((result) => {
+                  return (
+                    <Card key={result.name} p={2}>
+                      <Text>{result.groupName}</Text>
+                      <Heading size={"md"}>{result.name}</Heading>
+                      <Divider my={3} />
+                      <Button minW={52}>Select</Button>
+                    </Card>
+                  );
+                })}
+            </HStack>
+          </VStack>
+          <Box minWidth={"100vw"} />
+          <VStack minWidth={"100vw"}>
+            <HStack>
+              <Box
+                h={10}
+                w={10}
+                role={"button"}
+                _active={{ opacity: 0.3 }}
+                mr={3}
+                onClick={() => setGroupPath("")}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleLeft}
+                  size={"1x"}
+                  color={mainColor}
                 />
               </Box>
-              <Heading fontSize={"2xl"} fontFamily={LabelFont}>
-                Beachwalk Clubhouse
-              </Heading>
-              <Text>100 Beachwalk Club Dr, St Johns, FL 32259</Text>
-              <Link
-                href={"https://goo.gl/maps/ishexvkcjNHr6vUU6"}
-                target={"_blank"}
+              <Heading
+                fontFamily={TitleFont}
+                color={mainColor}
+                fontSize={"6xl"}
+                textAlign={"center"}
+                textTransform={"capitalize"}
               >
-                <Button mt={5}>Open on Google Maps</Button>
-              </Link>
-            </Flex>
-          </Box>
-        </Flex>
-        <Flex
-          bgColor={"white"}
-          w={"80%"}
-          p={10}
-          shadow={"md"}
-          flexDirection={"column"}
-          mt={10}
-          hidden={!allGuests.guests.length}
-          zIndex={80}
-          mb={"30vh"}
-        >
-          <Flex>
-            <Button
-              mr={5}
-              onClick={() =>
-                setAllGuests({ guests: [], accepted: 0, denied: 0 })
-              }
+                {groupName}
+              </Heading>
+            </HStack>
+            <Text fontSize={"lg"} mb={2} textAlign={"center"}>
+              Tap the butterflies to confirm who's <br /> coming from your group
+            </Text>
+            <HStack mb={4} flexWrap={"wrap"}>
+              <Card p={3}>
+                <Heading size={"sm"}>🗓 June 1st, 2023</Heading>
+              </Card>
+              <Card p={3}>
+                <Heading size={"sm"}>
+                  📍 55 Waterline Dr, St. Johns - FL
+                </Heading>
+              </Card>
+            </HStack>
+            <Flex
+              ref={containerRef}
+              // backgroundColor={"red.100"}
+              h={"75%"}
+              w={"75%"}
+              position={"relative"}
+              justifyContent={"center"}
+              alignItems={"center"}
             >
-              Go Back
-            </Button>
-            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
-              <Heading>{allGuests.accepted + 2}</Heading>
-              <Text>Accepted</Text>
+              {(groupPeople || []).map((person) => (
+                <Butterfly
+                  key={person.name}
+                  confirmed={person.confirmed}
+                  name={person.name}
+                  path={person.path}
+                  onConfirmed={refetchGroupPeople}
+                  containerSize={{
+                    width: containerRef.current?.getBoundingClientRect().width,
+                    height:
+                      containerRef.current?.getBoundingClientRect().height,
+                  }}
+                />
+              ))}
             </Flex>
-            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
-              <Heading>{allGuests.denied}</Heading>
-              <Text>Denied</Text>
-            </Flex>
-            <Flex textAlign={"center"} flexDirection={"column"} flexGrow={1}>
-              <Heading>{allGuests.guests.length + 2}</Heading>
-              <Text>Total Invited</Text>
-            </Flex>
-            <Button onClick={getGuestData}>Refresh</Button>
-          </Flex>
-          <Table mt={10}>
-            <Thead fontFamily={LabelFont}>
-              <Td>Name</Td>
-              <Td>Choice</Td>
-            </Thead>
-            <Tbody>
-              {allGuests.guests.map(
-                ({ name, accepted, denied, group }, index) => {
-                  return (
-                    <Fragment key={name}>
-                      {group !== allGuests.guests?.[index - 1]?.group && (
-                        <Tr bg={"gray.100"}>
-                          <Td>{group}</Td>
-                          <Td />
-                        </Tr>
-                      )}
-                      <Tr>
-                        <Td>{name}</Td>
-                        <Td width={8}>
-                          {accepted ? (
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              size={"xs"}
-                              color={"green"}
-                            />
-                          ) : denied ? (
-                            <FontAwesomeIcon
-                              icon={faTimes}
-                              size={"xs"}
-                              color={"red"}
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              icon={faQuestionCircle}
-                              size={"xs"}
-                              color={"rgba(0,0,0,.2)"}
-                            />
-                          )}
-                        </Td>
-                      </Tr>
-                    </Fragment>
-                  );
-                }
-              )}
-            </Tbody>
-          </Table>
+          </VStack>
         </Flex>
-      </Flex>
-      <Mountains index={illIndex} />
-      <BottomLuna index={illIndex} />
+      </Box>
     </LightMode>
   );
 };
 
-const LunaImages = [
-  {
-    path: "/luna1.png",
-    width: 340,
-    height: 350,
-    glance: 180,
-    looking: 80,
-    hidden: 500,
-  },
-  {
-    path: "/luna2.png",
-    width: 300,
-    height: 310,
-    glance: 170,
-    looking: 80,
-    hidden: 500,
-  },
-  {
-    path: "/luna3.png",
-    width: 310,
-    height: 330,
-    glance: 175,
-    looking: 60,
-    hidden: 500,
-  },
-  {
-    path: "/luna4.png",
-    width: 290,
-    height: 330,
-    glance: 170,
-    looking: 60,
-    hidden: 500,
-  },
-];
+const flyRandRange = 50;
 
-const BottomLuna = ({ index }: { index: number }) => {
-  const [lunaIndex, setLunaIndex] = useState(0);
-  const currentImage = LunaImages[lunaIndex];
+const animationConfig: ValueAnimationTransition = {
+  duration: 2,
+  type: "tween",
+};
 
-  const controls = useAnimation();
-  const [xPos, setXPos] = useState(0);
+const Butterfly = ({
+  name,
+  containerSize,
+  confirmed,
+  onConfirmed,
+  path,
+}: {
+  name: string;
+  confirmed: boolean;
+  path: string;
+  containerSize: { width: number; height: number };
+  onConfirmed: () => void;
+}) => {
+  const maxX = containerSize.width / 2;
+  const maxY = containerSize.height / 2;
 
-  const animation = useMemo(
-    () => ({
-      y: [
-        currentImage.hidden,
-        currentImage.glance,
-        currentImage.glance,
-        currentImage.looking,
-        currentImage.looking,
-        currentImage.hidden,
-      ],
-    }),
-    [currentImage.glance, currentImage.hidden, currentImage.looking]
-  );
+  const y = useMotionValue(0);
+  useMotionValueEvent(y, "animationComplete", () => {
+    const currY = y.get();
+
+    const maxRandY = currY + flyRandRange > maxY ? maxY - currY : flyRandRange;
+    const minRandY =
+      currY - flyRandRange < -maxY ? maxY + currY : -flyRandRange;
+
+    const newOffset = getRandomArbitrary(minRandY, maxRandY);
+
+    animate(y, currY + newOffset, animationConfig);
+  });
+
+  const x = useMotionValue(0);
+  useMotionValueEvent(x, "animationComplete", () => {
+    const currX = x.get();
+
+    const maxRandY = currX + flyRandRange > maxX ? maxX - currX : flyRandRange;
+    const minRandY =
+      currX - flyRandRange < -maxX ? maxX + currX : -flyRandRange;
+
+    const newOffset = getRandomArbitrary(minRandY, maxRandY);
+
+    animate(x, currX + newOffset, animationConfig);
+  });
 
   useEffect(() => {
-    controls.start(animation);
-  }, [animation, controls]);
+    animate(y, 0);
+    animate(x, 0);
+  }, []);
+
+  const hueRotate = useMemo(() => getRandomArbitrary(0, 360), []);
+
+  const { mutate: confirmMutate, isLoading: isConfirming } = useMutation(
+    ["confirmPerson"],
+    confirmPerson,
+    {
+      onSuccess: onConfirmed,
+    }
+  );
 
   return (
-    <Flex width={"100%"} justifyContent={"center"}>
-      <Box
-        justifyContent={"center"}
-        width={390}
-        height={"auto"}
-        zIndex={120}
-        position={"fixed"}
-        bottom={0}
-        style={{
-          transform: `translateX(${xPos}vw)translateY(500px)`,
-        }}
-      >
-        <motion.div
-          style={{ marginTop: -830 }}
-          animate={controls}
-          transition={{
-            times: [0.3, 1, 1, 0.3, 1],
-            duration: 10,
+    <motion.div
+      whileHover={{ scale: 1.2 }}
+      style={{ x, y, width: 160, height: 160, cursor: "pointer" }}
+      onClick={() => {
+        confirmMutate({
+          path,
+          value: !confirmed,
+        });
+      }}
+    >
+      <VStack position={"absolute"}>
+        <Image
+          alt={"butterfly image"}
+          style={{
+            filter: `hue-rotate(${hueRotate}deg)saturate(${
+              confirmed ? 0.4 : 0
+            })brightness(2)`,
           }}
-          onAnimationComplete={() => {
-            const newX = getRandomArbitrary(-40, 40);
-            setXPos(newX);
-            setLunaIndex((curr) =>
-              curr === LunaImages.length - 1 ? 0 : curr + 1
-            );
-            controls.start(animation);
-          }}
+          src={"/butterfly.gif"}
+          width={200}
+          height={200}
+        />
+        <Badge
+          colorScheme={confirmed ? "green" : "gray"}
+          py={2}
+          px={4}
+          rounded={"md"}
+          shadow={"md"}
+          transform={"translateY(-40px)"}
         >
-          <Image
-            src={currentImage.path}
-            width={currentImage.width}
-            height={currentImage.height}
-            layout={"fixed"}
-          />
-        </motion.div>
-      </Box>
-    </Flex>
+          {isConfirming && <Spinner size={"xs"} />}
+          {confirmed && !isConfirming && "✅"}
+          {"  " + name}
+        </Badge>
+      </VStack>
+    </motion.div>
   );
 };
 

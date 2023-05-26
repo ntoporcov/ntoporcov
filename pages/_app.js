@@ -1,10 +1,13 @@
 import "../styles/globals.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as ga from "../lib/ga";
 import AppFrame from "../components/_frame";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -29,9 +32,11 @@ function MyApp({ Component, pageProps }) {
   const theme = extendTheme({ config });
 
   return (
-    <ChakraProvider theme={theme}>
-      <AppFrame Component={Component} pageProps={pageProps} />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <AppFrame Component={Component} pageProps={pageProps} />
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 
