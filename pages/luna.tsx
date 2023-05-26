@@ -399,7 +399,9 @@ const Luna = (props: LunaProps) => {
                     {(allGroups || [])
                       .filter((x) =>
                         inviteGroup.length > 0
-                          ? x.group.startsWith(inviteGroup)
+                          ? x.group
+                              .toLowerCase()
+                              .startsWith(inviteGroup.toLowerCase())
                           : true
                       )
                       .map((grp) => {
