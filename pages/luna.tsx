@@ -258,7 +258,7 @@ const Luna = (props: LunaProps) => {
           rel="stylesheet"
         />
       </Head>
-      <Box maxW={"100vw"} overflow={"hidden"} bg={"#c5f0ff"}>
+      <Box maxW={"100vw"} overflowX={"hidden"} bg={"#c5f0ff"}>
         <Box
           bottom={0}
           position={"fixed"}
@@ -376,7 +376,7 @@ const Luna = (props: LunaProps) => {
                     </Button>
                   </HStack>
                 </Card>
-                <Card w={"full"} p={4}>
+                <Card w={"full"} p={4} pb={"50vh"}>
                   <HStack mb={5}>
                     <VStack alignItems={"flex-start"} gap={0}>
                       <Heading size={"sm"} mb={0}>
