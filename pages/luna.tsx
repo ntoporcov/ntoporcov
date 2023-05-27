@@ -468,7 +468,7 @@ const Luna = (props: LunaProps) => {
               <Heading
                 fontFamily={TitleFont}
                 color={mainColor}
-                fontSize={"2xl"}
+                fontSize={"4xl"}
                 textAlign={"center"}
                 textTransform={"capitalize"}
               >
@@ -592,7 +592,7 @@ const Butterfly = ({
         x,
         y,
         width: 120,
-        height: 120,
+        height: 30,
         cursor: "pointer",
         position: "absolute",
       }}
@@ -612,8 +612,8 @@ const Butterfly = ({
             })brightness(2)`,
           }}
           src={"/butterfly.gif"}
-          width={200}
-          height={200}
+          width={120}
+          height={60}
         />
         <Badge
           colorScheme={confirmed ? "green" : "gray"}
@@ -621,7 +621,6 @@ const Butterfly = ({
           px={4}
           rounded={"md"}
           shadow={"md"}
-          transform={"translateY(-40px)"}
         >
           {isConfirming && <Spinner size={"xs"} />}
           {confirmed && !isConfirming && "✅"}
