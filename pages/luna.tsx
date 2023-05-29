@@ -439,12 +439,16 @@ const Luna = (props: LunaProps) => {
                 results.map((result) => {
                   return (
                     <Card key={result.name} p={2}>
-                      <Text>{result.groupName}</Text>
-                      <Heading size={"md"}>{result.name}</Heading>
+                      <Text textTransform={"capitalize"}>
+                        {result.groupName}
+                      </Text>
+                      <Heading textTransform={"capitalize"} size={"md"}>
+                        {result.name}
+                      </Heading>
                       <Divider my={3} />
                       <Button
                         minW={52}
-                        onSelect={() => {
+                        onClick={() => {
                           setGroupPath(result.groupPath);
                           setGroupName(result.groupName);
                         }}
