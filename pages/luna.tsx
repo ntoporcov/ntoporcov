@@ -442,7 +442,15 @@ const Luna = (props: LunaProps) => {
                       <Text>{result.groupName}</Text>
                       <Heading size={"md"}>{result.name}</Heading>
                       <Divider my={3} />
-                      <Button minW={52}>Select</Button>
+                      <Button
+                        minW={52}
+                        onSelect={() => {
+                          setGroupPath(result.groupPath);
+                          setGroupName(result.groupName);
+                        }}
+                      >
+                        Select
+                      </Button>
                     </Card>
                   );
                 })}
