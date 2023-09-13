@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BlogPost } from "../../components/feed/BlogPost";
 import { getAllStats } from "../../utils/axios";
 import { Heading1 } from "../../components/Headings/Heading1";
+import MainCol from "../../components/MainCol";
 
 export default function Blog({ allEntries }) {
   const [allStats, setAllStats] = useState({});
@@ -15,7 +16,7 @@ export default function Blog({ allEntries }) {
   }, []);
 
   return (
-    <>
+    <MainCol>
       <Heading1>So, about this blog...</Heading1>
       <Text textAlign={"center"}>
         This is where I write about design, development and anything in between
@@ -31,7 +32,7 @@ export default function Blog({ allEntries }) {
           ready={Object.keys(allStats).length >= 1}
         />
       ))}
-    </>
+    </MainCol>
   );
 }
 

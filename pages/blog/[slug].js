@@ -24,6 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/pro-solid-svg-icons";
 import { getPostStats, increaseStat } from "../../utils/axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import MainCol from "../../components/MainCol";
 
 function StatItem({ icon, color, stat, label, clickable, onClick, ready }) {
   const StatLabel = () => {
@@ -98,7 +99,7 @@ export default function Page({ story, preview, slug }) {
   };
 
   return (
-    <>
+    <MainCol>
       <Head>
         <title>{content.title + " – Nic Toporcov"}</title>
       </Head>
@@ -151,7 +152,7 @@ export default function Page({ story, preview, slug }) {
       ))}
       <Divider mt={20} />
       <SocialLinks />
-    </>
+    </MainCol>
   );
 }
 

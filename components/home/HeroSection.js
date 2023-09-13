@@ -5,7 +5,11 @@ import React from "react";
 
 export function HeroSection() {
   return (
-    <Box display={"flex"} flexDirection={{ base: "column", md: "row" }}>
+    <Box
+      display={"flex"}
+      alignItems={"center"}
+      flexDirection={{ base: "column", md: "row" }}
+    >
       <Box position={"relative"} width={250} height={250} marginX={"auto"}>
         <Circle
           rounded={1000}
@@ -20,12 +24,9 @@ export function HeroSection() {
       </Box>
       <Box
         maxW={{ base: "100%", md: "60%" }}
-        pl={{ base: 0, md: 20 }}
+        pr={{ base: 0, md: 32 }}
         textAlign={{ base: "center", md: "left" }}
       >
-        <Heading as={"h1"} mb={4} mt={{ base: 10, md: 0 }}>
-          Hi, I&apos;m Nic
-        </Heading>
         <Text>
           I am a Front-End Designer and Developer. I&apos;ve been working as a
           UI/UX Designer since 2014 and as a Front-End Developer since 2015.
@@ -36,7 +37,9 @@ export function HeroSection() {
             fontWeight={"bold"}
             bgColor={"#d90043"}
             color={"white"}
-            href={"https://www.rfsmart.com/netsuite/solutions/netsuite-shipping"}
+            href={
+              "https://www.rfsmart.com/netsuite/solutions/netsuite-shipping"
+            }
             target={"_blank"}
           >
             RF-SMART Shipping

@@ -26,7 +26,7 @@ function SocialLink({ link, icon, color, label }) {
   const bg = useColorModeValue("gray.100", "gray.800");
 
   return (
-    <ChakraLink href={link} target={"_blank"} cursor={'pointer'}>
+    <ChakraLink href={link} target={"_blank"} cursor={"pointer"}>
       <Tag bg={bg}>
         <Box width={4}>
           <FontAwesomeIcon icon={icon} color={color} />
@@ -107,6 +107,7 @@ function SocialLinks() {
         justifyContent={"space-between"}
         width={"100%"}
         wrap={"wrap"}
+        px={3}
       >
         <Flex alignItems={"center"}>
           <SpotifyWidget />

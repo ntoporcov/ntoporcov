@@ -32,16 +32,6 @@ const NavLinks = () => {
           <NTButton>Blog</NTButton>
         </a>
       </Link>
-      <Link href={"/scripts"} passHref>
-        <a>
-          <NTButton>Scripts</NTButton>
-        </a>
-      </Link>
-      {/*<Link href={"/resume.pdf"} passHref>*/}
-      {/*  <a target={"_blank"}>*/}
-      {/*    <NTButton>Resume</NTButton>*/}
-      {/*  </a>*/}
-      {/*</Link>*/}
       <LightSaber />
     </>
   );
@@ -160,9 +150,9 @@ function AppFrame({ Component, pageProps }) {
         </Button>
       </Box>
 
-      <Container as={"main"} maxW={"1024px"} centerContent pb={"30vh"}>
+      <Box width={"100%"} overflow={"visible"}>
         <Component {...pageProps} />
-      </Container>
+      </Box>
 
       <Modal isOpen={NavModal} onClose={() => setNavModal(false)}>
         <ModalOverlay
