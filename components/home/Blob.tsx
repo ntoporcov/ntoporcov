@@ -90,6 +90,13 @@ const Scene = () => {
   // useHelper(dirLight4, DirectionalLightHelper, 1, "pink");
 
   const blobColor = useColorModeValue("springgreen", "red");
+  const blobScale = useBreakpointValue({
+    base: 0.5,
+    sm: 0.6,
+    md: 1,
+    lg: 1.1,
+    xl: 1.2,
+  });
 
   return (
     <>
@@ -117,7 +124,7 @@ const Scene = () => {
       />
       <ambientLight intensity={0.4} />
       <Float
-        scale={1.3}
+        scale={blobScale}
         position={[0, 0.5, 0]}
         rotation={[1, 0.8, 0]}
         speed={3}
