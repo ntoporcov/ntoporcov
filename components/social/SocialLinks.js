@@ -135,7 +135,7 @@ function SocialLinks() {
           />
         </HStack>
       </Flex>
-      <Divider mb={10} />
+      <Divider />
     </>
   );
 }

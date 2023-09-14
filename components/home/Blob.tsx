@@ -25,12 +25,16 @@ import {
   Heading,
   useBreakpointValue,
   useColorModeValue,
+  useInterval,
 } from "@chakra-ui/react";
 import { DirectionalLight, DirectionalLightHelper } from "three";
+import { motion } from "framer-motion";
 
 const Blob = () => {
   const textColor = useColorModeValue("black", "white");
   const outlineWidth = useBreakpointValue({ base: "1px", md: "2px" });
+
+  const message = useMessageCounter();
 
   return (
     <Flex
@@ -60,7 +64,7 @@ const Blob = () => {
         }}
         fontFamily={"sans-serif"}
       >
-        Hi there, I&apos;m Nic Toporcov
+        {message}
       </Heading>
       <Heading
         px={5}
@@ -72,10 +76,32 @@ const Blob = () => {
         zIndex={-1}
         color={textColor}
       >
-        Hi there, I&apos;m Nic Toporcov
+        {message}
       </Heading>
     </Flex>
   );
+};
+
+const message = "Hi there, I'm Nic Toporcov";
+
+const useMessageCounter = () => {
+  const [currMessage, setCurrMessage] = useState("");
+  const [randomInterval, setRandomInterval] = useState(0);
+
+  useInterval(
+    () => {
+      setCurrMessage(
+        message
+          .split("")
+          .slice(0, currMessage.length + 1)
+          .join("")
+      );
+      setRandomInterval(Math.random() * 200 + 50);
+    },
+    currMessage.length === message.length ? null : randomInterval
+  );
+
+  return currMessage;
 };
 
 const Scene = () => {
@@ -90,12 +116,11 @@ const Scene = () => {
   // useHelper(dirLight4, DirectionalLightHelper, 1, "pink");
 
   const blobColor = useColorModeValue("springgreen", "red");
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const blobScale = useBreakpointValue({
-    base: 0.5,
-    sm: 0.6,
-    md: 1,
-    lg: 1.1,
-    xl: 1.2,
+    base: 1,
+    md: 1.4,
+    lg: 1.8,
   });
 
   return (
@@ -125,11 +150,11 @@ const Scene = () => {
       <ambientLight intensity={0.4} />
       <Float
         scale={blobScale}
-        position={[0, 0.5, 0]}
+        position={[0, 0, 0]}
         rotation={[1, 0.8, 0]}
         speed={3}
       >
-        <Sphere position={[0, 0, 0]} args={[1, 64, 64]} castShadow={false}>
+        <Sphere position={[0, 0, 0]} args={[1, 512, 512]} castShadow={false}>
           <MeshDistortMaterial
             speed={1}
             reflectivity={5}
@@ -141,7 +166,7 @@ const Scene = () => {
           />
         </Sphere>
       </Float>
-      <OrbitControls makeDefault enableZoom={false} />
+      {isDesktop && <OrbitControls makeDefault enableZoom={false} />}
       {/*<GizmoViewport />*/}
       {/*<GizmoViewcube />*/}
       {/*<Grid*/}
