@@ -1,7 +1,7 @@
 import MainCol from "../../components/MainCol";
 import SendGifSection from "../../components/home/SendGifSection";
 
-const Index = () => {
+const Page = () => {
   return (
     <MainCol>
       <h1 className={"mt-5"}>Hack Report Privacy & Contact</h1>
@@ -31,4 +31,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Page;

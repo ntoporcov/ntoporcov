@@ -123,12 +123,12 @@ function GifExperience() {
             <span className={"font-bold underline"}> Patience </span>
           </span>
         </div>
-        <Carousel
-          fetchGifs={patienceGifs}
-          gifHeight={200}
-          onGifClick={() => window.alert("Patience")}
-          noLink
-        />
+        {/*<Carousel*/}
+        {/*  fetchGifs={patienceGifs}*/}
+        {/*  gifHeight={200}*/}
+        {/*  onGifClick={() => window.alert("Patience")}*/}
+        {/*  noLink*/}
+        {/*/>*/}
       </>
     );
   } else {
@@ -165,7 +165,7 @@ function SendGifSection() {
       <div
         className={cn(
           "flex h-0 w-full items-center justify-center overflow-hidden rounded-lg outline-1 outline-gray-200 transition-all",
-          selectorOpen ? "h-40 outline" : "h-0",
+          selectorOpen ? "h-[300px] overflow-x-auto outline" : "h-0",
         )}
       >
         <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
