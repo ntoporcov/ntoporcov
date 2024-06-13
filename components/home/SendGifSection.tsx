@@ -13,22 +13,37 @@ import { useLocalStorage } from "react-use";
 import { IGif } from "@giphy/js-types";
 import { useMutation } from "@tanstack/react-query";
 import { cn } from "../../hooks/tailwind";
+import { Input } from "../form/Input";
+import { Textarea } from "../form/Textarea";
+import { Button } from "../form/Button";
 
 const gf = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY);
 const patienceGifs = (offset: number) =>
   gf.search("Patience", { offset, limit: 10 });
 
-// const ActionSection = ({ isSending, sendSuccess, doGifCall, onCancel }) => {
-//   if (isSending) {
-//     return <span>Sending your GIF 🚀</span>;
-//   } else if (sendSuccess) {
-//     return <span>Your GIF is on its way 😄</span>;
-//   } else if (sendSuccess === false) {
-//     return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
-//   } else {
-//     return <button onClick={doGifCall}>Send Gif</button>;
-//   }
-// };
+const ActionSection = ({
+  isSending,
+  sendSuccess,
+  doGifCall,
+  onCancel,
+  sendError,
+}: {
+  isSending: boolean;
+  sendSuccess: boolean | null;
+  sendError: boolean | null;
+  doGifCall: () => void;
+  onCancel: () => void;
+}) => {
+  if (isSending) {
+    return <span>Sending your GIF 🚀</span>;
+  } else if (sendSuccess) {
+    return <span>Your GIF is on its way 😄</span>;
+  } else if (sendError) {
+    return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
+  } else {
+    return <button onClick={doGifCall}>Send Gif</button>;
+  }
+};
 
 function GifExperience() {
   const { fetchGifs, searchKey } = useContext(SearchContext);
@@ -40,7 +55,12 @@ function GifExperience() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
-  const { mutate: submitGif, isLoading: isSending } = useMutation(
+  const {
+    mutate: submitGif,
+    isLoading: isSending,
+    isSuccess: sent,
+    isError: sendError,
+  } = useMutation(
     ["sendGif", gif, name, message],
     () => sendGif(gif, name, message),
     {
@@ -59,55 +79,36 @@ function GifExperience() {
   if (gif) {
     return (
       <div className={"flex flex-col items-center justify-center"}>
-        <h4>Nice One!</h4>
-        <span className={"mb-5"}>
-          Now I just need a name to show up on the notification
+        <span className={"mb-5 font-medium text-gray-700"}>
+          You can identify yourself with a name and a message. Both optional...
+          🤷‍♂️
         </span>
-        <div className={"flex flex-col gap-6 p-3 pt-4 md:flex-row"}>
-          <Gif
-            gif={gif}
-            className={"h-auto w-full"}
-            width={40}
-            height={60}
-            noLink
-          />
-          {/*<InputGroup display={"flex"} flexDirection={"column"}>*/}
-          {/*  <Heading fontSize={14} mb={1}>*/}
-          {/*    Enter Your Name{" "}*/}
-          {/*    <Text as={"span"} color={"red.600"}>*/}
-          {/*      **/}
-          {/*    </Text>*/}
-          {/*  </Heading>*/}
-          {/*  <Input*/}
-          {/*    placeholder={"Michael Scott"}*/}
-          {/*    bg={"white"}*/}
-          {/*    _placeholder={{ color: "gray.300" }}*/}
-          {/*    value={name}*/}
-          {/*    onChange={(event) => setName(event.target.value)}*/}
-          {/*    disabled={sendSuccess !== null}*/}
-          {/*  />*/}
-          {/*  <Heading fontSize={14} mb={1} mt={3}>*/}
-          {/*    Optional Message*/}
-          {/*  </Heading>*/}
-          {/*  <Textarea*/}
-          {/*    placeholder={*/}
-          {/*      "Sometimes I'll start a sentence, and I don't even know where it's going. I just hope I find it along the way. Like an improv conversation. An improversation."*/}
-          {/*    }*/}
-          {/*    bg={"white"}*/}
-          {/*    _placeholder={{ color: "gray.300" }}*/}
-          {/*    value={message}*/}
-          {/*    onChange={(event) => setMessage(event.target.value)}*/}
-          {/*    disabled={sendSuccess !== null}*/}
-          {/*  />*/}
-          {/*  <Center mt={4}>*/}
-          {/*    <ActionSection*/}
-          {/*      doGifCall={() => doGifCall()}*/}
-          {/*      isSending={isSending}*/}
-          {/*      sendSuccess={sendSuccess}*/}
-          {/*      onCancel={() => setGifSelected(false)}*/}
-          {/*    />*/}
-          {/*  </Center>*/}
-          {/*</InputGroup>*/}
+        <div className={"flex gap-6 md:flex-row"}>
+          <Gif gif={gif} className={"h-auto w-full"} width={300} noLink />
+          <div className={"flex flex-col gap-2"}>
+            <Input
+              placeholder={"Michael Scott"}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              disabled={isSending}
+            />
+            <Textarea
+              placeholder={
+                "Sometimes I'll start a sentence, and I don't even know where it's going. I just hope I find it along the way. Like an improv conversation. An improversation."
+              }
+              rows={7}
+              value={message}
+              onChange={(event) => setMessage(event.target.value)}
+              disabled={isSending}
+            />
+            <ActionSection
+              doGifCall={submitGif}
+              isSending={isSending}
+              sendSuccess={sent}
+              onCancel={() => setGif(undefined)}
+              sendError={sendError}
+            />
+          </div>
         </div>
       </div>
     );
@@ -133,16 +134,19 @@ function GifExperience() {
     );
   } else {
     return (
-      <>
+      <div className={"flex flex-col items-center justify-center gap-10"}>
         <SearchBar className={"w-96"} placeholder={"Be nice..."} />
-        <Carousel
-          fetchGifs={fetchGifs}
-          gifHeight={200}
-          key={searchKey}
-          onGifClick={setGif}
-          noLink
-        />
-      </>
+        <div className={"w-[140vw] overflow-x-auto"}>
+          <Carousel
+            className={"pl-[260px]"}
+            fetchGifs={fetchGifs}
+            gifHeight={200}
+            key={searchKey}
+            onGifClick={setGif}
+            noLink
+          />
+        </div>
+      </div>
     );
   }
 }
@@ -151,21 +155,22 @@ function SendGifSection() {
   const [selectorOpen, setSelectorOpen] = useState(false);
 
   return (
-    <div className={"flex flex-col items-center px-4"}>
+    <div className={"mb-[30vh] flex flex-col items-center px-4"}>
       <h4 className={"mb-2 text-center text-6xl font-thin"}>Send me a GIF</h4>
       <span className={"text-center"}>
-        Emails are boring. Send me a gif and I'll get back to you... eventually
+        Emails are boring. Let's do this instead.
       </span>
-      <button
-        className={"my-5 rounded-md bg-gray-200 p-1 px-4 hover:bg-gray-300"}
+      <Button
+        variant={"default"}
         onClick={() => setSelectorOpen(!selectorOpen)}
+        className={"my-4"}
       >
         {selectorOpen ? "Close Gif Selector" : "Select GIF"}
-      </button>
+      </Button>
       <div
         className={cn(
           "flex h-0 w-full items-center justify-center overflow-hidden rounded-lg outline-1 outline-gray-200 transition-all",
-          selectorOpen ? "h-[300px] overflow-x-auto outline" : "h-0",
+          selectorOpen ? "h-auto p-10 outline" : "h-0",
         )}
       >
         <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
