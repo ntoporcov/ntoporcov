@@ -2,7 +2,6 @@ import MainCol from "../../components/MainCol";
 import {Divider, Heading, Text, VStack} from "@chakra-ui/react";
 import SendGifSection from "../../components/home/SendGifSection";
 
-
 const Index = () => {
  return (
    <>

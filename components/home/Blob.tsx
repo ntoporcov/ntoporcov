@@ -1,84 +1,44 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import {
-  MeshDistortMaterial,
-  Sphere,
-  Stage,
-  OrbitControls,
-  CubeCamera,
-  RandomizedLight,
-  GizmoViewport,
-  GizmoViewcube,
-  Grid,
-  Float,
-  GizmoHelper,
-  Bounds,
-  useHelper,
-  Sparkles,
-  Backdrop,
-  MeshReflectorMaterial,
-  MeshRefractionMaterial,
-} from "@react-three/drei";
+import { useState } from "react";
+import { MeshDistortMaterial, Sphere, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import {
-  Box,
-  Flex,
-  Heading,
-  useBreakpointValue,
-  useColorModeValue,
-  useInterval,
-} from "@chakra-ui/react";
-import { DirectionalLight, DirectionalLightHelper } from "three";
-import { motion } from "framer-motion";
+import { useInterval } from "react-use";
+import { cn } from "../../hooks/tailwind";
 
 const Blob = () => {
-  const textColor = useColorModeValue("black", "white");
-  const outlineWidth = useBreakpointValue({ base: "1px", md: "2px" });
-
   const message = useMessageCounter();
 
+  const textClassName =
+    "text-6xl md:text-8xl font-black absolute text-center px-10";
+
   return (
-    <Flex
-      alignItems={"center"}
-      justifyContent={"center"}
-      h={"90vh"}
-      w={"full"}
-      pointerEvents={"none"}
-      cursor={"grab"}
-      _active={{ cursor: "grabbing" }}
+    <div
+      className={
+        "pointer-events-none flex h-screen w-full items-center justify-center"
+      }
     >
       <Canvas gl={{ logarithmicDepthBuffer: true }} shadows="soft">
         <Scene />
       </Canvas>
 
-      <Heading
-        px={5}
-        mb={48}
-        textAlign={"center"}
-        position={"absolute"}
-        fontSize={{ base: "7xl", md: "8xl" }}
-        sx={{
-          "&": {
-            "-webkit-text-stroke": `${textColor} ${outlineWidth}`,
-            "-webkit-text-fill-color": "transparent",
-          },
+      <span
+        className={textClassName}
+        style={{
+          WebkitTextStroke: "rgb(var(--gray-950)) 2px",
+          WebkitTextFillColor: "transparent",
+          fontFamily: "sans-serif",
         }}
-        fontFamily={"sans-serif"}
       >
         {message}
-      </Heading>
-      <Heading
-        px={5}
-        textAlign={"center"}
-        mb={48}
-        position={"absolute"}
-        fontSize={{ base: "7xl", md: "8xl" }}
-        fontFamily={"sans-serif"}
-        zIndex={-1}
-        color={textColor}
+      </span>
+      <span
+        className={cn(textClassName, "-z-10")}
+        style={{
+          fontFamily: "sans-serif",
+        }}
       >
         {message}
-      </Heading>
-    </Flex>
+      </span>
+    </div>
   );
 };
 
@@ -94,89 +54,43 @@ const useMessageCounter = () => {
         message
           .split("")
           .slice(0, currMessage.length + 1)
-          .join("")
+          .join(""),
       );
       setRandomInterval(Math.random() * 200 + 50);
     },
-    currMessage.length === message.length ? null : randomInterval
+    currMessage.length === message.length ? null : randomInterval,
   );
 
   return currMessage;
 };
 
 const Scene = () => {
-  const dirLight = useRef<DirectionalLight>(null);
-  const dirLight2 = useRef<DirectionalLight>(null);
-  const dirLight3 = useRef<DirectionalLight>(null);
-  const dirLight4 = useRef<DirectionalLight>(null);
-
-  // useHelper(dirLight, DirectionalLightHelper, 1, "red");
-  // useHelper(dirLight2, DirectionalLightHelper, 1, "blue");
-  // useHelper(dirLight3, DirectionalLightHelper, 1, "green");
-  // useHelper(dirLight4, DirectionalLightHelper, 1, "pink");
-
-  const blobColor = useColorModeValue("springgreen", "red");
-  const isDesktop = useBreakpointValue({ base: false, md: true });
-  const blobScale = useBreakpointValue({
-    base: 1,
-    md: 1.4,
-    lg: 1.8,
-  });
+  const blobColor = "darkcyan";
 
   return (
-    <>
-      <directionalLight position={[-3, 10, 0]} intensity={0.9} ref={dirLight} />
-      <directionalLight
-        ref={dirLight2}
-        position={[0, -2, 0]}
-        intensity={0.3}
-        args={[1, 1]}
-        color={"red"}
-      />
-      <directionalLight
-        ref={dirLight3}
-        position={[5, 3, 0]}
-        intensity={0.3}
-        args={[1, 1]}
-        color={"blue"}
-      />
-      <directionalLight
-        ref={dirLight4}
-        position={[0, 2, 10]}
-        intensity={0.8}
-        args={[1, 1]}
-        color={"white"}
-      />
-      <ambientLight intensity={0.4} />
-      <Float
-        scale={blobScale}
+    <Stage
+      adjustCamera={false}
+      shadows={{
+        offset: -7,
+        type: "contact",
+      }}
+    >
+      <Sphere
+        scale={3}
         position={[0, 0, 0]}
-        rotation={[1, 0.8, 0]}
-        speed={3}
+        args={[1, 512, 512]}
+        castShadow={false}
       >
-        <Sphere position={[0, 0, 0]} args={[1, 512, 512]} castShadow={false}>
-          <MeshDistortMaterial
-            speed={1}
-            reflectivity={5}
-            color={blobColor}
-            distort={1}
-            metalness={1}
-            emissive={blobColor}
-            emissiveIntensity={0.3}
-          />
-        </Sphere>
-      </Float>
-      {isDesktop && <OrbitControls makeDefault enableZoom={false} />}
-      {/*<GizmoViewport />*/}
-      {/*<GizmoViewcube />*/}
-      {/*<Grid*/}
-      {/*  scale={10}*/}
-      {/*  position={[0, -1, 0]}*/}
-      {/*  cellColor="red"*/}
-      {/*  sectionColor="green"*/}
-      {/*/>*/}
-      <GizmoHelper />
-    </>
+        <MeshDistortMaterial
+          reflectivity={1}
+          color={blobColor}
+          distort={1}
+          metalness={1.2}
+          emissive={"pink"}
+          emissiveIntensity={0.01}
+        />
+      </Sphere>
+    </Stage>
   );
 };
 
