@@ -1,28 +1,33 @@
 import { useWindowSize } from "react-use";
 
-const tailwindBreakpoints = {
-  640: "sm",
-  768: "md",
-  1024: "lg",
-  1280: "xl",
-  1536: "2xl",
+const breakpointsList = ["base", "sm", "md", "lg", "xl", "2xl"] as const;
+type BreakPoint = (typeof breakpointsList)[number];
+
+const tailwindBreakpoints: Record<BreakPoint, number> = {
+  base: 0,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  "2xl": 1536,
 };
 
-export const useBreakpointValue = <T extends Record<string, any>>(
+export const useBreakpointValue = <R, T = { [i in BreakPoint]?: R }>(
   values: T,
-): T[keyof T] => {
+): R => {
   const { width } = useWindowSize();
 
-  const breakpoints = Object.keys(tailwindBreakpoints)
-    .map((bp) => parseInt(bp))
-    .sort((a, b) => a - b);
+  const result = Object.entries(values)
+    .sort(
+      ([a], [b]) =>
+        breakpointsList.indexOf(a as BreakPoint) -
+        breakpointsList.indexOf(b as BreakPoint),
+    )
+    .reverse()
+    .find(([key]) => {
+      const breakpoint = key as BreakPoint;
+      return width >= tailwindBreakpoints[breakpoint];
+    });
 
-  for (let i = 0; i < breakpoints.length; i++) {
-    const breakpoint = breakpoints[i];
-    if (width < breakpoint) {
-      return values[tailwindBreakpoints[breakpoint]];
-    }
-  }
-
-  return values[tailwindBreakpoints[breakpoints[breakpoints.length - 1]]];
+  return result[1];
 };

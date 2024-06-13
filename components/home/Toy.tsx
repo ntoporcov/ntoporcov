@@ -15,8 +15,11 @@ function lerp(start: number, end: number, alpha: number): number {
 }
 
 function Scene() {
-  const horizontalRows = useBreakpointValue({ base: 18, lg: 30 });
-  const verticalRows = useBreakpointValue({ base: 12, lg: 20 });
+  const horizontalRows = useBreakpointValue<number>({ base: 18, md: 30 });
+  const verticalRows = useBreakpointValue<number>({ base: 12, md: 20 });
+  const maxDistance = useBreakpointValue<number>({ base: 3, md: 5 });
+
+  const isMobile = useBreakpointValue<boolean>({ base: true, md: false });
 
   const three = useThree();
 
@@ -34,9 +37,9 @@ function Scene() {
           Math.pow(mousePos.current.y - pin.position.y, 2),
       );
 
-      const makeSphereElevation = interpolate([0, 5], [800, 40]);
-      const makeCylinderScale = interpolate([0, 5], [7, 1]);
-      const makeCylinderZ = interpolate([0, 5], [400, 1]);
+      const makeSphereElevation = interpolate([0, maxDistance], [800, 40]);
+      const makeCylinderScale = interpolate([0, maxDistance], [7, 1]);
+      const makeCylinderZ = interpolate([0, maxDistance], [400, 1]);
 
       sphere.position.z = lerp(
         sphere.position.z,
@@ -78,7 +81,11 @@ function Scene() {
         color={"white"}
       />
       <ambientLight intensity={0.4} castShadow />
-      <PerspectiveCamera fov={35} makeDefault position={[0, 0, 50]} />
+      <PerspectiveCamera
+        fov={35}
+        makeDefault
+        position={[0, 0, isMobile ? 30 : 50]}
+      />
       <group
         rotation={[-Math.PI / 4, 0, 0]}
         name={"bigGroup"}
@@ -86,7 +93,7 @@ function Scene() {
           mousePos.current = event.point;
         }}
       >
-        <OrbitControls enableZoom={false} />
+        {!isMobile && <OrbitControls enableZoom={false} />}
         {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
           Array.from({ length: verticalRows }).map((_, col, colList) => (
             <Pin3D
