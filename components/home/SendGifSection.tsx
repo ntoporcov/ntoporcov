@@ -18,17 +18,17 @@ const gf = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY);
 const patienceGifs = (offset: number) =>
   gf.search("Patience", { offset, limit: 10 });
 
-const ActionSection = ({ isSending, sendSuccess, doGifCall, onCancel }) => {
-  if (isSending) {
-    return <span>Sending your GIF 🚀</span>;
-  } else if (sendSuccess) {
-    return <span>Your GIF is on its way 😄</span>;
-  } else if (sendSuccess === false) {
-    return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
-  } else {
-    return <button onClick={doGifCall}>Send Gif</button>;
-  }
-};
+// const ActionSection = ({ isSending, sendSuccess, doGifCall, onCancel }) => {
+//   if (isSending) {
+//     return <span>Sending your GIF 🚀</span>;
+//   } else if (sendSuccess) {
+//     return <span>Your GIF is on its way 😄</span>;
+//   } else if (sendSuccess === false) {
+//     return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
+//   } else {
+//     return <button onClick={doGifCall}>Send Gif</button>;
+//   }
+// };
 
 function GifExperience() {
   const { fetchGifs, searchKey } = useContext(SearchContext);

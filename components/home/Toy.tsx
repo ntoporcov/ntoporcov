@@ -1,12 +1,6 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {
-  Cylinder,
-  OrthographicCamera,
-  PerspectiveCamera,
-  Sphere,
-  Stage,
-} from "@react-three/drei";
-import { RefObject, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Cylinder, PerspectiveCamera, Sphere, Stage } from "@react-three/drei";
+import { useRef, useState } from "react";
 import { Group, Mesh } from "three";
 
 export default function Toy() {

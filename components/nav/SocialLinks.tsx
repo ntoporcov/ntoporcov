@@ -1,10 +1,8 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { useLoader } from "@react-three/fiber";
 import { useQuery } from "@tanstack/react-query";
 import {
-  FaDribbble,
   FaEnvelope,
   FaGithub,
   FaInstagram,
@@ -76,11 +74,11 @@ function SpotifyWidget() {
           ],
         },
       },
-    }
+    },
   );
 
   return (
-    <div className={"flex gap-2 items-center"}>
+    <div className={"flex items-center gap-2"}>
       <FaSpotify color={"#1db954"} />
       {!isLoading && (
         <>
@@ -109,12 +107,12 @@ function SocialLinks() {
   return (
     <div
       className={
-        "flex text-sm px-3 py-2 justify-between w-full fixed top-0 items-center border-b border-gray-600 z-50 backdrop-blur-xl bg-white/50"
+        "fixed top-0 z-50 flex w-full items-center justify-between border-b border-gray-600 bg-white/50 px-3 py-2 text-sm backdrop-blur-xl"
       }
     >
       <SpotifyWidget />
 
-      <div className={"flex gap-2 items-center"}>
+      <div className={"flex items-center gap-2"}>
         <SocialLink
           link={"https://github.com/ntoporcov"}
           icon={<FaGithub />}

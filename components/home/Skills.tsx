@@ -220,7 +220,7 @@ const GradientBentoBox = ({
 
   useEffect(() => {
     if (parentDiv.current) {
-      const { top, bottom } = parentDiv.current.getBoundingClientRect();
+      const { top } = parentDiv.current.getBoundingClientRect();
 
       if (top < window.innerHeight * 0.1) {
         toggle(false);

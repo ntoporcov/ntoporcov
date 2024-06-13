@@ -1,5 +1,4 @@
 import { Skills } from "../components/home/Skills";
-import Toy from "../components/home/Toy";
 import SendGifSection from "../components/home/SendGifSection";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
