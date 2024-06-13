@@ -8,14 +8,15 @@ import {
 import { useEffect, useRef } from "react";
 import { DirectionalLight, Group, Mesh, Vector3 } from "three";
 import { interpolate } from "framer-motion";
+import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 
 function lerp(start: number, end: number, alpha: number): number {
   return start * (1 - alpha) + end * alpha;
 }
 
 function Scene() {
-  const horizontalRows = 10;
-  const verticalRows = 3;
+  const horizontalRows = useBreakpointValue({ base: 18, lg: 30 });
+  const verticalRows = useBreakpointValue({ base: 12, lg: 20 });
 
   const three = useThree();
 
