@@ -14,8 +14,8 @@ function lerp(start: number, end: number, alpha: number): number {
 }
 
 function Scene() {
-  const horizontalRows = 30;
-  const verticalRows = 20;
+  const horizontalRows = 10;
+  const verticalRows = 3;
 
   const three = useThree();
 
