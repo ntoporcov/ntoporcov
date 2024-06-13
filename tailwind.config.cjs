@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -53,6 +55,13 @@ module.exports = {
   },
   plugins: [
     require("tailwindcss-animate"),
+    plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+      addUtilities({
+        '.glow-lg': {
+            boxShadow: `0 0 20px 2px rgba(var(--primary-500), 0.5)`,
+        },
+      })
+    })
   ],
 }
 

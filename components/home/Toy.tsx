@@ -1,99 +1,136 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Cylinder, PerspectiveCamera, Sphere, Stage } from "@react-three/drei";
-import { useRef, useState } from "react";
-import { Group, Mesh } from "three";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import {
+  Cylinder,
+  OrbitControls,
+  PerspectiveCamera,
+  Sphere,
+  Stage,
+} from "@react-three/drei";
+import { useEffect, useRef } from "react";
+import { Group, Mesh, Vector3 } from "three";
+import { interpolate } from "framer-motion";
 
-export default function Toy() {
+function lerp(start: number, end: number, alpha: number): number {
+  return start * (1 - alpha) + end * alpha;
+}
+
+function Scene() {
   const horizontalRows = 30;
   const verticalRows = 20;
 
-  const [mouseOver, setMouseOver] = useState({ x: 0, y: 0 });
+  const three = useThree();
+
+  const mousePos = useRef<Vector3>(null);
+
+  useFrame(({ clock }) => {
+    three.scene.getObjectByName("bigGroup").children.forEach((pin) => {
+      if (!mousePos.current) return;
+
+      const sphere = pin.children[1] as Mesh;
+      const cylinder = pin.children[0] as Mesh;
+
+      const dist = Math.sqrt(
+        Math.pow(mousePos.current.x - pin.position.x, 2) +
+          Math.pow(mousePos.current.y - pin.position.y, 2),
+      );
+
+      const makeSphereElevation = interpolate([0, 5], [800, 40]);
+      const makeCylinderScale = interpolate([0, 5], [7, 1]);
+      const makeCylinderZ = interpolate([0, 5], [400, 1]);
+
+      sphere.position.z = lerp(
+        sphere.position.z,
+        makeSphereElevation(dist),
+        0.2,
+      );
+      cylinder.scale.y = lerp(cylinder.scale.y, makeCylinderScale(dist), 0.2);
+      cylinder.position.z = lerp(cylinder.position.z, makeCylinderZ(dist), 0.2);
+    });
+  });
 
   return (
-    <Canvas style={{ height: "100vh", width: "100vw" }}>
-      <Stage>
-        <PerspectiveCamera
-          fov={50}
-          makeDefault
-          position={[0, 0, 30]}
-          rotation={[0, 100, 0]}
-        />
+    <group>
+      <Stage adjustCamera={false}>
+        <PerspectiveCamera fov={35} makeDefault position={[0, 0, 50]} />
         <group
-          onPointerEnter={(event) => {
-            console.log("event", event.point.x, event.point.y);
-
-            setMouseOver({
-              x: event.point.x,
-              y: event.point.y,
-            });
+          rotation={[-Math.PI / 4, 0, 0]}
+          name={"bigGroup"}
+          onPointerOver={(event) => {
+            mousePos.current = event.point;
           }}
         >
+          <OrbitControls enableZoom={false} />
           {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
             Array.from({ length: verticalRows }).map((_, col, colList) => (
               <Pin3D
                 key={`${row}-${col}`}
-                pos={[rowList.length / 2 - row, colList.length / 2 - col, 100]}
-                mouse={mouseOver}
+                pos={[
+                  rowList.length / 2 - row + (col % 2 === 0 ? 0.5 : 0),
+                  colList.length / 2 - col,
+                  0,
+                ]}
+                gridCoord={{ row, col }}
               />
             )),
           )}
         </group>
       </Stage>
-    </Canvas>
+    </group>
   );
 }
 
 function Pin3D({
   pos,
-  mouse,
+  gridCoord,
 }: {
   pos: [number, number, number];
-  mouse: { x: number; y: number };
+  gridCoord: { row: number; col: number };
 }) {
-  // console.log("mouse", mouse);
-
-  const [isHovered, setIsHovered] = useState(false);
   const groupRef = useRef<Group>();
 
-  useFrame(() => {
-    if (groupRef.current) {
-      const group = groupRef.current;
-      const sphere = group.children[1] as Mesh;
-      const cylinder = group.children[0] as Mesh;
-      const dist = Math.sqrt(
-        Math.pow(mouse.x - group.position.x, 2) +
-          Math.pow(mouse.y - group.position.y, 2),
-      );
+  const three = useThree();
 
-      // raise the pin if the mouse is close
-      if (dist < 5) {
-        sphere.position.y = 120;
-        cylinder.scale.y = 2;
-        // sphere.material.color.set("blue");
-        // cylinder.material.color.set("blue");
-      } else {
-        sphere.position.y = 42;
-        cylinder.scale.y = 1;
-        // sphere.material.color.set("hotpink");
-        // cylinder.material.color.set("hotpink");
-      }
-    }
-  });
+  useEffect(() => {
+    three.scene.getObjectByName("bigGroup")?.add(groupRef.current);
+  }, [three.scene]);
+
+  // Calculate the distance from the center of the grid to the pin position
+  const distance = Math.sqrt(
+    Math.pow(gridCoord.row, 2) + Math.pow(gridCoord.col, 2),
+  );
+
+  // Calculate the angle of the vector from the center of the grid to the pin position
+  const angle = Math.atan2(gridCoord.row, gridCoord.col);
+
+  // Use the distance and the angle to calculate the hue
+  const hue = (angle * (180 / Math.PI) + 180 + distance * 10) % 360;
 
   return (
     <group
       scale={0.01}
       receiveShadow
       position={[pos[0], pos[1], 0]}
-      rotation={[90, 0, 0]}
+      rotation={[0, 0, 0]}
       ref={groupRef}
     >
-      <Cylinder args={[5, 5, 120, 256]} position={[0, 0, 0]}>
-        <meshStandardMaterial color={"hotpink"} />
+      <Cylinder
+        args={[5, 5, 120, 256]}
+        position={[0, 0, -35]}
+        rotation={[1.55, 0, 0]}
+      >
+        <meshStandardMaterial color={`hsl(${hue}, 100%, 50%)`} />
       </Cylinder>
-      <Sphere args={[20, 128, 128]} position={[0, 42, 0]}>
-        <meshStandardMaterial color={"hotpink"} />
+      <Sphere args={[30, 128, 128]} position={[0, 0, 0]}>
+        <meshStandardMaterial color={`hsl(${hue}, 100%, 50%)`} />
       </Sphere>
     </group>
+  );
+}
+
+export default function Toy() {
+  return (
+    <Canvas className={"z-10"}>
+      <Scene />
+    </Canvas>
   );
 }

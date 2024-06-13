@@ -8,6 +8,7 @@ import NextJSLogo from "../svg/NextJSLogo";
 import {
   SiChakraui,
   SiRadixui,
+  SiShadcnui,
   SiTailwindcss,
   SiTestinglibrary,
   SiTypescript,
@@ -191,7 +192,15 @@ export const Skills = () => {
               "Great for more complex UI components, also a lot of help with accessibility."
             }
             icon={<SiRadixui className={"text-gray-800"} size={60} />}
-            className={"col-span-2 md:col-span-4"}
+            className={"md:col-span-2"}
+          />
+          <GradientBentoBox
+            title={"Shadcn UI"}
+            description={
+              "Another great starting point for components and design systems."
+            }
+            icon={<SiShadcnui className={"text-gray-800"} size={60} />}
+            className={"md:col-span-2"}
           />
         </div>
       </div>
@@ -212,31 +221,23 @@ const GradientBentoBox = ({
   className: string;
   contentClassName?: string;
 }) => {
-  const [isAroundMiddle, toggle] = useBoolean(false);
+  const [isPastMiddle, toggle] = useBoolean(false);
 
   const parentDiv = useRef<HTMLDivElement>(null);
 
   const scroll = useWindowScroll();
 
   useEffect(() => {
+    if (isPastMiddle) return;
+
     if (parentDiv.current) {
       const { top } = parentDiv.current.getBoundingClientRect();
-
-      if (top < window.innerHeight * 0.1) {
-        toggle(false);
-        return;
-      }
-
-      if (top > window.innerHeight * 0.7) {
-        toggle(false);
-        return;
-      }
 
       if (top < window.innerHeight * 0.7) {
         toggle(true);
       }
     }
-  }, [scroll.y, toggle]);
+  }, [isPastMiddle, scroll.y, toggle]);
 
   return (
     <div className={cn(className, "relative min-h-32")} ref={parentDiv}>
@@ -248,14 +249,14 @@ const GradientBentoBox = ({
         contentClassName={cn(
           "flex p-5 gap-3 flex items-center flex-col rounded md:justify-center",
           contentClassName,
-          isAroundMiddle ? "justify-center" : "justify-start",
+          isPastMiddle ? "justify-center" : "justify-start",
         )}
       >
         {icon}
         <div
           className={cn(
-            "-mt-2 transition-all ease-in-out group-hover:mt-0 group-hover:opacity-100 md:mt-0 md:h-0 md:opacity-0 md:group-hover:h-full",
-            isAroundMiddle ? "mt-2 h-full opacity-100" : "h-0 opacity-0",
+            "-mt-2 transition-all duration-500 ease-in-out group-hover:mt-0 group-hover:opacity-100 md:mt-0 md:h-0 md:opacity-0 md:duration-200 md:group-hover:h-full",
+            isPastMiddle ? "mt-2 h-full opacity-100" : "h-0 opacity-0",
           )}
         >
           <h3 className={cn("text-center text-xl font-medium")}>{title}</h3>

@@ -41,7 +41,16 @@ const ActionSection = ({
   } else if (sendError) {
     return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
   } else {
-    return <button onClick={doGifCall}>Send Gif</button>;
+    return (
+      <div className={"flex flex-col-reverse gap-1 md:flex-row"}>
+        <Button variant={"cancel"} onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button variant={"outline"} className={"flex-grow"} onClick={doGifCall}>
+          Send Gif
+        </Button>
+      </div>
+    );
   }
 };
 
@@ -78,14 +87,18 @@ function GifExperience() {
 
   if (gif) {
     return (
-      <div className={"flex flex-col items-center justify-center"}>
-        <span className={"mb-5 font-medium text-gray-700"}>
+      <div className={"flex w-full flex-col items-center justify-center"}>
+        <span className={"mb-5 text-center font-medium text-gray-700"}>
           You can identify yourself with a name and a message. Both optional...
           🤷‍♂️
         </span>
-        <div className={"flex gap-6 md:flex-row"}>
-          <Gif gif={gif} className={"h-auto w-full"} width={300} noLink />
-          <div className={"flex flex-col gap-2"}>
+        <div
+          className={
+            "flex w-full flex-col items-center justify-center gap-6 md:flex-row md:items-start"
+          }
+        >
+          <Gif gif={gif} width={300} noLink hideAttribution />
+          <div className={"flex w-full max-w-96 flex-col gap-2"}>
             <Input
               placeholder={"Michael Scott"}
               value={name}
@@ -124,12 +137,12 @@ function GifExperience() {
             <span className={"font-bold underline"}> Patience </span>
           </span>
         </div>
-        {/*<Carousel*/}
-        {/*  fetchGifs={patienceGifs}*/}
-        {/*  gifHeight={200}*/}
-        {/*  onGifClick={() => window.alert("Patience")}*/}
-        {/*  noLink*/}
-        {/*/>*/}
+        <Carousel
+          fetchGifs={patienceGifs}
+          gifHeight={200}
+          onGifClick={() => window.alert("Patience")}
+          noLink
+        />
       </>
     );
   } else {
@@ -167,22 +180,22 @@ function SendGifSection() {
       >
         {selectorOpen ? "Close Gif Selector" : "Select GIF"}
       </Button>
-      <div
-        className={cn(
-          "flex h-0 w-full items-center justify-center overflow-hidden rounded-lg outline-1 outline-gray-200 transition-all",
-          selectorOpen ? "h-auto p-10 outline" : "h-0",
-        )}
-      >
-        <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
+      <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
+        <div
+          className={cn(
+            "flex h-0 w-[calc(100vw-50px)] items-center justify-center overflow-hidden rounded-lg outline-1 outline-gray-200 transition-all",
+            selectorOpen ? "h-auto p-10 outline" : "h-0",
+          )}
+        >
           <GifExperience />
-        </SearchContextManager>
-      </div>
+        </div>
+      </SearchContextManager>
       {selectorOpen && (
         <Image
           alt={"Giphy Attribution"}
           src={"/giphyAttribution.png"}
-          className={"mt-4 h-auto self-end invert"}
-          width={200}
+          className={"mt-4 self-end invert"}
+          width={150}
           height={10}
         />
       )}
