@@ -4,10 +4,9 @@ import {
   OrbitControls,
   PerspectiveCamera,
   Sphere,
-  Stage,
 } from "@react-three/drei";
 import { useEffect, useRef } from "react";
-import { Group, Mesh, Vector3 } from "three";
+import { DirectionalLight, Group, Mesh, Vector3 } from "three";
 import { interpolate } from "framer-motion";
 
 function lerp(start: number, end: number, alpha: number): number {
@@ -22,7 +21,7 @@ function Scene() {
 
   const mousePos = useRef<Vector3>(null);
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     three.scene.getObjectByName("bigGroup").children.forEach((pin) => {
       if (!mousePos.current) return;
 
@@ -48,33 +47,59 @@ function Scene() {
     });
   });
 
+  const dirLight = useRef<DirectionalLight>(null);
+  const dirLight2 = useRef<DirectionalLight>(null);
+  const dirLight3 = useRef<DirectionalLight>(null);
+  const dirLight4 = useRef<DirectionalLight>(null);
+
   return (
     <group>
-      <Stage adjustCamera={false}>
-        <PerspectiveCamera fov={35} makeDefault position={[0, 0, 50]} />
-        <group
-          rotation={[-Math.PI / 4, 0, 0]}
-          name={"bigGroup"}
-          onPointerOver={(event) => {
-            mousePos.current = event.point;
-          }}
-        >
-          <OrbitControls enableZoom={false} />
-          {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
-            Array.from({ length: verticalRows }).map((_, col, colList) => (
-              <Pin3D
-                key={`${row}-${col}`}
-                pos={[
-                  rowList.length / 2 - row + (col % 2 === 0 ? 0.5 : 0),
-                  colList.length / 2 - col,
-                  0,
-                ]}
-                gridCoord={{ row, col }}
-              />
-            )),
-          )}
-        </group>
-      </Stage>
+      <directionalLight position={[-3, 10, 0]} intensity={0.9} ref={dirLight} />
+      <directionalLight
+        ref={dirLight2}
+        position={[0, -2, 0]}
+        intensity={0.3}
+        args={[1, 1]}
+        color={"red"}
+      />
+      <directionalLight
+        ref={dirLight3}
+        position={[5, 3, 0]}
+        intensity={0.3}
+        args={[1, 1]}
+        color={"blue"}
+      />
+      <directionalLight
+        ref={dirLight4}
+        position={[0, 2, 10]}
+        intensity={0.8}
+        args={[1, 1]}
+        color={"white"}
+      />
+      <ambientLight intensity={0.4} castShadow />
+      <PerspectiveCamera fov={35} makeDefault position={[0, 0, 50]} />
+      <group
+        rotation={[-Math.PI / 4, 0, 0]}
+        name={"bigGroup"}
+        onPointerOver={(event) => {
+          mousePos.current = event.point;
+        }}
+      >
+        <OrbitControls enableZoom={false} />
+        {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
+          Array.from({ length: verticalRows }).map((_, col, colList) => (
+            <Pin3D
+              key={`${row}-${col}`}
+              pos={[
+                rowList.length / 2 - row + (col % 2 === 0 ? 0.5 : 0),
+                colList.length / 2 - col,
+                0,
+              ]}
+              gridCoord={{ row, col }}
+            />
+          )),
+        )}
+      </group>
     </group>
   );
 }
@@ -118,10 +143,18 @@ function Pin3D({
         position={[0, 0, -35]}
         rotation={[1.55, 0, 0]}
       >
-        <meshStandardMaterial color={`hsl(${hue}, 100%, 50%)`} />
+        <meshPhysicalMaterial
+          clearcoat={1}
+          reflectivity={0.5}
+          color={`hsl(${hue}, 100%, 50%)`}
+        />
       </Cylinder>
       <Sphere args={[30, 128, 128]} position={[0, 0, 0]}>
-        <meshStandardMaterial color={`hsl(${hue}, 100%, 50%)`} />
+        <meshPhysicalMaterial
+          clearcoat={1}
+          reflectivity={0.5}
+          color={`hsl(${hue}, 100%, 50%)`}
+        />
       </Sphere>
     </group>
   );

@@ -12,7 +12,7 @@ const AboutMe = () => {
   return (
     <div
       className={
-        "-mt-[80vh] flex h-screen w-screen flex-col items-center justify-center gap-10"
+        "-mt-[80vh] flex h-screen w-screen flex-col items-center justify-center gap-10 px-10"
       }
     >
       <div

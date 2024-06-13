@@ -47,10 +47,10 @@ export default function Home() {
               >
                 <div
                   className={
-                    "bg-rainbow min-h-[100vw] min-w-[100vw] animate-spin"
+                    "bg-rainbow min-h-[200%] min-w-[200%] animate-spin"
                   }
                   style={{
-                    animationDuration: "10s",
+                    animationDuration: "5s",
                   }}
                 />
               </div>
