@@ -1,18 +1,16 @@
 import Image from "next/image";
 import { cn } from "../../hooks/tailwind";
-import { useState } from "react";
-import { useInterval } from "react-use";
+
+const message = "Hi there, I'm Nic Toporcov";
+
+const textClassName =
+  "text-6xl md:text-8xl font-black absolute text-center px-10";
 
 const AboutMe = () => {
-  const message = useMessageCounter();
-
-  const textClassName =
-    "text-6xl md:text-8xl font-black absolute text-center px-10";
-
   return (
     <div
       className={
-        "-mt-[80vh] flex h-screen w-screen flex-col items-center justify-center gap-10 px-10"
+        "-mt-[60vh] flex h-screen w-screen flex-col items-center justify-center gap-10 px-5 md:-mt-[80vh]"
       }
     >
       <div
@@ -42,7 +40,7 @@ const AboutMe = () => {
 
       <div
         className={
-          "relative z-20 mx-auto mt-20 flex max-w-5xl flex-col items-center gap-20 rounded-lg border border-gray-300 bg-white/20 px-20 py-12 text-lg shadow-lg backdrop-blur-lg md:flex-row md:text-base"
+          "relative z-20 mx-auto mb-20 mt-20 flex max-w-5xl flex-col items-center gap-20 rounded-lg border border-gray-300 bg-white/20 px-7 py-12 text-lg shadow-lg backdrop-blur-lg md:flex-row md:px-20 md:text-base"
         }
       >
         <div
@@ -91,28 +89,6 @@ const AboutMe = () => {
       </div>
     </div>
   );
-};
-
-const message = "Hi there, I'm Nic Toporcov";
-
-const useMessageCounter = () => {
-  const [currMessage, setCurrMessage] = useState("");
-  const [randomInterval, setRandomInterval] = useState(0);
-
-  useInterval(
-    () => {
-      setCurrMessage(
-        message
-          .split("")
-          .slice(0, currMessage.length + 1)
-          .join(""),
-      );
-      setRandomInterval(Math.random() * 200 + 50);
-    },
-    currMessage.length === message.length ? null : randomInterval,
-  );
-
-  return currMessage;
 };
 
 export default AboutMe;
