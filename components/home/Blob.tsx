@@ -2,6 +2,7 @@ import { MeshDistortMaterial, Sphere } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
 import { DirectionalLight } from "three";
+import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 
 const Blob = () => {
   return (
@@ -19,6 +20,7 @@ const Blob = () => {
 
 const Scene = () => {
   const blobColor = "darkcyan";
+  const resolution = useBreakpointValue<number>({ base: 128, md: 512 });
 
   const dirLight = useRef<DirectionalLight>(null);
   const dirLight2 = useRef<DirectionalLight>(null);
@@ -53,7 +55,7 @@ const Scene = () => {
       <Sphere
         scale={3}
         position={[0, -3, 0]}
-        args={[1, 512, 512]}
+        args={[1, resolution, resolution]}
         castShadow={false}
       >
         <MeshDistortMaterial

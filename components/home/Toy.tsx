@@ -15,8 +15,8 @@ function lerp(start: number, end: number, alpha: number): number {
 }
 
 function Scene() {
-  const horizontalRows = useBreakpointValue<number>({ base: 18, md: 30 });
-  const verticalRows = useBreakpointValue<number>({ base: 12, md: 20 });
+  const horizontalRows = useBreakpointValue<number>({ base: 20, md: 35 });
+  const verticalRows = useBreakpointValue<number>({ base: 20, md: 35 });
   const maxDistance = useBreakpointValue<number>({ base: 3, md: 5 });
 
   const isMobile = useBreakpointValue<boolean>({ base: true, md: false });
@@ -93,7 +93,7 @@ function Scene() {
           mousePos.current = event.point;
         }}
       >
-        {!isMobile && <OrbitControls enableZoom={false} />}
+        {!isMobile && <OrbitControls enableZoom={true} />}
         {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
           Array.from({ length: verticalRows }).map((_, col, colList) => (
             <Pin3D
@@ -119,6 +119,8 @@ function Pin3D({
   pos: [number, number, number];
   gridCoord: { row: number; col: number };
 }) {
+  const resolution = useBreakpointValue<number>({ base: 10, md: 16 });
+
   const groupRef = useRef<Group>();
 
   const three = useThree();
@@ -143,7 +145,7 @@ function Pin3D({
       ref={groupRef}
     >
       <Cylinder
-        args={[5, 5, 120, 256]}
+        args={[5, 5, 120, resolution]}
         position={[0, 0, -35]}
         rotation={[1.55, 0, 0]}
       >
@@ -153,7 +155,7 @@ function Pin3D({
           color={`hsl(${hue}, 100%, 50%)`}
         />
       </Cylinder>
-      <Sphere args={[30, 128, 128]} position={[0, 0, 0]}>
+      <Sphere args={[30, resolution, resolution]} position={[0, 0, 0]}>
         <meshPhysicalMaterial
           clearcoat={1}
           reflectivity={0.5}
