@@ -127,15 +127,11 @@ function Pin3D({
     three.scene.getObjectByName("bigGroup")?.add(groupRef.current);
   }, [three.scene]);
 
-  // Calculate the distance from the center of the grid to the pin position
   const distance = Math.sqrt(
     Math.pow(gridCoord.row, 2) + Math.pow(gridCoord.col, 2),
   );
 
-  // Calculate the angle of the vector from the center of the grid to the pin position
   const angle = Math.atan2(gridCoord.row, gridCoord.col);
-
-  // Use the distance and the angle to calculate the hue
   const hue = (angle * (180 / Math.PI) + 180 + distance * 10) % 360;
 
   return (

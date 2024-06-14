@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import AboutMe from "../components/home/AboutMe";
 import { cn } from "../hooks/tailwind";
+import { ExperienceSection } from "../components/home/ExperienceSection";
 
 const LazyBlob = dynamic(() => import("../components/home/Blob"));
 const LazyToy = dynamic(() => import("../components/home/Toy"));
@@ -19,14 +20,27 @@ export default function Home() {
       </div>
       <Skills />
       <SendGifSection />
-      <div className={"relative w-full px-[5vw] pb-[30vh] md:px-[10vw]"}>
-        <div className={"flex flex-col justify-center text-center"}>
-          <h2 className={"mb-6 text-4xl font-thin"}>
+      <div
+        className={
+          "relative mx-auto w-full max-w-screen-2xl justify-center px-8 pb-[30vh] md:px-20"
+        }
+      >
+        <div
+          className={"flex flex-col items-center justify-center text-center"}
+        >
+          <h2 className={"mb-6 text-xl font-thin"}>
             You've been scrolling a lot..
-            <br />
-            Let's have some fun.
           </h2>
-          <p className={"text-lg font-normal"}>
+          <div>
+            <div
+              className={
+                "relative mb-6 w-full text-4xl font-thin tracking-wide"
+              }
+            >
+              Let's have some fun.
+            </div>
+          </div>
+          <p className={"text-lg font-thin"}>
             There's this toy my daughter absolutely loves to play with, maybe
             you'll like it too...
           </p>
@@ -58,6 +72,7 @@ export default function Home() {
             <LazyToy />
           </div>
         </Suspense>
+        <ExperienceSection />
       </div>
     </>
   );
