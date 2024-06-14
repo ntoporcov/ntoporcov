@@ -19,7 +19,7 @@ const Blob = () => {
 };
 
 const Scene = () => {
-  const blobColor = "darkcyan";
+  const blobColor = "dodgerblue";
   const resolution = useBreakpointValue<number>({ base: 128, md: 512 });
 
   const dirLight = useRef<DirectionalLight>(null);

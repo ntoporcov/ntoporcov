@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import AboutMe from "../components/home/AboutMe";
 import { cn } from "../hooks/tailwind";
 import { ExperienceSection } from "../components/home/ExperienceSection";
+import Projects from "../components/home/Projects";
 
 const LazyBlob = dynamic(() => import("../components/home/Blob"));
 const LazyToy = dynamic(() => import("../components/home/Toy"));
@@ -12,20 +13,25 @@ const LazyToy = dynamic(() => import("../components/home/Toy"));
 export default function Home() {
   return (
     <>
-      <div className={"min-h-screen"}>
+      <section id={"about"} className={"min-h-screen"}>
         <Suspense fallback={<></>}>
           <LazyBlob />
         </Suspense>
         <AboutMe />
-      </div>
-      <Skills />
-      <SendGifSection />
+      </section>
+      <section id={"skills"}>
+        <Skills />
+      </section>
+      <section id={"contact"}>
+        <SendGifSection />
+      </section>
       <div
         className={
           "relative mx-auto w-full max-w-screen-2xl justify-center px-8 pb-[30vh] md:px-20"
         }
       >
-        <div
+        <section
+          id={"fun"}
           className={"flex flex-col items-center justify-center text-center"}
         >
           <h2 className={"mb-6 text-xl font-thin"}>
@@ -44,7 +50,7 @@ export default function Home() {
             There's this toy my daughter absolutely loves to play with, maybe
             you'll like it too...
           </p>
-        </div>
+        </section>
         <Suspense fallback={<></>}>
           <div
             className={
@@ -72,7 +78,12 @@ export default function Home() {
             <LazyToy />
           </div>
         </Suspense>
-        <ExperienceSection />
+        <section id={"experience"}>
+          <ExperienceSection />
+        </section>
+        <section id={"projects"}>
+          <Projects />
+        </section>
       </div>
     </>
   );

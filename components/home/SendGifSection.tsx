@@ -16,6 +16,7 @@ import { cn } from "../../hooks/tailwind";
 import { Input } from "../form/Input";
 import { Textarea } from "../form/Textarea";
 import { Button } from "../form/Button";
+import GroundReflection from "../display/GroundReflection";
 
 const gf = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY);
 const patienceGifs = (offset: number) =>
@@ -173,13 +174,19 @@ function SendGifSection() {
       <span className={"text-center"}>
         Emails are boring. Let's do this instead.
       </span>
-      <Button
-        variant={"default"}
-        onClick={() => setSelectorOpen(!selectorOpen)}
-        className={"my-4"}
-      >
-        {selectorOpen ? "Close Gif Selector" : "Select GIF"}
-      </Button>
+      <div className={"group relative"}>
+        <Button
+          variant={"default"}
+          onClick={() => setSelectorOpen(!selectorOpen)}
+          className={"my-4"}
+          size={"lg"}
+        >
+          {selectorOpen ? "Close Gif Selector" : "Select GIF"}
+        </Button>
+        <GroundReflection
+          className={"bg-blue-200/40 duration-200 group-hover:bg-blue-400/50"}
+        />
+      </div>
       <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
         <div
           className={cn(
