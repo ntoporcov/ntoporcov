@@ -15,7 +15,7 @@ function lerp(start: number, end: number, alpha: number): number {
 }
 
 function Scene() {
-  const horizontalRows = useBreakpointValue<number>({ base: 20, md: 35 });
+  const horizontalRows = useBreakpointValue<number>({ base: 15, md: 35 });
   const verticalRows = useBreakpointValue<number>({ base: 20, md: 35 });
   const maxDistance = useBreakpointValue<number>({ base: 3, md: 5 });
 
@@ -93,7 +93,7 @@ function Scene() {
           mousePos.current = event.point;
         }}
       >
-        {!isMobile && <OrbitControls enableZoom={true} />}
+        {!isMobile && <OrbitControls enableZoom={false} />}
         {Array.from({ length: horizontalRows }).map((_, row, rowList) =>
           Array.from({ length: verticalRows }).map((_, col, colList) => (
             <Pin3D
