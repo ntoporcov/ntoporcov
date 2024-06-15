@@ -190,7 +190,7 @@ function SendGifSection() {
       <span className={"text-center text-xl md:text-base"}>
         Emails are boring. Let's do this instead.
       </span>
-      <div className={"group relative"}>
+      <div className={"group relative flex justify-center"}>
         <Button
           variant={"default"}
           onClick={() => setSelectorOpen(!selectorOpen)}
@@ -199,8 +199,15 @@ function SendGifSection() {
         >
           {selectorOpen ? "Close Gif Selector" : "Select GIF"}
         </Button>
+        <div
+          className={
+            "absolute bottom-6 -z-10 h-px w-[60vw] bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+          }
+        />
         <GroundReflection
-          className={"bg-blue-200/40 duration-200 group-hover:bg-blue-400/50"}
+          className={
+            "-z-10 bg-blue-200/40 duration-200 group-hover:bg-blue-400/50"
+          }
         />
       </div>
       <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>

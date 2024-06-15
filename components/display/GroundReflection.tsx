@@ -13,7 +13,7 @@ const GroundReflection = (props: GroundReflectionProps) => {
       )}
       style={{
         transform:
-          "perspective(110px) rotateX(45deg) scale(1.3) translateY(-20px)",
+          "perspective(110px) rotateX(39deg) scaleY(1.8) scaleX(1.5) translateY(-35px)",
       }}
     />
   );
