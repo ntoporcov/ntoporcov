@@ -34,7 +34,7 @@ export default function Home() {
           id={"fun"}
           className={"flex flex-col items-center justify-center text-center"}
         >
-          <h2 className={"mb-6 text-xl font-thin"}>
+          <h2 className={"mb-6 text-2xl font-thin md:text-xl"}>
             You've been scrolling a lot..
           </h2>
           <div>
@@ -46,7 +46,7 @@ export default function Home() {
               Let's have some fun.
             </div>
           </div>
-          <p className={"text-lg font-thin"}>
+          <p className={"text-xl font-thin md:text-lg"}>
             There's this toy my daughter absolutely loves to play with, maybe
             you'll like it too...
           </p>

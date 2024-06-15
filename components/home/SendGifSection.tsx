@@ -43,11 +43,16 @@ const ActionSection = ({
     return <span>Something went wrong 😔 I&apos;ll look at it soon.</span>;
   } else {
     return (
-      <div className={"flex flex-col-reverse gap-1 md:flex-row"}>
-        <Button variant={"cancel"} onClick={onCancel}>
+      <div className={"flex flex-col-reverse gap-3 md:flex-row md:gap-1"}>
+        <Button variant={"cancel"} onClick={onCancel} size={"lg"}>
           Cancel
         </Button>
-        <Button variant={"outline"} className={"flex-grow"} onClick={doGifCall}>
+        <Button
+          variant={"outline"}
+          className={"flex-grow"}
+          onClick={doGifCall}
+          size={"lg"}
+        >
           Send Gif
         </Button>
       </div>
@@ -143,13 +148,19 @@ function GifExperience() {
           gifHeight={200}
           onGifClick={() => window.alert("Patience")}
           noLink
+          hideAttribution
         />
       </>
     );
   } else {
     return (
       <div className={"flex flex-col items-center justify-center gap-10"}>
-        <SearchBar className={"w-96"} placeholder={"Be nice..."} />
+        <div className={"relative mx-auto w-10/12"}>
+          <SearchBar
+            className={"mx-auto w-full max-w-80"}
+            placeholder={"Be nice..."}
+          />
+        </div>
         <div className={"w-[140vw] overflow-x-auto"}>
           <Carousel
             className={"pl-[260px]"}
@@ -158,6 +169,7 @@ function GifExperience() {
             key={searchKey}
             onGifClick={setGif}
             noLink
+            hideAttribution
           />
         </div>
       </div>
@@ -171,7 +183,7 @@ function SendGifSection() {
   return (
     <div className={"mb-[30vh] flex flex-col items-center px-4"}>
       <h4 className={"mb-2 text-center text-6xl font-thin"}>Send me a GIF</h4>
-      <span className={"text-center"}>
+      <span className={"text-center text-xl md:text-base"}>
         Emails are boring. Let's do this instead.
       </span>
       <div className={"group relative"}>

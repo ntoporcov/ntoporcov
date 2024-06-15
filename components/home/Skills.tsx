@@ -27,7 +27,7 @@ export const Skills = () => {
       <div className={"z-10 mx-auto w-full max-w-screen-2xl"}>
         <h2
           className={
-            "mt-32 text-center text-4xl font-thin tracking-wide md:text-7xl"
+            "mt-32 text-center text-5xl font-thin tracking-wide md:text-7xl"
           }
         >
           How I Move Pixels
@@ -35,7 +35,7 @@ export const Skills = () => {
         <div
           className={"mt-2 flex flex-col items-center gap-2 px-5 text-center"}
         >
-          <span className={"text-center text-lg tracking-wide md:text-xl"}>
+          <span className={"text-center text-2xl tracking-wide md:text-xl"}>
             Some tools, skills and experiences that come to mind.
           </span>
           <span className={"opacity-50"}>

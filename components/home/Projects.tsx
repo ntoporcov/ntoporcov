@@ -17,9 +17,7 @@ import {
   AccordionTrigger,
 } from "../display/Accordion";
 
-export type ProjectsProps = {};
-
-const Projects = (props: ProjectsProps) => {
+const Projects = () => {
   return (
     <div className={"mx-auto max-w-screen-lg"}>
       <h2 className={"mb-20 mt-60 text-center text-4xl font-thin"}>
@@ -324,12 +322,16 @@ const ProjectCard = ({
             {faq?.map((item) => (
               <AccordionItem key={item.question} value={item.question}>
                 <AccordionTrigger className={"pr-4"}>
-                  <h5 className={"px-2 pl-5 text-xl font-bold lg:pl-2"}>
+                  <h5
+                    className={
+                      "px-2 pl-5 text-left text-lg font-bold lg:pl-2 lg:text-xl"
+                    }
+                  >
                     {item.question}
                   </h5>
                 </AccordionTrigger>
                 <AccordionContent
-                  className={"pl-5 pr-10 lg:pl-2"}
+                  className={"pl-5 pr-10 text-lg lg:pl-2"}
                   defaultChecked
                 >
                   <p>{item.answer}</p>

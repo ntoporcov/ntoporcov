@@ -41,7 +41,7 @@ const ExperienceCompany = ({
         </div>
       )}
       <div className="flex flex-col px-5 py-4">
-        <h3 className={"text-xl font-medium"}>{company}</h3>
+        <h3 className={"text-3xl font-medium md:text-xl"}>{company}</h3>
         <div
           className={
             "flex w-full flex-col-reverse justify-between gap-1 md:flex-row"
@@ -50,7 +50,7 @@ const ExperienceCompany = ({
           <p className={"opacity-50"}>{position}</p>
           <span>{period}</span>
         </div>
-        <p className={"my-2"}>{paragraph}</p>
+        <p className={"my-2 text-lg md:text-base"}>{paragraph}</p>
       </div>
     </div>
   );
