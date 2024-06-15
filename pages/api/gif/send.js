@@ -1,5 +1,5 @@
 import axios from "axios";
-import { cors, runMiddleware } from "../../../utils/middleware";
+import { cors } from "../../../utils/middleware";
 import NextCors from "nextjs-cors";
 
 export default async function handler(req, res) {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         ],
       },
       message: {
-        title: "Website Notification",
+        title: `GIF from ${name.toString() ?? "Unknown"}`,
         body: `<html lang="en">
             <body>
               <h1>GIF from ${name.toString()}</h1>

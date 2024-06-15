@@ -35,3 +35,5 @@ yarn-error.log*
 .env.local
 .npmrc
 firebase.json
+
+certificates
