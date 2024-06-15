@@ -12,6 +12,7 @@ import {
 import { FaPlay } from "react-icons/fa";
 import { useWindowSize } from "react-use";
 import { cn } from "../../hooks/tailwind";
+import GroundReflection from "../display/GroundReflection";
 
 function SocialLink({
   link,
@@ -199,8 +200,8 @@ function SocialLinks() {
         return {
           indicator: {
             style: {
-              left: refs.current?.work?.offsetLeft - padding / 2,
-              width: refs.current?.work?.offsetWidth + padding,
+              left: refs.current?.projects?.offsetLeft - padding / 2,
+              width: refs.current?.projects?.offsetWidth + padding,
             },
           },
         };
@@ -257,9 +258,8 @@ function SocialLinks() {
       </div>
       <div
         className={
-          "hidden w-full items-center justify-center gap-20 border-b border-gray-300 bg-background/20 pb-2 pt-1 uppercase lg:flex"
+          "hidden w-full items-center justify-center gap-20 border-b border-gray-300 bg-background/20 pb-2 pt-1 uppercase transition-all hover:py-3 lg:flex"
         }
-        onMouseLeave={() => setClosestId(calculatePosition())}
       >
         {sectionIds.map((text) => (
           <button
@@ -274,34 +274,35 @@ function SocialLinks() {
               }
             }}
             className={cn(
-              "group relative text-sm font-medium uppercase tracking-wide",
+              "group relative rounded px-2 py-1 text-sm font-medium uppercase tracking-wide transition-[padding]",
               closestId === text && "text-blue-500",
               closestId === text && styles.button?.className,
+              text === "fun" ? "hover:bg-rainbow" : "hover:bg-blue-200/50",
             )}
             style={closestId === text ? styles.button?.style : undefined}
-            onMouseEnter={() => setClosestId(text)}
             onClick={() => {
               document.getElementById(text)?.scrollIntoView({
                 behavior: "smooth",
               });
-              setClosestId(text);
             }}
           >
             <span>{text}</span>
-            <span
-              className={
-                "absolute left-0 h-full w-full blur-md group-hover:bg-blue-400/50"
-              }
-            />
           </button>
         ))}
         <span
           className={cn(
-            "absolute bottom-0 h-1 rounded-full bg-blue-500 transition-[left,width] duration-300",
+            "absolute bottom-0 h-0.5 rounded-full bg-blue-500 transition-[left,width] duration-300",
             styles.indicator?.className,
           )}
           style={styles.indicator?.style}
-        />
+        >
+          <GroundReflection
+            className={cn(
+              "top-8 z-10 h-6",
+              closestId === "fun" ? "bg-rainbow" : "bg-blue-400",
+            )}
+          />
+        </span>
       </div>
     </div>
   );
