@@ -185,7 +185,7 @@ function SendGifSection() {
   const [selectorOpen, setSelectorOpen] = useState(false);
 
   return (
-    <div className={"mb-[30vh] flex flex-col items-center px-4"}>
+    <div className={"my-60 flex flex-col items-center px-4"}>
       <h4 className={"mb-2 text-center text-6xl font-thin"}>Send me a GIF</h4>
       <span className={"text-center text-xl md:text-base"}>
         Emails are boring. Let's do this instead.

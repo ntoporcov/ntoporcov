@@ -38,7 +38,7 @@ const AboutMe = () => {
 
       <div
         className={
-          "relative z-20 mx-auto mb-20 mt-20 flex max-w-5xl flex-col items-center gap-20 rounded-lg border border-gray-300 bg-white/20 px-7 py-12 text-lg shadow-lg backdrop-blur-lg md:flex-row md:px-20 md:text-base"
+          "relative z-20 mx-auto mb-20 mt-20 flex max-w-5xl flex-col items-center gap-10 rounded-lg border border-gray-300 bg-white/20 px-7 py-12 text-lg shadow-lg backdrop-blur-lg md:flex-row md:gap-20 md:px-20 md:text-base"
         }
       >
         <div

@@ -7,9 +7,9 @@ export const Lamp = () => {
     target: ref,
   });
 
-  const opacity = useTransform(scrollYProgress, [1, 0.5], [0, 1]);
-  const width = useTransform(scrollYProgress, [1, 0.5], ["10%", "80%"]);
-  const widthSpill = useTransform(scrollYProgress, [1, 0.5], ["15%", "90%"]);
+  const opacity = useTransform(scrollYProgress, [1, 0.5], [0.4, 1]);
+  const width = useTransform(scrollYProgress, [1, 0.5], ["30%", "80%"]);
+  const widthSpill = useTransform(scrollYProgress, [1, 0.5], ["30%", "90%"]);
 
   // const opacity = useMotionValue(interpolate([0, 1], [0.5, 1])(scrollYProgress))
   // const width = useMotionValue(interpolate([0, 1], ["0%", "80%"]))
@@ -17,7 +17,7 @@ export const Lamp = () => {
   return (
     <div
       ref={ref}
-      className="absolute top-0 isolate -z-10 mt-[141px] flex w-full flex-1 scale-y-125 items-center justify-center"
+      className="absolute -top-9 isolate -z-10 flex h-56 w-full flex-1 scale-y-125 items-center justify-center overflow-hidden"
     >
       <motion.div
         style={{
@@ -68,7 +68,7 @@ export const Lamp = () => {
           opacity,
           width,
         }}
-        className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-cyan-400"
+        className="absolute inset-auto z-50 h-1 w-[30rem] -translate-y-[7rem] bg-cyan-400"
       ></motion.div>
     </div>
   );
