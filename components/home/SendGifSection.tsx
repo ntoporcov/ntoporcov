@@ -133,8 +133,8 @@ function GifExperience() {
     );
   } else if (!gifAvailable) {
     return (
-      <>
-        <div className={"flex flex-col"}>
+      <div className={"flex flex-col items-center justify-center gap-10"}>
+        <div className={"relative mx-auto flex w-10/12 flex-col items-center"}>
           <h4 className={"text-center text-sm"}>
             Only one gif per person every 15 minutes
           </h4>
@@ -143,14 +143,18 @@ function GifExperience() {
             <span className={"font-bold underline"}> Patience </span>
           </span>
         </div>
-        <Carousel
-          fetchGifs={patienceGifs}
-          gifHeight={200}
-          onGifClick={() => window.alert("Patience")}
-          noLink
-          hideAttribution
-        />
-      </>
+        <div className={"w-[140vw] overflow-x-auto"}>
+          <Carousel
+            className={"pl-[260px]"}
+            fetchGifs={patienceGifs}
+            gifHeight={200}
+            key={searchKey}
+            onGifClick={setGif}
+            noLink
+            hideAttribution
+          />
+        </div>
+      </div>
     );
   } else {
     return (
