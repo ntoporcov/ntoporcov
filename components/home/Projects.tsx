@@ -281,13 +281,13 @@ const ProjectCard = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col gap-2 rounded-lg bg-transparent pt-2 shadow-lg outline outline-1 outline-gray-300 lg:flex-row lg:gap-8 lg:pt-4",
+        "relative flex w-full flex-col gap-2 rounded-lg bg-transparent pt-2 shadow-lg outline outline-1 outline-gray-300 md:flex-row md:gap-8 md:pt-4",
         className,
       )}
     >
       <div
         className={
-          "flex min-w-full flex-grow items-end lg:min-w-96 lg:max-w-96"
+          "flex min-w-full flex-grow items-end md:min-w-72 md:max-w-72 lg:min-w-96 lg:max-w-96"
         }
       >
         <Image
@@ -296,14 +296,14 @@ const ProjectCard = ({
           height={0}
           alt={"project image"}
           className={
-            "mb-2 h-auto w-full border-b border-gray-300 object-cover object-bottom lg:mb-0 lg:w-auto lg:border-0 lg:object-right-bottom"
+            "sticky bottom-0 mb-2 h-auto w-full border-b border-gray-300 object-cover object-bottom md:mb-0 md:w-auto md:border-0 md:object-right-bottom"
           }
         />
       </div>
 
-      <div className={"flex flex-grow flex-col gap-2 lg:pl-2"}>
-        <h4 className={"pb-1 pl-5 pr-4 text-4xl font-bold lg:pl-0"}>{title}</h4>
-        <div className={"mb-5 flex flex-wrap gap-2 pl-5 pr-4 lg:pl-0"}>
+      <div className={"flex flex-grow flex-col gap-2 md:pl-2"}>
+        <h4 className={"pb-1 pl-5 pr-4 text-4xl font-bold md:pl-0"}>{title}</h4>
+        <div className={"mb-5 flex flex-wrap gap-2 pl-5 pr-4 md:pl-0"}>
           {tags.map((tag) => (
             <span
               key={tag.tag}
@@ -324,14 +324,14 @@ const ProjectCard = ({
                 <AccordionTrigger className={"pr-4"}>
                   <h5
                     className={
-                      "px-2 pl-5 text-left text-lg font-bold lg:pl-2 lg:text-xl"
+                      "px-2 pl-5 text-left text-lg font-bold md:pl-2 md:text-xl"
                     }
                   >
                     {item.question}
                   </h5>
                 </AccordionTrigger>
                 <AccordionContent
-                  className={"pl-5 pr-10 text-lg lg:pl-2"}
+                  className={"pl-5 pr-10 text-lg md:pl-2"}
                   defaultChecked
                 >
                   <p>{item.answer}</p>

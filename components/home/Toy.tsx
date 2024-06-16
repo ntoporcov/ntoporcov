@@ -9,14 +9,22 @@ import { useEffect, useRef } from "react";
 import { DirectionalLight, Group, Mesh, Vector3 } from "three";
 import { interpolate } from "framer-motion";
 import { useBreakpointValue } from "../../hooks/useBreakpointValue";
+import ToyContainer from "./ToyContainer";
+import { useBoolean } from "react-use";
 
 function lerp(start: number, end: number, alpha: number): number {
   return start * (1 - alpha) + end * alpha;
 }
 
-function Scene() {
-  const horizontalRows = useBreakpointValue<number>({ base: 15, md: 35 });
-  const verticalRows = useBreakpointValue<number>({ base: 20, md: 35 });
+function Scene({ isFullScreen }: { isFullScreen: boolean }) {
+  const horizontalRows = useBreakpointValue<number>({
+    base: isFullScreen ? window.innerWidth / 20 : 15,
+    md: 35,
+  });
+  const verticalRows = useBreakpointValue<number>({
+    base: isFullScreen ? window.innerHeight / 25 : 20,
+    md: 35,
+  });
   const maxDistance = useBreakpointValue<number>({ base: 3, md: 5 });
 
   const isMobile = useBreakpointValue<boolean>({ base: true, md: false });
@@ -84,7 +92,7 @@ function Scene() {
       <PerspectiveCamera
         fov={35}
         makeDefault
-        position={[0, 0, isMobile ? 30 : 50]}
+        position={[0, 0, isFullScreen ? 70 : isMobile ? 30 : 50]}
       />
       <group
         rotation={[-Math.PI / 4, 0, 0]}
@@ -167,9 +175,13 @@ function Pin3D({
 }
 
 export default function Toy() {
+  const [fullScreen, setFullScreen] = useBoolean(false);
+
   return (
-    <Canvas className={"z-10"}>
-      <Scene />
-    </Canvas>
+    <ToyContainer isFullScreen={fullScreen} onFullScreenChange={setFullScreen}>
+      <Canvas className={"z-10"}>
+        <Scene isFullScreen={fullScreen} />
+      </Canvas>
+    </ToyContainer>
   );
 }

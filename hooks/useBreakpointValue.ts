@@ -15,7 +15,7 @@ const tailwindBreakpoints: Record<BreakPoint, number> = {
 export const useBreakpointValue = <R, T = { [i in BreakPoint]?: R }>(
   values: T,
 ): R => {
-  const { width } = useWindowSize();
+  const { width } = useWindowSize(0, 0);
 
   const result = Object.entries(values)
     .sort(

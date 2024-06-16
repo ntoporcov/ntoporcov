@@ -19,14 +19,12 @@ import { BiLogoFirebase } from "react-icons/bi";
 import { IoIosAppstore } from "react-icons/io";
 import { useBoolean, useWindowScroll } from "react-use";
 import { Lamp } from "../display/Lamp";
-import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 import { SegmentedControl } from "../form/SegmentedControl";
 
 export const Skills = () => {
-  const [onlyMainOnes, setOnlyMainOnes] = useBoolean(true);
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const [onlyMainOnes, setOnlyMainOnes] = useBoolean(false);
 
-  const shouldShowSecondaries = isMobile ? !onlyMainOnes : true;
+  const shouldShowSecondaries = !onlyMainOnes;
 
   return (
     <div className={"relative"}>
@@ -43,7 +41,7 @@ export const Skills = () => {
           className={"mt-2 flex flex-col items-center gap-2 px-5 text-center"}
         >
           <span className={"text-center text-2xl tracking-wide md:text-xl"}>
-            Some tools, skills and experiences that come to mind.
+            Some tools and skills that come to mind.
           </span>
           <span className={"opacity-50"}>
             More may be available upon request
@@ -56,12 +54,12 @@ export const Skills = () => {
             className={"mt-5 bg-white/20 backdrop-blur"}
             options={[
               {
-                value: String(true),
-                label: "Main Stuff",
-              },
-              {
                 value: String(false),
                 label: "Show All",
+              },
+              {
+                value: String(true),
+                label: "Main Stuff",
               },
             ]}
             itemClassName={() => "uppercase tracking-wider active:scale-95"}
