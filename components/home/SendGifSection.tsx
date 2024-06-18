@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import {
   Carousel,
   Gif,
@@ -6,10 +6,8 @@ import {
   SearchContext,
   SearchContextManager,
 } from "@giphy/react-components";
-import { GiphyFetch } from "@giphy/js-fetch-api";
 import { sendGif } from "../../utils/axios";
 import Image from "next/image";
-import { useLocalStorage } from "react-use";
 import { IGif } from "@giphy/js-types";
 import { useMutation } from "@tanstack/react-query";
 import { cn } from "../../hooks/tailwind";
@@ -17,10 +15,6 @@ import { Input } from "../form/Input";
 import { Textarea } from "../form/Textarea";
 import { Button } from "../form/Button";
 import GroundReflection from "../display/GroundReflection";
-
-const gf = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY);
-const patienceGifs = (offset: number) =>
-  gf.search("Patience", { offset, limit: 10 });
 
 const ActionSection = ({
   isSending,
@@ -65,8 +59,6 @@ function GifExperience() {
 
   const [gif, setGif] = useState<IGif | undefined>();
 
-  const [gifSent, setGifSent] = useLocalStorage("gif-sent", -1);
-
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
@@ -75,21 +67,9 @@ function GifExperience() {
     isLoading: isSending,
     isSuccess: sent,
     isError: sendError,
-  } = useMutation(
-    ["sendGif", gif, name, message],
-    () => sendGif(gif, name, message),
-    {
-      onSuccess: () => {
-        setGifSent(Date.now());
-      },
-    },
+  } = useMutation(["sendGif", gif, name, message], () =>
+    sendGif(gif, name, message),
   );
-
-  const gifAvailable = useMemo(() => {
-    if (gifSent === -1) return true;
-
-    return Date.now() - gifSent < 900000;
-  }, [gifSent]);
 
   if (gif) {
     return (
@@ -128,31 +108,6 @@ function GifExperience() {
               sendError={sendError}
             />
           </div>
-        </div>
-      </div>
-    );
-  } else if (!gifAvailable) {
-    return (
-      <div className={"flex flex-col items-center justify-center gap-10"}>
-        <div className={"relative mx-auto flex w-10/12 flex-col items-center"}>
-          <h4 className={"text-center text-sm"}>
-            Only one gif per person every 15 minutes
-          </h4>
-          <span className={"pb-6"}>
-            Btw, these are the results for{" "}
-            <span className={"font-bold underline"}> Patience </span>
-          </span>
-        </div>
-        <div className={"w-[140vw] overflow-x-auto"}>
-          <Carousel
-            className={"pl-[260px]"}
-            fetchGifs={patienceGifs}
-            gifHeight={200}
-            key={searchKey}
-            onGifClick={setGif}
-            noLink
-            hideAttribution
-          />
         </div>
       </div>
     );
