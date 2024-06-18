@@ -87,11 +87,16 @@ function SpotifyWidget() {
         <>
           {spotifyData.playing ? "Now Listening" : "Last played:"}
           {spotifyData.playing && (
-            <div className={"w-4 pt-1"}>
+            <div className={"w-4 animate-pulse"}>
               <FaPlay color={"#1db954"} />
             </div>
           )}
-          <span className={"text-sm text-[#1db954] hover:underline"}>
+          <span
+            className={cn(
+              "text-sm text-[#1db954] hover:underline",
+              spotifyData.playing ? "animate-pulse" : "",
+            )}
+          >
             <Link
               passHref
               href={spotifyData.track.artists[0].external_urls.spotify || ""}
