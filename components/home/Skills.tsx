@@ -19,12 +19,14 @@ import { BiLogoFirebase } from "react-icons/bi";
 import { IoIosAppstore } from "react-icons/io";
 import { useBoolean, useWindowScroll } from "react-use";
 import { Lamp } from "../display/Lamp";
+import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 import { SegmentedControl } from "../form/SegmentedControl";
 
 export const Skills = () => {
-  const [onlyMainOnes, setOnlyMainOnes] = useBoolean(false);
+  const [onlyMainOnes, setOnlyMainOnes] = useBoolean(true);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const shouldShowSecondaries = !onlyMainOnes;
+  const shouldShowSecondaries = isMobile ? !onlyMainOnes : true;
 
   return (
     <div className={"relative"}>
@@ -54,12 +56,12 @@ export const Skills = () => {
             className={"mt-5 bg-white/20 backdrop-blur"}
             options={[
               {
-                value: String(false),
-                label: "Show All",
-              },
-              {
                 value: String(true),
                 label: "Main Stuff",
+              },
+              {
+                value: String(false),
+                label: "Show All",
               },
             ]}
             itemClassName={() => "uppercase tracking-wider active:scale-95"}

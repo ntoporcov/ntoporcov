@@ -1,4 +1,5 @@
 import { useWindowSize } from "react-use";
+import { useEffect, useState } from "react";
 
 const breakpointsList = ["base", "sm", "md", "lg", "xl", "2xl"] as const;
 type BreakPoint = (typeof breakpointsList)[number];
@@ -15,19 +16,24 @@ const tailwindBreakpoints: Record<BreakPoint, number> = {
 export const useBreakpointValue = <R, T = { [i in BreakPoint]?: R }>(
   values: T,
 ): R => {
+  const [value, setValue] = useState<R | undefined>();
   const { width } = useWindowSize(0, 0);
 
-  const result = Object.entries(values)
-    .sort(
-      ([a], [b]) =>
-        breakpointsList.indexOf(a as BreakPoint) -
-        breakpointsList.indexOf(b as BreakPoint),
-    )
-    .reverse()
-    .find(([key]) => {
-      const breakpoint = key as BreakPoint;
-      return width >= tailwindBreakpoints[breakpoint];
-    });
+  useEffect(() => {
+    const result = Object.entries(values)
+      .sort(
+        ([a], [b]) =>
+          breakpointsList.indexOf(a as BreakPoint) -
+          breakpointsList.indexOf(b as BreakPoint),
+      )
+      .reverse()
+      .find(([key]) => {
+        const breakpoint = key as BreakPoint;
+        return width >= tailwindBreakpoints[breakpoint];
+      });
 
-  return result[1];
+    setValue(result[1]);
+  }, [values, width]);
+
+  return value as R;
 };

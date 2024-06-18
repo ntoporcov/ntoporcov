@@ -19,7 +19,9 @@ export default function Home() {
         <AboutMe />
       </section>
       <section id={"skills"}>
-        <Skills />
+        <Suspense fallback={<></>}>
+          <Skills />
+        </Suspense>
       </section>
       <section id={"contact"}>
         <SendGifSection />
