@@ -89,7 +89,7 @@ function GifExperience() {
               placeholder={"Michael Scott"}
               value={name}
               onChange={(event) => setName(event.target.value)}
-              disabled={isSending}
+              disabled={isSending || sent}
             />
             <Textarea
               placeholder={
@@ -98,7 +98,7 @@ function GifExperience() {
               rows={7}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
-              disabled={isSending}
+              disabled={isSending || sent}
             />
             <ActionSection
               doGifCall={submitGif}
@@ -120,12 +120,12 @@ function GifExperience() {
             placeholder={"Be nice..."}
           />
         </div>
-        <div className={"w-[140vw] overflow-x-auto"}>
+        <div className={"w-screen overflow-x-auto"}>
           <Carousel
+            key={searchKey}
             className={"pl-[260px]"}
             fetchGifs={fetchGifs}
             gifHeight={200}
-            key={searchKey}
             onGifClick={setGif}
             noLink
             hideAttribution
