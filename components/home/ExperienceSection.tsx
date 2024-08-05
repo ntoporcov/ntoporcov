@@ -15,9 +15,9 @@ export function ExperienceSection() {
         <ExperienceCompany
           cover={"/rfsmart.png"}
           company={"RF-SMART"}
-          position={"Senior React Specialist"}
+          position={"Senior UI Architect"}
           period={"July 2022 - Now"}
-          paragraph={`Came back to continue what I started with the shipping application 🚀🚀🚀🚀`}
+          paragraph={`My main responsibilities lie around our Shipping products, where I am the lead developer and designer of the Front-End application. I have, however, also become sort of a consultant to other products of the company when it comes to their user experience, interface and interactions.`}
           className={
             "hover:outline-2xl shadow-sm hover:shadow-2xl hover:shadow-red-50 hover:outline-red-100"
           }
