@@ -2,15 +2,22 @@ import Head from "next/head";
 import { htmlElement, useDarkModeState } from "../hooks/darkMode";
 import { useEffectOnce } from "react-use";
 import SocialLinks from "./nav/SocialLinks";
+import { useRouter } from "next/router";
 
 function AppFrame({ Component, pageProps }) {
   const { isDarkMode } = useDarkModeState();
+  const location = useRouter();
+  const isLuna = location.pathname.startsWith("/luna");
 
   useEffectOnce(() => {
-    if (isDarkMode) {
+    if (isDarkMode && !isLuna) {
       htmlElement().classList.add("dark");
     }
   });
+
+  if (isLuna) {
+    return <Component {...pageProps} />;
+  }
 
   return (
     <>

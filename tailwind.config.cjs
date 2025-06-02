@@ -1,15 +1,16 @@
-const plugin = require('tailwindcss/plugin')
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}"
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
+        whiteAlways: "rgb(255 255 255 / <alpha-value>)",
         white: "rgb(var(--white) / <alpha-value>)",
         black: "rgb(var(--black) / <alpha-value>)",
         background: "rgb(var(--background) / <alpha-value>)",
@@ -44,7 +45,7 @@ module.exports = {
 
             for (const level of levels) {
               colors[color][level] =
-                  `rgb(var(--${color}-${level}) / <alpha-value>)`;
+                `rgb(var(--${color}-${level}) / <alpha-value>)`;
             }
           }
 
@@ -71,11 +72,10 @@ module.exports = {
     require("tailwindcss-animate"),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({
-        '.glow-lg': {
-            boxShadow: `0 0 20px 2px rgba(var(--primary-500), 0.5)`,
+        ".glow-lg": {
+          boxShadow: `0 0 20px 2px rgba(var(--primary-500), 0.5)`,
         },
-      })
-    })
+      });
+    }),
   ],
-}
-
+};
