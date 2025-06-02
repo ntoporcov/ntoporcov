@@ -432,6 +432,7 @@ const Umbrella = ({ name, confirmed, path }: InvitedPerson) => {
           <span className={"absolute -right-3 -top-3 text-green-500"}>✅</span>
         )}
       </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={confirmed ? "/luna/confirmed.png" : "/luna/not-confirmed.png"}
         alt={"Not Confirmed Umbrella"}
