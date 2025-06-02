@@ -223,7 +223,7 @@ export const Luna = (props: LunaProps) => {
       </Head>
 
       <div
-        className={"-mt-10 h-72 w-full pt-5"}
+        className={"-mt-10 h-96 w-full pt-5 sm:h-72"}
         style={{
           background: "url(/luna/sky.png) no-repeat center bottom",
           backgroundSize: "cover",
@@ -240,7 +240,7 @@ export const Luna = (props: LunaProps) => {
         </span>
       </div>
       <div
-        className="z-10 -mt-20 h-96 w-full"
+        className="z-10 -mt-20 h-40 w-full sm:h-96"
         style={{
           background: "url(/luna/house.png) no-repeat center center",
           backgroundSize: "cover",
