@@ -1,5 +1,3 @@
-"use client";
-
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { initializeApp } from "firebase/app";
 import {
@@ -23,6 +21,7 @@ import { Button } from "../components/form/Button";
 import { cn } from "../hooks/tailwind";
 import { useRouter } from "next/router";
 import { BiLeftArrowCircle } from "react-icons/bi";
+import { useBoolean, useCopyToClipboard } from "react-use";
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -208,6 +207,21 @@ export const Luna = (props: LunaProps) => {
       }}
     >
       <Head>
+        <title>Luna's Birthday</title>
+        <meta name="title" content="Luna's Birthday" />
+        <meta
+          name="description"
+          content="Come celebrate Luna's Birthday with us!"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Luna's Birthday" />
+        <meta
+          property="og:description"
+          content="Come celebrate Luna's Birthday with us!"
+        />
+        <meta property="og:image" content="/luna/preview.png" />
+
         <link
           href={`https://fonts.googleapis.com/css2?family=${TitleFont}&display=swap`}
           rel="stylesheet"
@@ -265,8 +279,10 @@ export const Luna = (props: LunaProps) => {
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
           />
-          <Button variant={"luna"} type={"submit"}>
-            Search
+          <Button variant={"luna"} type={"submit"} className={"w-32"}>
+            <span className={groupsLoading ? "animate-spin" : ""}>
+              {groupsLoading ? `☀️` : "Search"}
+            </span>
           </Button>
         </form>
         {inputVal.toLowerCase() === "invite" && (
@@ -276,13 +292,25 @@ export const Luna = (props: LunaProps) => {
           />
         )}
         {(results || [])?.length > 1 && (
-          <div>
+          <div className={"flex flex-wrap gap-5"}>
             {results.map((result) => {
               return (
-                <div key={result.name}>
-                  <span>{result.name}</span>
-                  <span>{result.groupName}</span>
-                  <Button size={"sm"}>Select</Button>
+                <div
+                  className={"flex flex-col border bg-white/30 p-2"}
+                  key={result.name}
+                >
+                  <span className={"text-xl capitalize"} style={textStyle}>
+                    {result.name}
+                  </span>
+                  <span
+                    className={"mb-2 capitalize opacity-50"}
+                    style={textStyle}
+                  >
+                    {result.groupName}
+                  </span>
+                  <Button variant={"luna"} size={"sm"}>
+                    Select
+                  </Button>
                 </div>
               );
             })}
@@ -312,6 +340,7 @@ export const Luna = (props: LunaProps) => {
   );
 };
 
+const addy = "2409 South Ponte Vedra Blvd, Ponte Vedra Beach - FL 32082";
 const ConfirmablePeopleContainer = ({
   groupPeople,
   groupName,
@@ -323,6 +352,9 @@ const ConfirmablePeopleContainer = ({
   onBack: () => void;
   date?: string;
 }) => {
+  const [state, copy] = useCopyToClipboard();
+  const [hasCopied, setHasCopied] = useBoolean(false);
+
   return (
     <div className={"flex flex-col items-center"}>
       <p
@@ -347,7 +379,31 @@ const ConfirmablePeopleContainer = ({
           >
             Where
           </h2>
-          📍 2409 South Ponte Vedra Blvd, Ponte Vedra Beach - FL 32082
+          <div className={"flex items-center gap-2"}>
+            <a
+              className={"text-orange-700 hover:underline"}
+              target="_blank"
+              href={`https://www.google.com/maps/place/2409+S+Ponte+Vedra+Blvd/@30.0593041,-81.3320452,20z/data=!4m7!3m6!1s0x88e43aad1df56281:0x6234f6fc45d83fc7!4b1!8m2!3d30.059303!4d-81.331682!16s%2Fg%2F11bw4j40rc?entry=ttu&g_ep=EgoyMDI1MDUyOC4wIKXMDSoASAFQAw%3D%3D`}
+              rel="noreferrer"
+            >
+              📍 {addy}
+            </a>
+            <Button
+              size={"sm"}
+              variant={"luna"}
+              onClick={() => {
+                setHasCopied(true);
+                copy(addy);
+
+                setTimeout(() => {
+                  setHasCopied(false);
+                }, 2000);
+              }}
+              className="w-16"
+            >
+              {hasCopied ? "Copied!" : "Copy"}
+            </Button>
+          </div>
         </div>
         <div
           className={
@@ -377,9 +433,9 @@ const ConfirmablePeopleContainer = ({
         </h2>
       </div>
       <span style={textStyle} className={"text-center text-sm"}>
-        Tap the umbrella to confirm you're going
+        Tap the umbrella to confirm who is going
       </span>
-      <div className={"mt-4 grid grid-cols-2 md:grid-cols-6"}>
+      <div className={"mt-4 flex flex-wrap justify-center"}>
         {(groupPeople || []).map((person) => (
           <Umbrella key={person.name} {...person} />
         ))}
@@ -405,7 +461,7 @@ const Umbrella = ({ name, confirmed, path }: InvitedPerson) => {
 
   return (
     <button
-      className={"group flex flex-col items-center gap-2 p-4"}
+      className={"group flex w-40 flex-col items-center gap-2 p-4"}
       onClick={() =>
         confirmMutate({
           path,
@@ -488,7 +544,7 @@ const InviteContainer = ({
   return (
     <div
       className={
-        "flex flex-col gap-4 rounded border bg-white/40 p-2 backdrop-blur"
+        "mb-5 flex flex-col gap-4 rounded border bg-white/40 p-2 backdrop-blur"
       }
     >
       <div className={"p-2"}>
@@ -577,7 +633,7 @@ const InviteContainer = ({
 export default function Luna3() {
   return (
     <Luna
-      date={"June 29, 2025"}
+      date={"June 28, 2025"}
       title={"Luna's Birthday"}
       searchPlaceholder={"Search for family or person name..."}
       peopleCollectionKey={"people"}
