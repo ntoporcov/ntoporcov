@@ -635,7 +635,7 @@ export default function Luna3() {
     <Luna
       date={"June 28, 2025"}
       title={"Luna's Birthday"}
-      searchPlaceholder={"Search for family or person name..."}
+      searchPlaceholder={"Family or Person name"}
       peopleCollectionKey={"people"}
     />
   );
