@@ -208,14 +208,14 @@ export const Luna = (props: LunaProps) => {
     >
       <Head>
         <title>{props.title}</title>
-        <meta name="title" content="Luna's Birthday" />
+        <meta name="title" content={props.title} />
         <meta
           name="description"
           content="Come celebrate Luna's Birthday with us!"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Luna's Birthday" />
+        <meta property="og:title" content={props.title} />
         <meta
           property="og:description"
           content="Come celebrate Luna's Birthday with us!"
