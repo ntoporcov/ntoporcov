@@ -207,7 +207,7 @@ export const Luna = (props: LunaProps) => {
       }}
     >
       <Head>
-        <title>Luna's Birthday</title>
+        <title>{props.title}</title>
         <meta name="title" content="Luna's Birthday" />
         <meta
           name="description"
