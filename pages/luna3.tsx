@@ -417,7 +417,7 @@ const ConfirmablePeopleContainer = ({
           >
             When
           </h2>
-          {date} – 1pm
+          {date}
         </div>
       </div>
       <div
@@ -633,7 +633,7 @@ const InviteContainer = ({
 export default function Luna3() {
   return (
     <Luna
-      date={"June 28, 2025"}
+      date={"June 28, 2025 – 1PM"}
       title={"Luna's Birthday"}
       searchPlaceholder={"Family or Person name"}
       peopleCollectionKey={"people"}
