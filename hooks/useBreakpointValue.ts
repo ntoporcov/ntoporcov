@@ -17,7 +17,7 @@ export const useBreakpointValue = <R, T = { [i in BreakPoint]?: R }>(
   values: T,
 ): R => {
   const [value, setValue] = useState<R | undefined>();
-  const { width } = useWindowSize(0, 0);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const result = Object.entries(values)
