@@ -7,9 +7,9 @@ export const Lamp = () => {
     target: ref,
   });
 
-  const opacity = useTransform(scrollYProgress, [1, 0.5], [0.4, 1]);
-  const width = useTransform(scrollYProgress, [1, 0.5], ["30%", "80%"]);
-  const widthSpill = useTransform(scrollYProgress, [1, 0.5], ["30%", "90%"]);
+  const opacity = useTransform(scrollYProgress, [0.5, 1], [1, 0.4]);
+  const width = useTransform(scrollYProgress, [0.5, 1], ["80%", "30%"]);
+  const widthSpill = useTransform(scrollYProgress, [0.5, 1], ["90%", "30%"]);
 
   // const opacity = useMotionValue(interpolate([0, 1], [0.5, 1])(scrollYProgress))
   // const width = useMotionValue(interpolate([0, 1], ["0%", "80%"]))

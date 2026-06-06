@@ -83,7 +83,7 @@ function SpotifyWidget() {
   return (
     <div className={"flex items-center gap-2"}>
       <FaSpotify color={"#1db954"} />
-      {!isLoading && (
+      {!isLoading && spotifyData && (
         <>
           {spotifyData.playing ? "Now Listening" : "Last played:"}
           {spotifyData.playing && (

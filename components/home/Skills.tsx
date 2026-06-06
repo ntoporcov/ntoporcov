@@ -21,6 +21,8 @@ import { useBoolean, useWindowScroll } from "react-use";
 import { Lamp } from "../display/Lamp";
 import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 import { SegmentedControl } from "../form/SegmentedControl";
+import { motion } from "framer-motion";
+import FadeInUp from "../display/FadeInUp";
 
 export const Skills = () => {
   const [onlyMainOnes, setOnlyMainOnes] = useBoolean(true);
@@ -32,23 +34,25 @@ export const Skills = () => {
     <div className={"relative"}>
       <Lamp />
       <div className={"z-10 mx-auto w-full max-w-screen-2xl"}>
-        <h2
-          className={
-            "mt-16 text-center text-5xl font-thin tracking-wide md:text-7xl"
-          }
-        >
-          How I Move Pixels
-        </h2>
-        <div
-          className={"mt-2 flex flex-col items-center gap-2 px-5 text-center"}
-        >
-          <span className={"text-center text-2xl tracking-wide md:text-xl"}>
-            Some tools and skills that come to mind.
-          </span>
-          <span className={"opacity-50"}>
-            More may be available upon request
-          </span>
-        </div>
+        <FadeInUp>
+          <h2
+            className={
+              "mt-16 text-center text-5xl font-thin tracking-wide md:text-7xl"
+            }
+          >
+            How I Move Pixels
+          </h2>
+          <div
+            className={"mt-2 flex flex-col items-center gap-2 px-5 text-center"}
+          >
+            <span className={"text-center text-2xl tracking-wide md:text-xl"}>
+              Some tools and skills that come to mind.
+            </span>
+            <span className={"opacity-50"}>
+              More may be available upon request
+            </span>
+          </div>
+        </FadeInUp>
 
         <div className={"sticky top-10 z-20 flex justify-center md:hidden"}>
           <SegmentedControl
@@ -70,10 +74,21 @@ export const Skills = () => {
           />
         </div>
 
-        <div
+        <motion.div
           className={
             "grid w-full grid-cols-2 gap-2 p-10 pb-16 md:grid-cols-8 lg:grid-cols-12"
           }
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.07,
+              },
+            },
+          }}
         >
           <GradientBentoBox
             title={"Typescript"}
@@ -232,7 +247,7 @@ export const Skills = () => {
             icon={<SiShadcnui className={"text-gray-800"} size={60} />}
             className={"md:col-span-2"}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -270,7 +285,14 @@ const GradientBentoBox = ({
   }, [isPastMiddle, scroll.y, toggle]);
 
   return (
-    <div className={cn(className, "relative min-h-32")} ref={parentDiv}>
+    <motion.div
+      className={cn(className, "relative min-h-32")}
+      ref={parentDiv}
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+      }}
+    >
       <GradientCard
         parentClassName={cn(
           "flex group flex gap-2 p-0.5 rounded md:absolute min-h-full hover:md:h-48 hover:md:scale-105 z-0 hover:z-10",
@@ -293,6 +315,6 @@ const GradientBentoBox = ({
           <p className={"pt-2 text-center text-sm"}>{description}</p>
         </div>
       </GradientCard>
-    </div>
+    </motion.div>
   );
 };

@@ -15,6 +15,7 @@ import { Input } from "../form/Input";
 import { Textarea } from "../form/Textarea";
 import { Button } from "../form/Button";
 import GroundReflection from "../display/GroundReflection";
+import FadeInUp from "../display/FadeInUp";
 
 const ActionSection = ({
   isSending,
@@ -141,12 +142,15 @@ function SendGifSection() {
 
   return (
     <div className={"my-60 flex flex-col items-center px-4"}>
-      <h4 className={"mb-2 text-center text-6xl font-thin"}>Send me a GIF</h4>
-      <span className={"text-center text-xl md:text-base"}>
-        Emails are boring. Let's do this instead.
-      </span>
-      <div className={"group relative flex justify-center"}>
-        <Button
+      <FadeInUp>
+        <h4 className={"mb-2 text-center text-6xl font-thin"}>Send me a GIF</h4>
+        <span className={"text-center text-xl md:text-base"}>
+          Emails are boring. Let's do this instead.
+        </span>
+      </FadeInUp>
+      <FadeInUp delay={0.1}>
+        <div className={"group relative flex justify-center"}>
+          <Button
           variant={"default"}
           onClick={() => setSelectorOpen(!selectorOpen)}
           className={"my-4"}
@@ -165,6 +169,7 @@ function SendGifSection() {
           }
         />
       </div>
+      </FadeInUp>
       <SearchContextManager apiKey={process.env.NEXT_PUBLIC_GIPHY}>
         <div
           className={cn(
