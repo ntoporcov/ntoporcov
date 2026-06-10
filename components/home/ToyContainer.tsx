@@ -15,8 +15,8 @@ const ToyContainer = ({
   onFullScreenChange,
 }: ToyContainerProps) => {
   return (
-    <div className={"mt-10 w-full"}>
-      <div className={"relative my-10 flex w-full justify-center"}>
+    <div className={"w-full"}>
+      <div className={"relative my-6 flex w-full justify-center"}>
         <Button
           size={"lg"}
           variant={"rainbow"}

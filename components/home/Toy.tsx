@@ -10,8 +10,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DirectionalLight, Group, Mesh, Vector3 } from "three";
 import { interpolate } from "framer-motion";
 import { useBreakpointValue } from "../../hooks/useBreakpointValue";
-import ToyContainer from "./ToyContainer";
-import { useBoolean } from "react-use";
 import { Button } from "../form/Button";
 import { cn } from "../../hooks/tailwind";
 
@@ -292,8 +290,7 @@ function Pin3D({
   );
 }
 
-export default function Toy() {
-  const [fullScreen, setFullScreen] = useBoolean(false);
+export default function Toy({ isFullScreen }: { isFullScreen: boolean }) {
   const [drawMode, setDrawMode] = useState(false);
   const [drawnPins, setDrawnPins] = useState<Set<string>>(new Set());
 
@@ -311,7 +308,7 @@ export default function Toy() {
   }, []);
 
   return (
-    <ToyContainer isFullScreen={fullScreen} onFullScreenChange={setFullScreen}>
+    <>
       <div className="absolute left-3 top-3 z-20 flex gap-2">
         <Button
           size={"sm"}
@@ -337,12 +334,12 @@ export default function Toy() {
       </div>
       <Canvas className={"z-10"}>
         <Scene
-          isFullScreen={fullScreen}
+          isFullScreen={isFullScreen}
           drawMode={drawMode}
           drawnPins={drawnPins}
           onDraw={handleDraw}
         />
       </Canvas>
-    </ToyContainer>
+    </>
   );
 }

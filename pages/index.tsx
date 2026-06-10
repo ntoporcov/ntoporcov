@@ -8,7 +8,9 @@ import Projects from "../components/home/Projects";
 import FadeInUp from "../components/display/FadeInUp";
 
 const LazyBlob = dynamic(() => import("../components/home/Blob"));
-const LazyToy = dynamic(() => import("../components/home/Toy"));
+const LazyToysAndGames = dynamic(
+  () => import("../components/home/ToysAndGames"),
+);
 
 export default function Home() {
   return (
@@ -46,7 +48,7 @@ export default function Home() {
           </p>
         </FadeInUp>
         <Suspense fallback={<></>}>
-          <LazyToy />
+          <LazyToysAndGames />
         </Suspense>
       </section>
       <section
