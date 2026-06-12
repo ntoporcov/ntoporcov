@@ -309,3 +309,10 @@ html {
   background: var(--rainbow), #303030;
   background-blend-mode: overlay;
 }
+
+/* Hide the navbar on desktop while a toy is in full screen */
+@media (min-width: 1024px) {
+  body.toy-fullscreen .site-navbar {
+    display: none;
+  }
+}

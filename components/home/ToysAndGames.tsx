@@ -6,25 +6,30 @@ import { cn } from "../../hooks/tailwind";
 
 const LazyToy = dynamic(() => import("./Toy"));
 const LazyPopIt = dynamic(() => import("./PopIt"));
+const LazyEtchASketch = dynamic(() => import("./EtchASketch"));
 
-type GameId = "pinart" | "popit";
+type GameId = "pinart" | "popit" | "etch";
 
 const games: { id: GameId; label: string }[] = [
-  { id: "pinart", label: "Pin Art" },
   { id: "popit", label: "Pop It" },
+  { id: "etch", label: "Etch" },
+  { id: "pinart", label: "Pin Art" },
 ];
 
 export default function ToysAndGames() {
-  const [activeGame, setActiveGame] = useState<GameId>("pinart");
+  const [activeGame, setActiveGame] = useState<GameId>("popit");
   const [fullScreen, setFullScreen] = useBoolean(false);
 
   return (
     <div className={"mt-10 w-full"}>
-      {/* Toggle button group for switching toys */}
+      {/* Toggle button group for switching toys. In fullscreen it floats
+          centered at the top (between the corner controls). */}
       <div
         className={cn(
-          "mx-auto flex w-fit items-center gap-1 rounded-full border border-gray-300 bg-white/40 p-1 backdrop-blur",
-          fullScreen && "hidden",
+          "flex w-fit items-center gap-1 rounded-full border border-gray-300 bg-white/40 p-1 backdrop-blur",
+          fullScreen
+            ? "fixed left-1/2 top-3 z-[60] -translate-x-1/2 shadow-lg"
+            : "mx-auto",
         )}
       >
         {games.map((game) => {
@@ -58,6 +63,9 @@ export default function ToysAndGames() {
         <Suspense fallback={<></>}>
           {activeGame === "pinart" && <LazyToy isFullScreen={fullScreen} />}
           {activeGame === "popit" && <LazyPopIt isFullScreen={fullScreen} />}
+          {activeGame === "etch" && (
+            <LazyEtchASketch isFullScreen={fullScreen} />
+          )}
         </Suspense>
       </ToyContainer>
     </div>

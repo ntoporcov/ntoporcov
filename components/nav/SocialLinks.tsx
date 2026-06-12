@@ -230,7 +230,11 @@ function SocialLinks() {
   }, []);
 
   return (
-    <div className={"fixed top-0 z-50 w-full bg-white/50 backdrop-blur-xl"}>
+    <div
+      className={
+        "site-navbar fixed top-0 z-50 w-full bg-white/50 backdrop-blur-xl"
+      }
+    >
       <div
         className={
           "flex w-full items-center justify-between border-b border-gray-100 px-3 py-2 text-sm"

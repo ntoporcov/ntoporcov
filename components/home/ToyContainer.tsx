@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { cn } from "../../hooks/tailwind";
 import { Button } from "../form/Button";
 import { RxEnterFullScreen, RxExitFullScreen } from "react-icons/rx";
@@ -14,44 +14,30 @@ const ToyContainer = ({
   isFullScreen,
   onFullScreenChange,
 }: ToyContainerProps) => {
+  // Lock page scroll and flag fullscreen on the body (used to hide the navbar
+  // on desktop). Kept in an effect so it stays in sync and cleans up on unmount.
+  useEffect(() => {
+    if (isFullScreen) {
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("toy-fullscreen");
+    } else {
+      document.body.style.overflow = "auto";
+      document.body.classList.remove("toy-fullscreen");
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      document.body.classList.remove("toy-fullscreen");
+    };
+  }, [isFullScreen]);
+
   return (
     <div className={"w-full"}>
-      <div className={"relative my-6 flex w-full justify-center"}>
-        <Button
-          size={"lg"}
-          variant={"rainbow"}
-          className={
-            "right-2 top-2 flex gap-3 shadow-xl shadow-pink-500/50 md:hidden"
-          }
-          onClick={() => {
-            onFullScreenChange(true);
-            document.body.style.overflow = "hidden";
-          }}
-        >
-          <RxEnterFullScreen />
-          <span>Full Screen</span>
-        </Button>
-        {isFullScreen && (
-          <Button
-            size={"lg"}
-            variant={"rainbow"}
-            className={
-              "fixed top-20 z-40 mx-auto gap-3 shadow-xl shadow-pink-500/50"
-            }
-            onClick={() => {
-              onFullScreenChange(false);
-              document.body.style.overflow = "auto";
-            }}
-          >
-            <RxExitFullScreen />
-            <span>Exit</span>
-          </Button>
-        )}
-      </div>
       <div
         className={cn(
-          "relative mx-auto w-full border border-gray-500 bg-gray-50 md:h-[70vh] md:max-w-[90%] md:rounded-lg xl:max-w-[1200px]",
-          isFullScreen ? "fixed inset-0 z-30 h-screen w-full" : "h-[60vh]",
+          "relative mx-auto w-full border border-gray-500 bg-gray-50",
+          isFullScreen
+            ? "fixed inset-0 z-30 h-screen w-full"
+            : "mt-6 h-[60vh] md:h-[70vh] md:max-w-[90%] md:rounded-lg xl:max-w-[1200px]",
         )}
       >
         {[0, 1].map((_, i) => (
@@ -71,6 +57,40 @@ const ToyContainer = ({
             />
           </div>
         ))}
+
+        {/* Enter fullscreen - top-right corner, across from the toy's own
+            Draw/Sound controls in the top-left. */}
+        {!isFullScreen && (
+          <Button
+            size={"sm"}
+            variant={"outline"}
+            className={
+              "absolute right-3 top-3 z-20 flex items-center gap-2 text-xs shadow-md"
+            }
+            onClick={() => onFullScreenChange(true)}
+            aria-label={"Enter full screen"}
+          >
+            <RxEnterFullScreen />
+            <span>Fullscreen</span>
+          </Button>
+        )}
+
+        {/* Exit fullscreen - same top-right corner as the enter button. */}
+        {isFullScreen && (
+          <Button
+            size={"sm"}
+            variant={"outline"}
+            className={
+              "absolute right-3 top-3 z-20 flex items-center gap-2 text-xs shadow-md"
+            }
+            onClick={() => onFullScreenChange(false)}
+            aria-label={"Exit full screen"}
+          >
+            <RxExitFullScreen />
+            <span>Exit</span>
+          </Button>
+        )}
+
         {children}
       </div>
     </div>
