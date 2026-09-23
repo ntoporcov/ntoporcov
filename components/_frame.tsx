@@ -8,6 +8,7 @@ function AppFrame({ Component, pageProps }) {
   const { isDarkMode } = useDarkModeState();
   const location = useRouter();
   const isLuna = location.pathname.startsWith("/luna");
+  const isImmersive = location.pathname.startsWith("/backrooms");
 
   useEffectOnce(() => {
     if (isDarkMode && !isLuna) {
@@ -15,7 +16,7 @@ function AppFrame({ Component, pageProps }) {
     }
   });
 
-  if (isLuna) {
+  if (isLuna || isImmersive) {
     return <Component {...pageProps} />;
   }
 

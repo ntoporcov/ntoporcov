@@ -6,6 +6,8 @@ import AboutMe from "../components/home/AboutMe";
 import { ExperienceSection } from "../components/home/ExperienceSection";
 import Projects from "../components/home/Projects";
 import FadeInUp from "../components/display/FadeInUp";
+import Link from "next/link";
+import BackroomsSlit from "../components/home/BackroomsSlit";
 
 const LazyBlob = dynamic(() => import("../components/home/Blob"));
 const LazyToysAndGames = dynamic(
@@ -24,6 +26,7 @@ export default function Home() {
       <section id={"skills"}>
         <Skills />
       </section>
+      <BackroomsSlit />
       <section id={"contact"}>
         <SendGifSection />
       </section>
@@ -37,7 +40,9 @@ export default function Home() {
           </h2>
           <div>
             <div
-              className={"relative mb-6 w-full text-4xl font-thin tracking-wide"}
+              className={
+                "relative mb-6 w-full text-4xl font-thin tracking-wide"
+              }
             >
               Let's have some fun.
             </div>
@@ -46,6 +51,14 @@ export default function Home() {
             There's this toy my daughter absolutely loves to play with, maybe
             you'll like it too...
           </p>
+          <Link
+            className={
+              "mt-8 inline-block text-sm font-light text-black/60 underline decoration-black/20 underline-offset-4 transition hover:text-black"
+            }
+            href="/backrooms"
+          >
+            Or take a walk behind the wallpaper.
+          </Link>
         </FadeInUp>
         <Suspense fallback={<></>}>
           <LazyToysAndGames />
